@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://convex.dev/schemas/convex/function.json",
+  "title": "Convex Function",
+  "description": "Schema representing a Convex backend function, which can be a query (read-only, reactive), mutation (transactional write), or action (general-purpose server-side operation). Functions are defined in TypeScript files within the convex/ directory of a project and deployed to a Convex backend.",
+  "type": "object",
+  "required": ["path", "function_type"],
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "The fully-qualified function identifier in the format 'module:exportName' (e.g. 'messages:list'). The module name corresponds to the file path within the convex/ directory without the .ts extension.",
+      "pattern": "^[a-zA-Z0-9_/]+:[a-zA-Z0-9_]+$",
+      "examples": ["messages:list", "users:createUser", "tasks:deleteTask"]
+    },
+    "function_type": {
+      "type": "string",
+      "description": "The type of Convex function, determining its execution context and capabilities.",
+      "enum": ["query", "mutation", "action", "httpAction"]
+    },
+    "args": {
+      "type": "object",
+      "description": "Named arguments passed to the function as a JSON object. Key names and value types must match the function's declared validator schema.",
+      "additionalProperties": true
+    },
+    "format": {
+      "type": "string",
+      "description": "Output format for the function response. Currently only 'json' is supported.",
+      "enum": ["json"],
+      "default": "json"
+    }
+  },
+  "$defs": {
+    "FunctionSuccessResponse": {
+      "type": "object",
+      "description": "Response returned when a Convex function executes successfully.",
+      "required": ["status", "value", "logLines"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Indicates successful execution.",
+          "const": "success"
+        },
+        "value": {
+          "description": "The return value of the function. May be any valid JSON value including objects, arrays, strings, numbers, booleans, or null. The shape depends on the function's TypeScript return type."
+        },
+        "logLines": {
+          "type": "array",
+          "description": "Console output lines (e.g. from console.log) produced during function execution.",
+          "items": {
+            "type": "string",
+            "description": "A single line of console output."
+          }
+        }
+      }
+    },
+    "FunctionErrorResponse": {
+      "type": "object",
+      "description": "Response returned when a Convex function throws an error during execution.",
+      "required": ["status", "errorMessage", "logLines"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "description": "Indicates the function encountered an error.",
+          "const": "error"
+        },
+        "errorMessage": {
+          "type": "string",
+          "description": "A human-readable description of the error."
+        },
+        "errorData": {
+          "type": "object",
+          "description": "Structured error data present when the function throws a ConvexError with associated data. The shape is application-defined.",
+          "additionalProperties": true
+        },
+        "logLines": {
+          "type": "array",
+          "description": "Console output lines produced prior to the error.",
+          "items": {
+            "type": "string",
+            "description": "A single line of console output."
+          }
+        }
+      }
+    },
+    "ConvexValue": {
+      "description": "A value that can be stored in the Convex database or passed as a function argument. Convex supports a superset of JSON including Int64 and Bytes types.",
+      "oneOf": [
+        {"type": "null", "description": "Null value."},
+        {"type": "boolean", "description": "Boolean true or false."},
+        {"type": "number", "description": "IEEE 754 double-precision floating point number."},
+        {"type": "string", "description": "UTF-8 string."},
+        {
+          "type": "array",
+          "description": "Ordered array of Convex values.",
+          "items": {"$ref": "#/$defs/ConvexValue"}
+        },
+        {
+          "type": "object",
+          "description": "Object with string keys and Convex values.",
+          "additionalProperties": {"$ref": "#/$defs/ConvexValue"}
+        }
+      ]
+    },
+    "DatabaseRecord": {
+      "type": "object",
+      "description": "A document stored in the Convex database. All documents have system-generated _id and _creationTime fields in addition to user-defined fields.",
+      "required": ["_id", "_creationTime"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "The globally unique document identifier assigned by Convex. Encoded as a URL-safe base64 string.",
+          "pattern": "^[A-Za-z0-9_-]+$"
+        },
+        "_creationTime": {
+          "type": "number",
+          "description": "Unix timestamp in milliseconds when the document was created, assigned by the Convex server.",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/ConvexValue"
+      }
+    },
+    "ScheduledFunction": {
+      "type": "object",
+      "description": "A Convex function scheduled to run at a future time or on a recurring schedule via cron.",
+      "required": ["function_path", "scheduled_time"],
+      "properties": {
+        "function_path": {
+          "type": "string",
+          "description": "The function path in 'module:exportName' format.",
+          "pattern": "^[a-zA-Z0-9_/]+:[a-zA-Z0-9_]+$"
+        },
+        "args": {
+          "type": "object",
+          "description": "Arguments that will be passed to the function when it executes.",
+          "additionalProperties": true
+        },
+        "scheduled_time": {
+          "type": "number",
+          "description": "Unix timestamp in milliseconds when the function is scheduled to run."
+        },
+        "state": {
+          "type": "string",
+          "description": "Current execution state of the scheduled function.",
+          "enum": ["pending", "inProgress", "success", "failed", "canceled"]
+        }
+      }
+    }
+  }
+}

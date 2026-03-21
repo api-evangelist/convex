@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://convex.dev/schemas/convex/deployment.json",
+  "title": "Convex Deployment",
+  "description": "Schema representing a Convex deployment, which is a runtime environment where Convex backend functions execute. Deployments have a unique name that forms the subdomain of their URL (e.g. happy-otter-123.convex.cloud). Each deployment has its own database, file storage, scheduled functions, and environment variable configuration.",
+  "type": "object",
+  "required": ["id", "name", "deployment_type"],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique integer identifier for the deployment assigned by Convex.",
+      "minimum": 1
+    },
+    "name": {
+      "type": "string",
+      "description": "Unique name of the deployment used as the subdomain of the deployment URL (e.g. 'happy-otter-123').",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "deployment_type": {
+      "type": "string",
+      "description": "The type of deployment environment, determining its lifecycle and usage context.",
+      "enum": ["dev", "prod", "preview", "custom"]
+    },
+    "deployment_class": {
+      "type": "string",
+      "description": "The compute class determining resource limits (memory, concurrency) and pricing tier.",
+      "enum": ["s16", "s256", "d1024"]
+    },
+    "region": {
+      "type": "string",
+      "description": "The cloud region where this deployment runs.",
+      "enum": ["aws-us-east-1", "aws-eu-west-1"]
+    },
+    "project_id": {
+      "type": "integer",
+      "description": "ID of the project that owns this deployment.",
+      "minimum": 1
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "The base HTTPS URL of the deployment in the format https://{name}.convex.cloud.",
+      "pattern": "^https://[a-z0-9-]+\\.convex\\.cloud$"
+    },
+    "environment_variables": {
+      "type": "array",
+      "description": "Environment variables configured for this deployment, accessible to backend functions at runtime via process.env.",
+      "items": {
+        "$ref": "#/$defs/EnvironmentVariable"
+      }
+    },
+    "custom_domains": {
+      "type": "array",
+      "description": "Custom domain names associated with this deployment.",
+      "items": {
+        "$ref": "#/$defs/CustomDomain"
+      }
+    }
+  },
+  "$defs": {
+    "EnvironmentVariable": {
+      "type": "object",
+      "description": "A key-value environment variable configured on a Convex deployment. Environment variables are accessible to all backend functions at runtime.",
+      "required": ["name", "value"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The environment variable key name following standard naming conventions.",
+          "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+          "examples": ["DATABASE_URL", "API_KEY", "WEBHOOK_SECRET"]
+        },
+        "value": {
+          "type": "string",
+          "description": "The environment variable value. May contain connection strings, API keys, or other configuration data.",
+          "maxLength": 8192
+        }
+      }
+    },
+    "CustomDomain": {
+      "type": "object",
+      "description": "A custom domain name associated with a Convex deployment for routing external traffic.",
+      "required": ["domain", "request_destination"],
+      "properties": {
+        "domain": {
+          "type": "string",
+          "description": "The fully-qualified custom domain name (e.g. 'api.example.com').",
+          "format": "hostname"
+        },
+        "request_destination": {
+          "type": "string",
+          "description": "Routing destination for requests to this domain. convexCloud routes to the function API (queries, mutations, actions); convexSite routes to HTTP action endpoints.",
+          "enum": ["convexCloud", "convexSite"]
+        }
+      }
+    },
+    "DeployKey": {
+      "type": "object",
+      "description": "A deploy key used to authenticate the Convex CLI or CI/CD pipelines when pushing function code to a deployment.",
+      "required": ["name", "deployment_name"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Human-readable name for the deploy key."
+        },
+        "deployment_name": {
+          "type": "string",
+          "description": "The name of the deployment this key is scoped to.",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "key": {
+          "type": "string",
+          "description": "The deploy key value. Only present immediately after creation; not returned by subsequent list operations.",
+          "pattern": "^prod:[A-Za-z0-9_-]+$"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when this deploy key was created."
+        }
+      }
+    },
+    "Project": {
+      "type": "object",
+      "description": "A Convex project, which is the top-level organizational unit grouping related deployments.",
+      "required": ["id", "slug", "name", "team_id"],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Unique integer identifier for the project.",
+          "minimum": 1
+        },
+        "slug": {
+          "type": "string",
+          "description": "Human-readable URL-safe identifier for the project within the team.",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the project.",
+          "maxLength": 128
+        },
+        "team_id": {
+          "type": "integer",
+          "description": "ID of the team that owns this project.",
+          "minimum": 1
+        }
+      }
+    }
+  }
+}

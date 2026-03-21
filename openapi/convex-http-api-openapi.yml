@@ -1,0 +1,370 @@
+openapi: 3.1.0
+info:
+  title: Convex HTTP API
+  description: >-
+    The Convex HTTP API is a REST interface for executing backend functions
+    deployed on a Convex backend. It provides endpoints for invoking query,
+    mutation, and action functions using POST requests. Each deployment has
+    its own base URL found in the Convex dashboard settings, typically in the
+    format https://{deployment-name}.convex.cloud. Requests accept a function
+    path and named argument object as JSON, and responses include the function
+    return value along with execution log lines. User authentication is optional
+    via a bearer token from an auth provider; admin operations require a deploy
+    key using the Convex authorization scheme.
+  version: '1.0'
+  contact:
+    name: Convex Support
+    url: https://www.convex.dev/community
+  termsOfService: https://www.convex.dev/terms
+externalDocs:
+  description: Convex HTTP API Documentation
+  url: https://docs.convex.dev/http-api/
+servers:
+  - url: https://{deploymentName}.convex.cloud
+    description: Convex Deployment Server
+    variables:
+      deploymentName:
+        default: happy-otter-123
+        description: The deployment name from the Convex dashboard
+tags:
+  - name: Queries
+    description: >-
+      Execute read-only query functions deployed on the Convex backend. Queries
+      run in a transactional, reactive context and return data from the Convex
+      database.
+  - name: Mutations
+    description: >-
+      Execute mutation functions that perform transactional writes to the Convex
+      database. Mutations are strongly consistent and run with ACID guarantees.
+  - name: Actions
+    description: >-
+      Execute action functions for general-purpose server-side operations,
+      including calling external services, performing non-transactional work,
+      and orchestrating other functions.
+  - name: Functions
+    description: >-
+      Execute any deployed function by its identifier using the unified run
+      endpoint, which accepts the function type implicitly based on the deployed
+      function definition.
+security:
+  - bearerAuth: []
+paths:
+  /api/query:
+    post:
+      operationId: executeQuery
+      summary: Execute a query function
+      description: >-
+        Executes a read-only query function deployed on the Convex backend.
+        The function is identified by its module path and export name (e.g.
+        "myModule:myQuery"). Named arguments are passed as a JSON object.
+        Returns the function's return value and any console log output produced
+        during execution.
+      tags:
+        - Queries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FunctionRequest'
+      responses:
+        '200':
+          description: Function executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionSuccessResponse'
+        '400':
+          description: Bad request — invalid function path or argument format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authorization token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+        '404':
+          description: Function not found at the given path
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+
+  /api/mutation:
+    post:
+      operationId: executeMutation
+      summary: Execute a mutation function
+      description: >-
+        Executes a mutation function that performs transactional writes to the
+        Convex database. The function is identified by its module path and
+        export name. Named arguments are passed as a JSON object. Mutations
+        are atomic and strongly consistent. Returns the function's return value
+        and any console log output produced during execution.
+      tags:
+        - Mutations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FunctionRequest'
+      responses:
+        '200':
+          description: Mutation executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionSuccessResponse'
+        '400':
+          description: Bad request — invalid function path or argument format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authorization token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+        '404':
+          description: Function not found at the given path
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+
+  /api/action:
+    post:
+      operationId: executeAction
+      summary: Execute an action function
+      description: >-
+        Executes an action function for general-purpose server-side operations.
+        Actions can call external services, interact with the database through
+        queries and mutations, and perform non-transactional work. The function
+        is identified by its module path and export name. Named arguments are
+        passed as a JSON object. Returns the function's return value and any
+        console log output.
+      tags:
+        - Actions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FunctionRequest'
+      responses:
+        '200':
+          description: Action executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionSuccessResponse'
+        '400':
+          description: Bad request — invalid function path or argument format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authorization token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+        '404':
+          description: Function not found at the given path
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+
+  /api/run/{functionIdentifier}:
+    post:
+      operationId: runFunction
+      summary: Execute any function by identifier
+      description: >-
+        Executes any deployed Convex function — query, mutation, or action —
+        identified by the function path in the URL. The function identifier
+        follows the format "module:exportName" (e.g. "messages:list" or
+        "users:createUser"). Named arguments are passed as a JSON object in
+        the request body. This unified endpoint automatically dispatches to the
+        appropriate function type. Returns the function's return value and any
+        console log output produced during execution.
+      tags:
+        - Functions
+      parameters:
+        - $ref: '#/components/parameters/functionIdentifier'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunFunctionRequest'
+      responses:
+        '200':
+          description: Function executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionSuccessResponse'
+        '400':
+          description: Bad request — invalid function identifier or argument format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authorization token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+        '404':
+          description: Function not found at the given identifier
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >-
+        Bearer token from the application's configured authentication provider
+        (e.g. Auth0, Clerk). Used for user-level authorization of function calls.
+    convexAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        Deploy key obtained from the Convex dashboard, formatted as
+        "Convex {deployKey}". Required for admin-level operations and
+        streaming endpoints.
+
+  parameters:
+    functionIdentifier:
+      name: functionIdentifier
+      in: path
+      required: true
+      description: >-
+        The fully-qualified function identifier in the format "module:exportName"
+        (e.g. "messages:list", "users:createUser"). The module name corresponds
+        to the file path within the convex/ directory, and the export name
+        corresponds to the exported function name.
+      schema:
+        type: string
+        pattern: '^[a-zA-Z0-9_/]+:[a-zA-Z0-9_]+$'
+        example: 'messages:list'
+
+  schemas:
+    FunctionRequest:
+      type: object
+      required:
+        - path
+        - args
+      properties:
+        path:
+          type: string
+          description: >-
+            The fully-qualified function path in the format "module:functionName"
+            (e.g. "messages:list"). The module name maps to the file path within
+            the convex/ directory.
+          pattern: '^[a-zA-Z0-9_/]+:[a-zA-Z0-9_]+$'
+          example: 'messages:list'
+        args:
+          type: object
+          description: >-
+            Named arguments to pass to the function as a JSON object. The keys
+            and value types must match the function's declared parameter types.
+          additionalProperties: true
+        format:
+          type: string
+          description: >-
+            Output format for the response value. Currently only "json" is
+            supported and is also the default when omitted.
+          enum:
+            - json
+          default: json
+
+    RunFunctionRequest:
+      type: object
+      required:
+        - args
+      properties:
+        args:
+          type: object
+          description: >-
+            Named arguments to pass to the function as a JSON object. The keys
+            and value types must match the function's declared parameter types.
+          additionalProperties: true
+        format:
+          type: string
+          description: >-
+            Output format for the response value. Currently only "json" is
+            supported and is also the default when omitted.
+          enum:
+            - json
+          default: json
+
+    FunctionSuccessResponse:
+      type: object
+      required:
+        - status
+        - value
+        - logLines
+      properties:
+        status:
+          type: string
+          description: Indicates the function executed without error.
+          enum:
+            - success
+        value:
+          description: >-
+            The return value of the function. The type depends on the function's
+            return type definition and may be any valid JSON value including
+            objects, arrays, strings, numbers, booleans, or null.
+        logLines:
+          type: array
+          description: >-
+            An array of strings representing console output (e.g. console.log)
+            produced by the function during execution.
+          items:
+            type: string
+
+    FunctionErrorResponse:
+      type: object
+      required:
+        - status
+        - errorMessage
+        - logLines
+      properties:
+        status:
+          type: string
+          description: Indicates the function encountered an error during execution.
+          enum:
+            - error
+        errorMessage:
+          type: string
+          description: >-
+            A human-readable description of the error that occurred during
+            function execution.
+        errorData:
+          type: object
+          description: >-
+            Additional structured data about the error, present when the
+            function throws a ConvexError with associated data. The shape
+            depends on the application-specific error definition.
+          additionalProperties: true
+        logLines:
+          type: array
+          description: >-
+            An array of strings representing console output produced by the
+            function prior to the error.
+          items:
+            type: string

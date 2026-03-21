@@ -1,0 +1,822 @@
+openapi: 3.1.0
+info:
+  title: Convex Management API
+  description: >-
+    The Convex Management API is a REST API for provisioning and managing
+    Convex projects, deployments, teams, and access credentials programmatically.
+    It enables developers and platform integrations to create projects, manage
+    deployments across cloud regions, configure custom domains, and handle
+    team membership without using the Convex dashboard. The API supports two
+    token types: Team Access Tokens (for managing your own team's resources)
+    and OAuth Application Tokens (for third-party integrations acting on behalf
+    of users). A JavaScript client wrapper is available via the
+    @convex-dev/platform npm package. The API is currently in Beta.
+  version: 'v1'
+  contact:
+    name: Convex Platform Support
+    email: platforms@convex.dev
+    url: https://www.convex.dev/community
+  termsOfService: https://www.convex.dev/terms
+externalDocs:
+  description: Convex Management API Documentation
+  url: https://docs.convex.dev/management-api
+servers:
+  - url: https://api.convex.dev/v1
+    description: Convex Management API Production Server
+tags:
+  - name: Projects
+    description: >-
+      Create, list, retrieve, and delete Convex projects within a team.
+      Projects group deployments and serve as the top-level organizational
+      unit for Convex applications.
+  - name: Deployments
+    description: >-
+      Create, list, retrieve, update, and delete Convex cloud and local
+      deployments. Deployments are the runtime environments where Convex
+      backend functions execute.
+  - name: DeployKeys
+    description: >-
+      Create and manage deploy keys for CLI operations and CI/CD pipelines.
+      Deploy keys authenticate the Convex CLI when pushing function code
+      to a deployment.
+  - name: CustomDomains
+    description: >-
+      Configure custom domain names for Convex deployments. Supports both
+      convexCloud (function API) and convexSite (HTTP actions) request
+      destinations.
+  - name: Teams
+    description: >-
+      Manage Convex teams, team members, and team-level access tokens.
+      Teams are the billing and administrative unit that owns projects.
+  - name: AccessTokens
+    description: >-
+      Create and manage Team Access Tokens used for authenticating Management
+      API requests on behalf of a team.
+security:
+  - teamToken: []
+  - oauthTeamToken: []
+paths:
+  /teams/{team_id}/create_project:
+    post:
+      operationId: createProject
+      summary: Create a new project
+      description: >-
+        Provisions a new Convex project within the specified team. Optionally
+        creates an initial production deployment in the specified cloud region
+        and deployment class. Returns the new project's ID and slug along with
+        details of any provisioned deployment.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/teamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+      responses:
+        '200':
+          description: Project created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '400':
+          description: Bad request — invalid parameters
+        '401':
+          description: Unauthorized — missing or invalid token
+
+  /teams/{team_id}/list_projects:
+    get:
+      operationId: listProjects
+      summary: List projects in a team
+      description: >-
+        Returns all Convex projects belonging to the specified team. Each
+        project entry includes its ID, slug, name, and associated deployment
+        information. Useful for enumerating resources available to the
+        authenticated token holder.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/teamId'
+      responses:
+        '200':
+          description: Projects listed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized — missing or invalid token
+
+  /projects/{project_id}:
+    get:
+      operationId: getProject
+      summary: Get a project by ID
+      description: >-
+        Retrieves details for a specific Convex project identified by its
+        integer project ID. Returns the project's name, slug, team association,
+        and deployment summary.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Project retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: Project not found
+
+  /teams/{team_id_or_slug}/projects/{project_slug}:
+    get:
+      operationId: getProjectBySlug
+      summary: Get a project by team and project slug
+      description: >-
+        Retrieves a project by its human-readable slug within a team identified
+        by either team ID or team slug. This is useful when project identifiers
+        are stored as slugs rather than integer IDs.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/teamIdOrSlug'
+        - $ref: '#/components/parameters/projectSlug'
+      responses:
+        '200':
+          description: Project retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: Project not found
+
+  /projects/{project_id}/delete:
+    post:
+      operationId: deleteProject
+      summary: Delete a project
+      description: >-
+        Permanently deletes a Convex project and all associated deployments.
+        This operation is irreversible. All deployments within the project are
+        also deleted, and all associated resources (functions, data, files) are
+        permanently removed.
+      tags:
+        - Projects
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Project deleted successfully
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: Project not found
+
+  /projects/{project_id}/deployments/create_cloud:
+    post:
+      operationId: createCloudDeployment
+      summary: Create a cloud deployment
+      description: >-
+        Creates a new cloud deployment within a project in the specified region
+        and deployment class. Cloud deployments run on Convex-managed
+        infrastructure and are accessible via a public URL. Supports dev, prod,
+        preview, and custom deployment types.
+      tags:
+        - Deployments
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCloudDeploymentRequest'
+      responses:
+        '200':
+          description: Deployment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+        '400':
+          description: Bad request — invalid region or deployment class
+        '401':
+          description: Unauthorized — missing or invalid token
+
+  /projects/{project_id}/deployments/list:
+    get:
+      operationId: listDeployments
+      summary: List deployments in a project
+      description: >-
+        Returns all deployments associated with a Convex project. Each
+        deployment entry includes its ID, name, deployment URL, type (dev,
+        prod, preview, custom), status, region, and class.
+      tags:
+        - Deployments
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Deployments listed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deployment'
+        '401':
+          description: Unauthorized — missing or invalid token
+
+  /deployments/{deployment_name}:
+    get:
+      operationId: getDeployment
+      summary: Get a deployment by name
+      description: >-
+        Retrieves details for a specific deployment identified by its name
+        (e.g. "happy-otter-123"). Returns the deployment URL, type, status,
+        region, class, and associated project information.
+      tags:
+        - Deployments
+      parameters:
+        - $ref: '#/components/parameters/deploymentName'
+      responses:
+        '200':
+          description: Deployment retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: Deployment not found
+
+  /deployments/{deployment_name}/delete:
+    post:
+      operationId: deleteDeployment
+      summary: Delete a deployment
+      description: >-
+        Permanently deletes a Convex deployment. All deployed functions,
+        database data, and file storage associated with the deployment are
+        permanently removed. This operation is irreversible.
+      tags:
+        - Deployments
+      parameters:
+        - $ref: '#/components/parameters/deploymentName'
+      responses:
+        '200':
+          description: Deployment deleted successfully
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: Deployment not found
+
+  /projects/{project_id}/deployment/default_prod:
+    get:
+      operationId: getDefaultProdDeployment
+      summary: Get default production deployment
+      description: >-
+        Retrieves the default production deployment for a project. Most
+        projects have a single production deployment designated as the default.
+        Returns full deployment details including URL, region, class, and status.
+      tags:
+        - Deployments
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Default production deployment retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: No default production deployment found
+
+  /projects/{project_id}/deployments/create_deploy_key:
+    post:
+      operationId: createDeployKey
+      summary: Create a deploy key
+      description: >-
+        Creates a new deploy key for a project, scoped to a specific deployment.
+        Deploy keys are used by the Convex CLI and CI/CD pipelines to push
+        function code to deployments. Keys can be standard or preview keys
+        for Vercel-style preview deployments.
+      tags:
+        - DeployKeys
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeployKeyRequest'
+      responses:
+        '200':
+          description: Deploy key created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeployKey'
+        '401':
+          description: Unauthorized — missing or invalid token
+
+  /projects/{project_id}/deployment/deploy_key/list:
+    get:
+      operationId: listDeployKeys
+      summary: List deploy keys for a project
+      description: >-
+        Returns all deploy keys associated with a Convex project. Includes
+        key names, creation dates, and the deployment each key is scoped to.
+        Key values are not returned after initial creation.
+      tags:
+        - DeployKeys
+      parameters:
+        - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Deploy keys listed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeployKey'
+        '401':
+          description: Unauthorized — missing or invalid token
+
+  /deployments/{deployment_name}/custom_domains/create:
+    post:
+      operationId: createCustomDomain
+      summary: Create a custom domain
+      description: >-
+        Associates a custom domain with a Convex deployment. Supports two
+        request destination types: convexCloud for routing to the function API
+        (queries, mutations, actions), and convexSite for routing to HTTP
+        action endpoints. Domain verification and DNS configuration is handled
+        separately.
+      tags:
+        - CustomDomains
+      parameters:
+        - $ref: '#/components/parameters/deploymentName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomDomainRequest'
+      responses:
+        '200':
+          description: Custom domain created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomDomain'
+        '400':
+          description: Bad request — invalid domain or destination type
+        '401':
+          description: Unauthorized — missing or invalid token
+
+  /deployments/{deployment_name}/custom_domains/list:
+    get:
+      operationId: listCustomDomains
+      summary: List custom domains for a deployment
+      description: >-
+        Returns all custom domains configured for a deployment. Each entry
+        includes the domain name, request destination type, and verification
+        status.
+      tags:
+        - CustomDomains
+      parameters:
+        - $ref: '#/components/parameters/deploymentName'
+      responses:
+        '200':
+          description: Custom domains listed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomDomain'
+        '401':
+          description: Unauthorized — missing or invalid token
+
+  /deployments/{deployment_name}/custom_domains/delete:
+    post:
+      operationId: deleteCustomDomain
+      summary: Delete a custom domain
+      description: >-
+        Removes a custom domain association from a Convex deployment. After
+        deletion, traffic to the domain will no longer be routed to the
+        deployment. DNS records should be removed separately.
+      tags:
+        - CustomDomains
+      parameters:
+        - $ref: '#/components/parameters/deploymentName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - domain
+              properties:
+                domain:
+                  type: string
+                  description: The custom domain name to remove.
+      responses:
+        '200':
+          description: Custom domain deleted successfully
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: Custom domain not found
+
+  /teams/{team_id}/members:
+    get:
+      operationId: listTeamMembers
+      summary: List team members
+      description: >-
+        Returns all members of the specified team along with their roles.
+        Roles include admin (full management access) and developer (standard
+        access). Useful for auditing team membership and access levels.
+      tags:
+        - Teams
+      parameters:
+        - $ref: '#/components/parameters/teamId'
+      responses:
+        '200':
+          description: Team members listed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamMember'
+        '401':
+          description: Unauthorized — missing or invalid token
+
+  /teams/{team_id}/create_access_token:
+    post:
+      operationId: createAccessToken
+      summary: Create a team access token
+      description: >-
+        Creates a new Team Access Token for the specified team. Team Access
+        Tokens are used to authenticate Management API requests and grant
+        access to all projects and deployments within the team. The token
+        value is only returned at creation time and should be stored securely.
+      tags:
+        - AccessTokens
+      parameters:
+        - $ref: '#/components/parameters/teamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccessTokenRequest'
+      responses:
+        '200':
+          description: Access token created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        '401':
+          description: Unauthorized — missing or invalid token
+
+components:
+  securitySchemes:
+    teamToken:
+      type: http
+      scheme: bearer
+      description: >-
+        Team Access Token created in the Convex dashboard team settings.
+        Grants management access to all projects and deployments within
+        the team.
+    oauthTeamToken:
+      type: http
+      scheme: bearer
+      description: >-
+        OAuth Application Token issued by Convex for third-party integrations
+        acting on behalf of a user's team. Obtained via the Convex OAuth flow.
+    oauthProjectToken:
+      type: http
+      scheme: bearer
+      description: >-
+        OAuth Application Token scoped to a specific project, issued by
+        Convex for third-party integrations.
+
+  parameters:
+    teamId:
+      name: team_id
+      in: path
+      required: true
+      description: >-
+        The integer identifier of the Convex team. Available in the Convex
+        dashboard when creating Team Access Tokens.
+      schema:
+        type: integer
+        format: int64
+
+    teamIdOrSlug:
+      name: team_id_or_slug
+      in: path
+      required: true
+      description: >-
+        Either the integer team ID or the human-readable team slug.
+      schema:
+        type: string
+
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: >-
+        The integer identifier of the Convex project. Obtainable via the
+        List Projects endpoint or assigned during project creation.
+      schema:
+        type: integer
+        format: int64
+
+    projectSlug:
+      name: project_slug
+      in: path
+      required: true
+      description: >-
+        The human-readable slug of the project within the team.
+      schema:
+        type: string
+
+    deploymentName:
+      name: deployment_name
+      in: path
+      required: true
+      description: >-
+        The unique name of the deployment (e.g. "happy-otter-123"). This
+        is the subdomain portion of the deployment URL at convex.cloud.
+      schema:
+        type: string
+
+  schemas:
+    Project:
+      type: object
+      required:
+        - id
+        - slug
+        - name
+        - team_id
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique integer identifier for the project.
+        slug:
+          type: string
+          description: Human-readable URL-safe identifier for the project within the team.
+        name:
+          type: string
+          description: Display name of the project.
+        team_id:
+          type: integer
+          format: int64
+          description: ID of the team that owns this project.
+
+    Deployment:
+      type: object
+      required:
+        - id
+        - name
+        - deployment_type
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique integer identifier for the deployment.
+        name:
+          type: string
+          description: >-
+            Unique name of the deployment used as the subdomain of the
+            deployment URL (e.g. "happy-otter-123").
+        deployment_type:
+          type: string
+          description: The type of deployment environment.
+          enum:
+            - dev
+            - prod
+            - preview
+            - custom
+        deployment_class:
+          type: string
+          description: >-
+            The compute class of the deployment, determining resource limits
+            and pricing tier.
+          enum:
+            - s16
+            - s256
+            - d1024
+        region:
+          type: string
+          description: The cloud region where the deployment runs.
+          enum:
+            - aws-us-east-1
+            - aws-eu-west-1
+        project_id:
+          type: integer
+          format: int64
+          description: ID of the project that owns this deployment.
+        url:
+          type: string
+          format: uri
+          description: >-
+            The base URL of the deployment in the format
+            https://{name}.convex.cloud.
+
+    CreateProjectRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Display name for the new project.
+        team_id:
+          type: integer
+          format: int64
+          description: ID of the team to create the project in.
+        deployment_region:
+          type: string
+          description: >-
+            Cloud region for the initial production deployment.
+            If omitted, no initial deployment is created.
+          enum:
+            - aws-us-east-1
+            - aws-eu-west-1
+        deployment_class:
+          type: string
+          description: Compute class for the initial production deployment.
+          enum:
+            - s16
+            - s256
+            - d1024
+
+    CreateCloudDeploymentRequest:
+      type: object
+      required:
+        - deployment_type
+        - region
+      properties:
+        deployment_type:
+          type: string
+          description: The type of deployment environment to create.
+          enum:
+            - dev
+            - prod
+            - preview
+            - custom
+        region:
+          type: string
+          description: The cloud region where the deployment should run.
+          enum:
+            - aws-us-east-1
+            - aws-eu-west-1
+        deployment_class:
+          type: string
+          description: Compute class for the deployment.
+          enum:
+            - s16
+            - s256
+            - d1024
+
+    CreateDeployKeyRequest:
+      type: object
+      required:
+        - deployment_name
+      properties:
+        deployment_name:
+          type: string
+          description: The name of the deployment this key should be scoped to.
+        key_name:
+          type: string
+          description: Optional human-readable name for the deploy key.
+
+    DeployKey:
+      type: object
+      required:
+        - name
+        - deployment_name
+      properties:
+        name:
+          type: string
+          description: Human-readable name of the deploy key.
+        deployment_name:
+          type: string
+          description: The deployment this key is scoped to.
+        key:
+          type: string
+          description: >-
+            The deploy key value. Only present immediately after creation;
+            not returned by list operations.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the key was created.
+
+    CustomDomain:
+      type: object
+      required:
+        - domain
+        - request_destination
+      properties:
+        domain:
+          type: string
+          description: The custom domain name (e.g. "api.example.com").
+        request_destination:
+          type: string
+          description: >-
+            The routing destination for requests to this domain.
+            convexCloud routes to the function API; convexSite routes
+            to HTTP action endpoints.
+          enum:
+            - convexCloud
+            - convexSite
+
+    CreateCustomDomainRequest:
+      type: object
+      required:
+        - domain
+        - request_destination
+      properties:
+        domain:
+          type: string
+          description: The custom domain name to associate with the deployment.
+        request_destination:
+          type: string
+          description: >-
+            The routing destination for requests to this domain.
+          enum:
+            - convexCloud
+            - convexSite
+
+    TeamMember:
+      type: object
+      required:
+        - id
+        - role
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the team member.
+        email:
+          type: string
+          format: email
+          description: Email address of the team member.
+        role:
+          type: string
+          description: The member's role within the team.
+          enum:
+            - admin
+            - developer
+
+    CreateAccessTokenRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Human-readable name for the access token.
+
+    AccessToken:
+      type: object
+      required:
+        - name
+        - token
+      properties:
+        name:
+          type: string
+          description: Human-readable name of the access token.
+        token:
+          type: string
+          description: >-
+            The token value used for API authentication. Only returned at
+            creation time; store it securely as it cannot be retrieved later.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the token was created.

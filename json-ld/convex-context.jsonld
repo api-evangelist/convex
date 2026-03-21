@@ -1,0 +1,178 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "convex": "https://convex.dev/vocab/",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "hydra": "http://www.w3.org/ns/hydra/core#",
+
+    "Deployment": {
+      "@id": "convex:Deployment",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "deployment_type": {
+          "@id": "convex:deploymentType",
+          "@type": "xsd:string"
+        },
+        "deployment_class": {
+          "@id": "convex:deploymentClass",
+          "@type": "xsd:string"
+        },
+        "region": {
+          "@id": "convex:region",
+          "@type": "xsd:string"
+        },
+        "url": {
+          "@id": "schema:url",
+          "@type": "@id"
+        },
+        "project_id": {
+          "@id": "convex:project",
+          "@type": "@id"
+        },
+        "environment_variables": {
+          "@id": "convex:environmentVariables",
+          "@container": "@set"
+        },
+        "custom_domains": {
+          "@id": "convex:customDomains",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "Project": {
+      "@id": "convex:Project",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "slug": {
+          "@id": "convex:slug",
+          "@type": "xsd:string"
+        },
+        "team_id": {
+          "@id": "convex:team",
+          "@type": "@id"
+        }
+      }
+    },
+
+    "Function": {
+      "@id": "convex:Function",
+      "@context": {
+        "path": {
+          "@id": "convex:functionPath",
+          "@type": "xsd:string"
+        },
+        "function_type": {
+          "@id": "convex:functionType",
+          "@type": "xsd:string"
+        },
+        "args": {
+          "@id": "convex:arguments"
+        }
+      }
+    },
+
+    "DatabaseRecord": {
+      "@id": "convex:DatabaseRecord",
+      "@context": {
+        "_id": "@id",
+        "_creationTime": {
+          "@id": "dcterms:created",
+          "@type": "xsd:decimal"
+        }
+      }
+    },
+
+    "EnvironmentVariable": {
+      "@id": "convex:EnvironmentVariable",
+      "@context": {
+        "name": "schema:name",
+        "value": {
+          "@id": "schema:value",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "CustomDomain": {
+      "@id": "convex:CustomDomain",
+      "@context": {
+        "domain": {
+          "@id": "schema:domainIncludes",
+          "@type": "xsd:string"
+        },
+        "request_destination": {
+          "@id": "convex:requestDestination",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "DeployKey": {
+      "@id": "convex:DeployKey",
+      "@context": {
+        "name": "schema:name",
+        "deployment_name": {
+          "@id": "convex:deployment",
+          "@type": "xsd:string"
+        },
+        "created_at": {
+          "@id": "dcterms:created",
+          "@type": "xsd:dateTime"
+        }
+      }
+    },
+
+    "ScheduledFunction": {
+      "@id": "convex:ScheduledFunction",
+      "@context": {
+        "function_path": {
+          "@id": "convex:functionPath",
+          "@type": "xsd:string"
+        },
+        "args": {
+          "@id": "convex:arguments"
+        },
+        "scheduled_time": {
+          "@id": "convex:scheduledTime",
+          "@type": "xsd:decimal"
+        },
+        "state": {
+          "@id": "convex:executionState",
+          "@type": "xsd:string"
+        }
+      }
+    },
+
+    "Team": {
+      "@id": "convex:Team",
+      "@context": {
+        "id": "@id",
+        "name": "schema:name",
+        "members": {
+          "@id": "schema:member",
+          "@container": "@set"
+        }
+      }
+    },
+
+    "TeamMember": {
+      "@id": "convex:TeamMember",
+      "@context": {
+        "id": "@id",
+        "email": {
+          "@id": "schema:email",
+          "@type": "xsd:string"
+        },
+        "role": {
+          "@id": "convex:memberRole",
+          "@type": "xsd:string"
+        }
+      }
+    }
+  }
+}
