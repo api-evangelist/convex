@@ -1,17 +1,15 @@
 aid: convex
-url: 
-  https://raw.githubusercontent.com/api-evangelist/convex/refs/heads/main/apis.yml
+url: https://raw.githubusercontent.com/api-evangelist/convex/refs/heads/main/apis.yml
 modified: '2026-03-21'
 apis:
   - aid: convex:http-api
     name: Convex HTTP API
     tags:
-      - Serverless
-      - Real-Time
       - Backend
       - Functions
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Real-Time
+      - Serverless
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.convex.dev/http-api/
     properties:
@@ -30,12 +28,11 @@ apis:
   - aid: convex:management-api
     name: Convex Management API
     tags:
-      - Management
-      - Deployments
-      - Projects
       - Administration
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Deployments
+      - Management
+      - Projects
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.convex.dev/v1
     humanURL: https://docs.convex.dev/management-api
     properties:
@@ -56,12 +53,11 @@ apis:
   - aid: convex:deployment-platform-api
     name: Convex Deployment Platform API
     tags:
-      - Deployment
       - Administration
       - Configuration
+      - Deployment
       - Environment Variables
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.convex.dev/deployment-platform-api
     properties:
@@ -79,12 +75,11 @@ apis:
   - aid: convex:javascript-sdk
     name: Convex JavaScript SDK
     tags:
-      - JavaScript
-      - TypeScript
-      - SDK
       - Client Library
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - JavaScript
+      - SDK
+      - TypeScript
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.convex.dev/api/
     properties:
@@ -102,12 +97,11 @@ apis:
   - aid: convex:server-sdk
     name: Convex Server SDK
     tags:
-      - TypeScript
-      - Serverless Functions
-      - Database
       - Backend
-    image: 
-      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+      - Database
+      - Serverless Functions
+      - TypeScript
+    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.convex.dev/functions
     properties:

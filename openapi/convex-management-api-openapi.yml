@@ -24,34 +24,34 @@ servers:
   - url: https://api.convex.dev/v1
     description: Convex Management API Production Server
 tags:
-  - name: Projects
+  - name: AccessTokens
     description: >-
-      Create, list, retrieve, and delete Convex projects within a team.
-      Projects group deployments and serve as the top-level organizational
-      unit for Convex applications.
-  - name: Deployments
-    description: >-
-      Create, list, retrieve, update, and delete Convex cloud and local
-      deployments. Deployments are the runtime environments where Convex
-      backend functions execute.
-  - name: DeployKeys
-    description: >-
-      Create and manage deploy keys for CLI operations and CI/CD pipelines.
-      Deploy keys authenticate the Convex CLI when pushing function code
-      to a deployment.
+      Create and manage Team Access Tokens used for authenticating Management
+      API requests on behalf of a team.
   - name: CustomDomains
     description: >-
       Configure custom domain names for Convex deployments. Supports both
       convexCloud (function API) and convexSite (HTTP actions) request
       destinations.
+  - name: DeployKeys
+    description: >-
+      Create and manage deploy keys for CLI operations and CI/CD pipelines.
+      Deploy keys authenticate the Convex CLI when pushing function code
+      to a deployment.
+  - name: Deployments
+    description: >-
+      Create, list, retrieve, update, and delete Convex cloud and local
+      deployments. Deployments are the runtime environments where Convex
+      backend functions execute.
+  - name: Projects
+    description: >-
+      Create, list, retrieve, and delete Convex projects within a team.
+      Projects group deployments and serve as the top-level organizational
+      unit for Convex applications.
   - name: Teams
     description: >-
       Manage Convex teams, team members, and team-level access tokens.
       Teams are the billing and administrative unit that owns projects.
-  - name: AccessTokens
-    description: >-
-      Create and manage Team Access Tokens used for authenticating Management
-      API requests on behalf of a team.
 security:
   - teamToken: []
   - oauthTeamToken: []

@@ -27,15 +27,6 @@ servers:
         default: happy-otter-123
         description: The deployment name from the Convex dashboard
 tags:
-  - name: Queries
-    description: >-
-      Execute read-only query functions deployed on the Convex backend. Queries
-      run in a transactional, reactive context and return data from the Convex
-      database.
-  - name: Mutations
-    description: >-
-      Execute mutation functions that perform transactional writes to the Convex
-      database. Mutations are strongly consistent and run with ACID guarantees.
   - name: Actions
     description: >-
       Execute action functions for general-purpose server-side operations,
@@ -46,6 +37,15 @@ tags:
       Execute any deployed function by its identifier using the unified run
       endpoint, which accepts the function type implicitly based on the deployed
       function definition.
+  - name: Mutations
+    description: >-
+      Execute mutation functions that perform transactional writes to the Convex
+      database. Mutations are strongly consistent and run with ACID guarantees.
+  - name: Queries
+    description: >-
+      Execute read-only query functions deployed on the Convex backend. Queries
+      run in a transactional, reactive context and return data from the Convex
+      database.
 security:
   - bearerAuth: []
 paths:
