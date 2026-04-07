@@ -1,5 +1,6 @@
 aid: convex
-url: https://raw.githubusercontent.com/api-evangelist/convex/refs/heads/main/apis.yml
+url: 
+  https://raw.githubusercontent.com/api-evangelist/convex/refs/heads/main/apis.yml
 modified: '2026-03-21'
 apis:
   - aid: convex:http-api
@@ -9,7 +10,8 @@ apis:
       - Real-Time
       - Backend
       - Functions
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.convex.dev/http-api/
     properties:
@@ -18,14 +20,12 @@ apis:
       - url: openapi/convex-http-api-openapi.yml
         type: OpenAPI
     description: >-
-      The Convex HTTP API is a REST interface for executing backend functions
-      deployed on a Convex backend. It provides endpoints for invoking query,
-      mutation, and action functions using POST requests to paths such as
-      /api/query, /api/mutation, /api/action, and the unified /api/run/{functionIdentifier}
-      endpoint. Each deployment has its own base URL found in the Convex dashboard
-      settings, typically in the format https://{deployment-name}.convex.cloud.
-      Requests accept a function path and named argument object as JSON, and
-      responses include the function return value along with execution log lines.
+      The Convex HTTP API is a REST interface for executing backend functions deployed
+      on a Convex backend. It provides endpoints for invoking query, mutation, and
+      action functions using POST requests to paths such as /api/query, /api/mutation,
+      /api/action, and the unified /api/run/{functionIdentifier} endpoint. Each deployment
+      has its own base URL found in the Convex dashboard settings, typically in the
+      format https://{deployment-name}.convex.cloud.
 
   - aid: convex:management-api
     name: Convex Management API
@@ -34,7 +34,8 @@ apis:
       - Deployments
       - Projects
       - Administration
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.convex.dev/v1
     humanURL: https://docs.convex.dev/management-api
     properties:
@@ -45,14 +46,12 @@ apis:
       - url: openapi/convex-management-api-openapi.yml
         type: OpenAPI
     description: >-
-      The Convex Management API is a REST API for provisioning and managing
-      Convex projects and deployments programmatically. It enables developers
-      and platform integrations to create projects, list deployments, and
-      perform team-level operations without using the Convex dashboard. The
-      API uses Bearer token authentication, supporting both Team Access Tokens
-      and OAuth Application Tokens for third-party integrations. A JavaScript
-      client wrapper is available through the @convex-dev/platform npm package,
-      and an OpenAPI specification is published at https://api.convex.dev/v1/openapi.json.
+      The Convex Management API is a REST API for provisioning and managing Convex
+      projects and deployments programmatically. It enables developers and platform
+      integrations to create projects, list deployments, and perform team-level operations
+      without using the Convex dashboard. The API uses Bearer token authentication,
+      supporting both Team Access Tokens and OAuth Application Tokens for third-party
+      integrations.
 
   - aid: convex:deployment-platform-api
     name: Convex Deployment Platform API
@@ -61,7 +60,8 @@ apis:
       - Administration
       - Configuration
       - Environment Variables
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.convex.dev/deployment-platform-api
     properties:
@@ -70,16 +70,11 @@ apis:
       - url: openapi/convex-deployment-platform-api-openapi.yml
         type: OpenAPI
     description: >-
-      The Convex Deployment Platform API is a deployment-scoped administrative
-      API for configuring individual Convex deployments. It exposes private
-      endpoints accessible only to deployment administrators, supporting
-      operations such as managing environment variables and other deployment
-      configuration settings. Each deployment has its own endpoint in the
-      format https://{deployment-name}.convex.cloud/api/v1/. Authentication
-      requires an Authorization header using deployment keys, Team Access
-      Tokens, or OAuth Application Tokens formatted as "Convex {token}".
-      This API is currently in beta and intended for platform integrations
-      and infrastructure automation workflows.
+      The Convex Deployment Platform API is a deployment-scoped administrative API
+      for configuring individual Convex deployments. It exposes private endpoints
+      accessible only to deployment administrators, supporting operations such as
+      managing environment variables and other deployment configuration settings.
+      Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/.
 
   - aid: convex:javascript-sdk
     name: Convex JavaScript SDK
@@ -88,23 +83,21 @@ apis:
       - TypeScript
       - SDK
       - Client Library
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.convex.dev/api/
     properties:
       - url: https://docs.convex.dev/api/
         type: Documentation
     description: >-
-      The Convex JavaScript SDK is a collection of TypeScript/JavaScript
-      packages for building applications on the Convex backend platform. It
-      includes convex/server for defining backend functions and database
-      schemas, convex/react for React hooks and the ConvexReactClient,
-      convex/browser for the ConvexHttpClient in non-React browser environments,
-      convex/values for working with Convex-stored data types, and framework
-      integrations for Next.js, React Native, and other environments. The SDK
-      provides real-time reactive queries that automatically update when
-      underlying data changes, as well as strongly typed database access
-      generated from the project schema.
+      The Convex JavaScript SDK is a collection of TypeScript/JavaScript packages
+      for building applications on the Convex backend platform. It includes convex/server
+      for defining backend functions and database schemas, convex/react for React
+      hooks and the ConvexReactClient, convex/browser for the ConvexHttpClient in
+      non-React browser environments, convex/values for working with Convex-stored
+      data types, and framework integrations for Next.js, React Native, and other
+      environments.
 
   - aid: convex:server-sdk
     name: Convex Server SDK
@@ -113,22 +106,19 @@ apis:
       - Serverless Functions
       - Database
       - Backend
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: 
+      https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
     baseURL: https://api.example.com
     humanURL: https://docs.convex.dev/functions
     properties:
       - url: https://docs.convex.dev/functions
         type: Documentation
     description: >-
-      The Convex Server SDK (convex/server) is the TypeScript library for
-      defining backend logic deployed on Convex. It provides primitives for
-      writing query functions for read-only database access, mutation functions
-      for transactional writes, and action functions for general-purpose
-      server-side operations including calling external services. The SDK
-      supports schema definition, full-text search indexes, vector search
-      indexes, file storage, scheduled functions, cron jobs, and HTTP routing
-      via the HttpRouter class. Running npx convex dev generates strongly typed
-      database access code tailored to the project schema.
+      The Convex Server SDK (convex/server) is the TypeScript library for defining
+      backend logic deployed on Convex. It provides primitives for writing query functions
+      for read-only database access, mutation functions for transactional writes,
+      and action functions for general-purpose server-side operations including calling
+      external services.
 
 common:
   - type: JSONSchema
@@ -137,3 +127,5 @@ common:
     url: json-schema/convex-deployment-schema.json
   - type: JSON-LD
     url: json-ld/convex-context.jsonld
+description: >-
+  Connecting to Convex directly with HTTP.
