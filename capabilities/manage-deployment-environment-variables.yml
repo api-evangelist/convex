@@ -1,0 +1,36 @@
+aid: convex:capability:manage-deployment-environment-variables
+name: Manage Convex Deployment Environment Variables
+description: >-
+  Workflow for reading and writing environment variables that are injected
+  into Convex function execution. Combines the project-scoped default
+  variables endpoint on the Management API with deployment-scoped overrides
+  on the Deployment Platform API. Useful for IaC pipelines that synchronize
+  configuration across multiple deployments.
+api: convex:management-api
+openapi: openapi/convex-management-api-openapi.yml
+tags:
+  - Configuration
+  - Deployment
+  - EnvironmentVariables
+  - Management
+operations:
+  - operationId: listDefaultEnvironmentVariables
+    method: GET
+    path: /projects/{project_id}/list_default_environment_variables
+    purpose: List default environment variables defined at the project level
+  - operationId: updateDefaultEnvironmentVariables
+    method: POST
+    path: /projects/{project_id}/update_default_environment_variables
+    purpose: Update project-level default environment variables
+  - operationId: getDeployment
+    method: GET
+    path: /deployments/{deployment_name}
+    purpose: Inspect a specific deployment before configuring environment vars
+useCases:
+  - Synchronizing third-party API keys across all preview deployments
+  - Promoting environment configuration from staging to production
+  - Rotating secrets at the project level via CI workflows
+  - Reading current environment variables for IaC drift detection
+maintainers:
+  - FN: API Evangelist
+    email: info@apievangelist.com

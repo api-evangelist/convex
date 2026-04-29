@@ -1,0 +1,99 @@
+aid: convex:vocabulary
+name: Convex Backend Platform Vocabulary
+description: >-
+  Shared vocabulary for the Convex serverless backend platform, capturing
+  core concepts that span the HTTP API, Management API, Deployment Platform
+  API, JavaScript SDK, and Server SDK.
+namespace: https://docs.convex.dev/vocabulary#
+terms:
+  - term: Project
+    definition: >-
+      Top-level Convex resource owned by a team that contains one or more
+      deployments and shares configuration such as default environment
+      variables and preview deploy keys.
+    sameAs: https://docs.convex.dev/dashboard/projects
+  - term: Deployment
+    definition: >-
+      A running Convex backend instance bound to a project. Each deployment
+      has a unique deployment name, a base URL of the form
+      https://{deployment-name}.convex.cloud, environment variables, and
+      deployed function code.
+    sameAs: https://docs.convex.dev/production/hosting/preview-deployments
+  - term: Team
+    definition: >-
+      A Convex billing and access control unit that owns projects,
+      deployments, and access tokens, and contains team members.
+  - term: Function
+    definition: >-
+      A backend unit of execution deployed on Convex. Convex defines three
+      function types - query, mutation, and action - addressed by a function
+      identifier of the form module/function or module:function.
+    sameAs: https://docs.convex.dev/functions
+  - term: Query
+    definition: >-
+      A read-only Convex function that runs in a transactional, reactive
+      context and returns data from the Convex database. Subscribers are
+      automatically re-executed when underlying data changes.
+    sameAs: https://docs.convex.dev/functions/query-functions
+  - term: Mutation
+    definition: >-
+      A Convex function that performs strongly consistent, transactional
+      writes against the Convex database. Mutations either fully succeed or
+      roll back.
+    sameAs: https://docs.convex.dev/functions/mutation-functions
+  - term: Action
+    definition: >-
+      A Convex function for non-transactional or side-effecting operations,
+      including calling external services and orchestrating mutations and
+      queries. Actions are not guaranteed to be transactional.
+    sameAs: https://docs.convex.dev/functions/actions
+  - term: Schema
+    definition: >-
+      A TypeScript declaration of Convex tables, columns, and indexes, used
+      to generate strongly typed database access for both server and client
+      code.
+    sameAs: https://docs.convex.dev/database/schemas
+  - term: DeployKey
+    definition: >-
+      A scoped credential issued by the Management API that authorizes
+      Convex CLI deployments and CI pipelines to push code to a specific
+      deployment.
+  - term: PreviewDeployKey
+    definition: >-
+      A project-scoped credential that lets CI systems create ephemeral
+      preview deployments for pull requests.
+  - term: TeamAccessToken
+    definition: >-
+      A Bearer token used to authenticate Management API requests on behalf
+      of a team owner.
+  - term: PersonalAccessToken
+    definition: >-
+      A user-scoped Bearer token for authenticating to the Management API
+      from local development tools.
+  - term: OAuthApplicationToken
+    definition: >-
+      A token issued to third-party platforms that integrate with Convex on
+      behalf of a Convex user, using the OAuth Application authentication
+      flow.
+  - term: CustomDomain
+    definition: >-
+      A user-supplied DNS name attached to a Convex deployment, replacing
+      the default convex.cloud hostname for production traffic.
+  - term: EnvironmentVariable
+    definition: >-
+      A key-value pair attached to a deployment or to a project as a default,
+      injected into Convex function execution environments.
+    sameAs: https://docs.convex.dev/production/environment-variables
+  - term: CronJob
+    definition: >-
+      A scheduled invocation of a Convex action or mutation defined in
+      crons.ts using the cronJobs() helper.
+    sameAs: https://docs.convex.dev/scheduling/cron-jobs
+  - term: HttpRouter
+    definition: >-
+      A Convex Server SDK class for declaring custom HTTP endpoints served
+      directly from a Convex deployment.
+    sameAs: https://docs.convex.dev/functions/http-actions
+maintainers:
+  - FN: API Evangelist
+    email: info@apievangelist.com

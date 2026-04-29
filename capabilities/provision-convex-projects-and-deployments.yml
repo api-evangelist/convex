@@ -1,0 +1,49 @@
+aid: convex:capability:provision-convex-projects-and-deployments
+name: Provision Convex Projects and Deployments
+description: >-
+  Workflow for programmatically creating a Convex project, listing its
+  deployments, issuing a deploy key for CI, and tearing down deployments
+  when no longer needed. Designed for platform integrations and CI/CD
+  pipelines that need to provision and decommission Convex resources without
+  using the dashboard.
+api: convex:management-api
+openapi: openapi/convex-management-api-openapi.yml
+tags:
+  - Administration
+  - DeployKeys
+  - Deployments
+  - Projects
+  - Provisioning
+operations:
+  - operationId: createProject
+    method: POST
+    path: /teams/{team_id}/create_project
+    purpose: Create a new Convex project under a team
+  - operationId: listProjects
+    method: GET
+    path: /teams/{team_id}/list_projects
+    purpose: Discover projects already belonging to a team
+  - operationId: createDeployment
+    method: POST
+    path: /projects/{project_id}/create_deployment
+    purpose: Provision a new deployment for the project
+  - operationId: listDeployments
+    method: GET
+    path: /projects/{project_id}/list_deployments
+    purpose: Enumerate deployments attached to the project
+  - operationId: createDeployKey
+    method: POST
+    path: /deployments/{deployment_name}/create_deploy_key
+    purpose: Issue a deploy key for CI to push code to the deployment
+  - operationId: deleteDeployment
+    method: POST
+    path: /deployments/{deployment_name}/delete
+    purpose: Decommission a deployment when retiring an environment
+useCases:
+  - Building a Convex platform integration for a hosting provider
+  - Standing up per-pull-request preview deployments from CI
+  - Automating onboarding of new tenants in a multi-tenant SaaS
+  - Auditing Convex inventory across projects and deployments
+maintainers:
+  - FN: API Evangelist
+    email: info@apievangelist.com

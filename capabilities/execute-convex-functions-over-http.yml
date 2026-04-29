@@ -1,0 +1,42 @@
+aid: convex:capability:execute-convex-functions-over-http
+name: Execute Convex Functions over HTTP
+description: >-
+  Workflow for invoking Convex query, mutation, and action functions from any
+  HTTP-capable client. Sends a JSON body containing the function path and
+  named arguments to the deployment URL, optionally includes a bearer token
+  for end-user identity, and parses the success or error response along with
+  any logLines emitted during execution. Useful for non-JavaScript clients,
+  webhook receivers, server-to-server orchestration, and ad-hoc testing.
+api: convex:http-api
+openapi: openapi/convex-http-api-openapi.yml
+tags:
+  - Actions
+  - Functions
+  - HTTP
+  - Mutations
+  - Queries
+operations:
+  - operationId: runQuery
+    method: POST
+    path: /api/query
+    purpose: Execute a deployed Convex query function
+  - operationId: runMutation
+    method: POST
+    path: /api/mutation
+    purpose: Execute a Convex mutation with transactional guarantees
+  - operationId: runAction
+    method: POST
+    path: /api/action
+    purpose: Execute a Convex action that may call external services
+  - operationId: runFunction
+    method: POST
+    path: /api/run/{functionIdentifier}
+    purpose: Invoke any deployed Convex function by identifier
+useCases:
+  - Calling Convex from a Python or Go backend that has no Convex SDK
+  - Implementing webhook receivers that trigger Convex actions
+  - Orchestrating Convex mutations from a serverless workflow runtime
+  - Testing deployed Convex functions from curl, HTTPie, or Postman
+maintainers:
+  - FN: API Evangelist
+    email: info@apievangelist.com

@@ -1,0 +1,64 @@
+extends:
+  - "spectral:oas"
+documentationUrl: https://docs.convex.dev/http-api/
+rules:
+  convex-http-info-title:
+    description: HTTP API OpenAPI info.title must reference Convex HTTP API
+    severity: error
+    given: "$.info.title"
+    then:
+      function: pattern
+      functionOptions:
+        match: "(?i)Convex\\s+HTTP"
+  convex-http-server-defined:
+    description: At least one server URL must be defined for the deployment
+    severity: error
+    given: "$.servers"
+    then:
+      function: length
+      functionOptions:
+        min: 1
+  convex-http-server-pattern:
+    description: HTTP API server URLs must match the convex.cloud deployment pattern
+    severity: warn
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "convex\\.cloud"
+  convex-http-tag-required:
+    description: Tags must declare Queries, Mutations, Actions, or Functions scope
+    severity: warn
+    given: "$.tags[*].name"
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - Queries
+          - Mutations
+          - Actions
+          - Functions
+  convex-http-operation-id-camelcase:
+    description: Every operation must define an operationId using camelCase
+    severity: error
+    given: "$.paths.*[get,put,post,delete,patch].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-z][a-zA-Z0-9]+$"
+  convex-http-paths-prefix:
+    description: HTTP API paths must live under /api
+    severity: error
+    given: "$.paths"
+    then:
+      field: "@key"
+      function: pattern
+      functionOptions:
+        match: "^/api/"
+  convex-http-post-only:
+    description: Function execution endpoints must be POST
+    severity: warn
+    given: "$.paths[?(@property =~ /^\\/api\\/(query|mutation|action|run)/)]"
+    then:
+      function: defined
+      field: post

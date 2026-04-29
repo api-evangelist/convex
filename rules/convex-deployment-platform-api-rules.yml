@@ -1,0 +1,47 @@
+extends:
+  - "spectral:oas"
+documentationUrl: https://docs.convex.dev/deployment-platform-api
+rules:
+  convex-deploy-info-title:
+    description: Deployment Platform API title must reference Convex Deployment Platform
+    severity: error
+    given: "$.info.title"
+    then:
+      function: pattern
+      functionOptions:
+        match: "(?i)Convex\\s+Deployment\\s+Platform"
+  convex-deploy-server-defined:
+    description: At least one server URL must be defined
+    severity: error
+    given: "$.servers"
+    then:
+      function: length
+      functionOptions:
+        min: 1
+  convex-deploy-server-pattern:
+    description: Deployment Platform API server URLs must match {deployment}.convex.cloud/api/v1
+    severity: warn
+    given: "$.servers[*].url"
+    then:
+      function: pattern
+      functionOptions:
+        match: "convex\\.cloud/api/v1"
+  convex-deploy-tag-required:
+    description: Tags must declare EnvironmentVariables or Configuration scope
+    severity: warn
+    given: "$.tags[*].name"
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+          - Configuration
+          - EnvironmentVariables
+          - Deployment
+  convex-deploy-operation-id-camelcase:
+    description: Every operation must define an operationId
+    severity: error
+    given: "$.paths.*[get,put,post,delete,patch].operationId"
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[a-zA-Z][a-zA-Z0-9_]+$"
