@@ -4,7 +4,8 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Convex
 providerId: convex
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Backend
   - Database
@@ -16,96 +17,161 @@ tags:
   - Rate Limiting
   - Quotas
   - Throttling
-description: Machine-readable rate limit definitions for the Convex API surface. Captures per-tier quotas,
-  burst behavior, response signaling, and recovery semantics. Defaults are scaffold values to be replaced
-  with published provider limits.
-headers:
-  limit: X-RateLimit-Limit
-  remaining: X-RateLimit-Remaining
-  reset: X-RateLimit-Reset
-  retryAfter: Retry-After
-  policy: RateLimit-Policy
+description: Convex limits are expressed primarily as concurrency (queries, mutations, actions, scheduled
+  jobs) and per-function execution constraints rather than per-second request rates. Concurrency capacity
+  is bound to the deployment instance class (S16, S256, D1024). Plan-level monthly quotas (function
+  calls, GB-hours of action compute, etc.) are documented in the plans artifact and act as soft quotas
+  with pay-as-you-go overage rather than hard throttles.
+sources:
+  - https://docs.convex.dev/production/state/limits
+  - https://www.convex.dev/pricing
 responseCodes:
   throttled: 429
   quotaExceeded: 429
   serviceUnavailable: 503
 limits:
-  - tier: free
-    name: Free Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 10
-    burst: 20
-    timeFrame: minute
-    applies:
-      - Convex HTTP API
-      - Convex Management API
-      - Convex Deployment Platform API
-      - Convex JavaScript SDK
-      - Convex Server SDK
-  - tier: free
-    name: Free Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
+  - name: Concurrent queries (S16 instance)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 16
+    notes: Concurrent query executions on the S16 (Starter) instance class.
+  - name: Concurrent mutations (S16 instance)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 16
+    notes: Concurrent mutation executions on the S16 (Starter) instance class.
+  - name: Concurrent queries (S256 instance)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 256
+    notes: Concurrent query executions on the S256 (Professional) instance class.
+  - name: Concurrent mutations (S256 instance)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 256
+    notes: Concurrent mutation executions on the S256 (Professional) instance class.
+  - name: Concurrent queries (D1024 instance)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 1024
+    notes: Concurrent query executions on the D1024 (Dedicated) instance class.
+  - name: Concurrent mutations (D1024 instance)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 512
+    notes: Concurrent mutation executions on the D1024 (Dedicated) instance class.
+  - name: Concurrent Convex/HTTP actions (S16)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 64
+  - name: Concurrent Convex/HTTP actions (S256)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 512
+  - name: Concurrent Convex/HTTP actions (D1024)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 1024
+  - name: Concurrent Node actions (S16)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 64
+  - name: Concurrent Node actions (S256)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 256
+  - name: Concurrent Node actions (D1024)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 1024
+  - name: Concurrent scheduled jobs (S16)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 8
+  - name: Concurrent scheduled jobs (S256)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 256
+  - name: Concurrent scheduled jobs (D1024)
+    scope: deployment
+    metric: concurrent_requests
+    limit: 512
+  - name: Concurrent client sessions (S16)
+    scope: deployment
+    metric: concurrent_connections
     limit: 1000
-    timeFrame: month
-    applies:
-      - Convex HTTP API
-      - Convex Management API
-      - Convex Deployment Platform API
-      - Convex JavaScript SDK
-      - Convex Server SDK
-  - tier: professional
-    name: Professional Tier Default
-    scope: api-key
-    metric: requests_per_minute
-    limit: 100
-    burst: 200
-    timeFrame: minute
-    applies:
-      - Convex HTTP API
-      - Convex Management API
-      - Convex Deployment Platform API
-      - Convex JavaScript SDK
-      - Convex Server SDK
-  - tier: professional
-    name: Professional Tier Monthly Quota
-    scope: api-key
-    metric: requests_per_month
+  - name: Concurrent client sessions (S256)
+    scope: deployment
+    metric: concurrent_connections
+    limit: 10000
+  - name: Concurrent client sessions (D1024)
+    scope: deployment
+    metric: concurrent_connections
     limit: 100000
-    timeFrame: month
-    applies:
-      - Convex HTTP API
-      - Convex Management API
-      - Convex Deployment Platform API
-      - Convex JavaScript SDK
-      - Convex Server SDK
-  - tier: enterprise
-    name: Enterprise Negotiated Limit
-    scope: contract
-    metric: requests_per_minute
+  - name: Query/mutation user-code execution time
+    scope: function
+    metric: execution_seconds
+    limit: 1
+    timeFrame: second
+    notes: User code in a single query or mutation has 1 second of execution time.
+  - name: Action execution duration
+    scope: function
+    metric: execution_seconds
+    limit: 600
+    timeFrame: second
+    notes: Convex/HTTP and Node actions may run up to 10 minutes (600 s).
+  - name: Documents scanned per query/mutation
+    scope: function
+    metric: documents
+    limit: 32000
+  - name: Documents written per mutation
+    scope: function
+    metric: documents
+    limit: 16000
+  - name: Function argument size
+    scope: function
+    metric: bytes
+    limit: 16777216
+    notes: 16 MiB max argument size; Node actions are limited to 5 MiB.
+  - name: Function return value size
+    scope: function
+    metric: bytes
+    limit: 16777216
+  - name: HTTP response size
+    scope: function
+    metric: bytes
+    limit: 20971520
+    notes: 20 MiB maximum HTTP action response.
+  - name: Code bundle size per deployment
+    scope: deployment
+    metric: bytes
+    limit: 33554432
+    notes: 32 MiB maximum total deployed code size.
+  - name: Functions scheduled per mutation
+    scope: function
+    metric: scheduled_functions
     limit: 1000
-    burst: 5000
-    timeFrame: minute
-    applies:
-      - Convex HTTP API
-      - Convex Management API
-      - Convex Deployment Platform API
-      - Convex JavaScript SDK
-      - Convex Server SDK
+  - name: Outstanding scheduled functions
+    scope: deployment
+    metric: scheduled_functions
+    limit: 1000000
 policies:
+  - name: Concurrency, not RPS
+    description: Convex throttles primarily on concurrent function executions and connections per deployment
+      instance class rather than fixed requests-per-second. Scale up by upgrading the instance class
+      or upgrading the plan.
+  - name: Soft monthly quotas
+    description: Plan quotas (function calls, action compute, storage, egress) are soft. Usage above
+      the included amount is billed at the published per-unit overage rate rather than throttled.
+  - name: Action timeout
+    description: Long-running work belongs in actions (10-minute ceiling), not queries or mutations
+      (1-second user-code limit).
   - name: Backoff Strategy
-    description: Clients should implement exponential backoff with jitter, honoring the Retry-After header
-      when present.
-  - name: Burst Handling
-    description: Short bursts above the steady-state limit are tolerated up to the documented burst ceiling
-      before throttling engages.
-  - name: Quota Reset
-    description: Monthly quotas reset at the start of each calendar month in UTC. Per-minute and per-second
-      windows reset on a sliding-window basis.
+    description: Clients should implement exponential backoff with jitter on 429 and 5xx responses;
+      the Convex client SDKs do this automatically.
   - name: Fair Use
-    description: Even on uncapped enterprise tiers, sustained usage that materially impacts shared infrastructure
-      may be subject to fair-use throttling.
+    description: Even on Business/Enterprise contracts, sustained usage that materially impacts shared
+      infrastructure may be subject to fair-use throttling.
 maintainers:
   - FN: API Evangelist
     email: info@apievangelist.com

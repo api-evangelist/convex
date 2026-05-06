@@ -1,5 +1,6 @@
 specification: FinOps Framework
 specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
 alignedWith:
   framework: FinOps Foundation Framework
   frameworkUrl: https://www.finops.org/framework/
@@ -8,10 +9,11 @@ alignedWith:
   dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
 provider: Convex
 providerId: convex
-publisherName: Convex
-serviceCategory: API
+publisherName: Convex, Inc.
+serviceCategory: Backend-as-a-Service
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Backend
   - Database
@@ -23,149 +25,123 @@ tags:
   - FinOps
   - Cost Management
   - FOCUS
-description: FinOps framework definition for the Convex API surface. Provides a FOCUS-aligned mapping
-  for cost allocation, usage measurement, and unit-economics reporting across the provider's APIs.
-principles:
-  - name: Visibility
-    description: Make API consumption costs visible to engineering, product, and finance teams in near
-      real-time.
-  - name: Allocation
-    description: Tag every chargeable API call with the consuming team, environment, application, and
-      feature so cost can be allocated.
-  - name: Optimization
-    description: Continuously evaluate request patterns, caching, batching, and tier selection to reduce
-      cost per useful unit of work.
-  - name: Accountability
-    description: Establish budget owners and chargeback or showback flows for each consuming team.
-domains:
-  - name: Understand Usage and Cost
-    capabilities:
-      - Data Ingestion
-      - Allocation
-      - Reporting and Analytics
-      - Anomaly Management
-  - name: Quantify Business Value
-    capabilities:
-      - Planning and Estimating
-      - Forecasting
-      - Budgeting
-      - Benchmarking
-      - Unit Economics
-  - name: Optimize Usage and Cost
-    capabilities:
-      - Architecting for Cloud
-      - Rate Optimization
-      - Workload Optimization
-      - Cloud Sustainability
-      - Licensing and SaaS
-  - name: Manage the FinOps Practice
-    capabilities:
-      - FinOps Practice Operations
-      - FinOps Education and Enablement
-      - Invoicing and Chargeback
-      - Onboarding Workloads
-      - Intersecting Disciplines
+description: FOCUS-aligned FinOps for Convex - per-developer subscription seats on the Professional
+  tier plus pay-as-you-go meters for function calls, database/file/search storage, database I/O, action
+  compute (GB-hours), search queries, and egress. Business/Enterprise tiers add a monthly minimum and
+  optional CPU-time pricing.
+sources:
+  - https://www.convex.dev/pricing
+  - https://docs.convex.dev/production/state/limits
+  - https://focus.finops.org/focus-specification/v1-3/
 billingModel:
-  pricingCategory: Usage-Based
+  pricingCategory: Subscription + Pay-As-You-Go
   billingFrequency: Monthly
   billingCurrency: USD
   chargeCategories:
     - Usage
     - Purchase
     - Tax
-    - Credit
     - Adjustment
+    - Refund
+    - Credit
   chargeFrequency: Recurring
 focusColumns:
   ServiceName: Convex
-  ServiceCategory: Developer Tools / API
+  ServiceCategory: Backend-as-a-Service
   ProviderName: Convex
-  PublisherName: Convex
-  InvoiceIssuerName: Convex
+  PublisherName: Convex, Inc.
+  InvoiceIssuerName: Convex, Inc.
   PricingCategory: Usage-Based
-  PricingUnit: request
   BillingCurrency: USD
   ChargeCategory: Usage
 meters:
-  - name: api_requests
-    description: Count of billable API requests
+  - name: developer_seats
+    description: Developer seats on the Professional plan ($25/seat/month)
+    unit: seat
+    aggregation: max
+    dimensions:
+      - plan
+      - team
+  - name: function_calls
+    description: Convex function (query / mutation / action) invocations
     unit: request
     aggregation: sum
     dimensions:
-      - api
-      - endpoint
-      - tier
-      - region
-      - consumer
-  - name: data_egress
-    description: Bytes returned over the network in API responses
+      - deployment
+      - function
+      - environment
+  - name: database_storage
+    description: Document database storage consumed
+    unit: GB-month
+    aggregation: avg
+    dimensions:
+      - deployment
+      - environment
+  - name: database_io
+    description: Database I/O bandwidth (read + write payload)
     unit: GB
     aggregation: sum
     dimensions:
-      - api
-      - region
-      - consumer
-  - name: compute_seconds
-    description: Server-side compute consumed by the request, where applicable
-    unit: second
+      - deployment
+      - operation
+      - environment
+  - name: file_storage
+    description: File storage consumed
+    unit: GB-month
+    aggregation: avg
+    dimensions:
+      - deployment
+      - environment
+  - name: search_storage
+    description: Search index storage consumed
+    unit: GB-month
+    aggregation: avg
+    dimensions:
+      - deployment
+      - index
+      - environment
+  - name: search_queries
+    description: Search query throughput measured in query-GB
+    unit: query-GB
     aggregation: sum
     dimensions:
-      - api
-      - endpoint
-      - tier
-apis:
-  - name: Convex HTTP API
-    baseURL: https://{deployment-name}.convex.cloud
-    tags:
-      - Backend
-      - Functions
-      - Real-Time
-      - Serverless
-    serviceName: Convex HTTP API
-    serviceCategory: API
-  - name: Convex Management API
-    baseURL: https://api.convex.dev/v1
-    tags:
-      - Administration
-      - Deployments
-      - Management
-      - Projects
-    serviceName: Convex Management API
-    serviceCategory: API
-  - name: Convex Deployment Platform API
-    baseURL: https://{deployment-name}.convex.cloud/api/v1
-    tags:
-      - Administration
-      - Configuration
-      - Deployment
-      - Environment Variables
-    serviceName: Convex Deployment Platform API
-    serviceCategory: API
-  - name: Convex JavaScript SDK
-    baseURL: ''
-    tags:
-      - Client Library
-      - JavaScript
-      - SDK
-      - TypeScript
-    serviceName: Convex JavaScript SDK
-    serviceCategory: API
-  - name: Convex Server SDK
-    baseURL: ''
-    tags:
-      - Backend
-      - Database
-      - Serverless Functions
-      - TypeScript
-    serviceName: Convex Server SDK
-    serviceCategory: API
-unitEconomics:
-  - name: Cost per 1K Requests
-    metric: billed_cost / (api_requests / 1000)
-    target: TBD
-  - name: Cost per Active Consumer
-    metric: billed_cost / active_consumers
-    target: TBD
+      - deployment
+      - index
+      - environment
+  - name: action_compute
+    description: Action compute time billed in GB-hours
+    unit: GB-hour
+    aggregation: sum
+    dimensions:
+      - deployment
+      - function
+      - runtime
+      - environment
+  - name: data_egress
+    description: Outbound bytes returned to clients
+    unit: GB
+    aggregation: sum
+    dimensions:
+      - deployment
+      - environment
+principles:
+  - name: Visibility
+    description: Use the Convex dashboard usage views and per-deployment metrics to track function
+      calls, action compute (GB-hours), storage, and egress. Export usage from the Management API
+      and join to FOCUS-aligned billing exports for per-team allocation.
+  - name: Allocation
+    description: Allocate cost by deployment, environment (dev / preview / prod), and team. Tag deployments
+      using project naming conventions; the Management API exposes deployment-level usage that can be
+      broken down by environment and function.
+  - name: Optimization
+    description: Move long-running or third-party-fanout work into actions (avoid the 1s mutation budget),
+      cache reactive query results on the client, narrow document scans with indexes (32k scan ceiling),
+      keep file/search storage tidy, and consider the CPU-time pricing model on Business/Enterprise
+      for compute-heavy workloads.
+  - name: Accountability
+    description: Set monthly soft quotas and overage budgets per deployment/environment; designate
+      a Convex billing owner per project; alert on action GB-hours and database I/O spikes that historically
+      drive overage.
 maintainers:
   - FN: API Evangelist
     email: info@apievangelist.com

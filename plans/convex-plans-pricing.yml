@@ -4,7 +4,8 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Convex
 providerId: convex
 created: '2026-05-04'
-modified: '2026-05-04'
+modified: '2026-05-05'
+reconciled: true
 tags:
   - Backend
   - Database
@@ -13,159 +14,267 @@ tags:
   - Reactive
   - Serverless
   - TypeScript
-description: Machine-readable plans and pricing scaffold for this API provider. Conforms to the API Commons
-  Plans schema. Tier limits and prices are scaffold defaults; replace with provider-published values.
+description: Convex uses a hybrid plan model with a free Starter tier (no card required), a Professional
+  tier billed at $25 per developer/month, and Business/Enterprise contracts starting at a $2,500 monthly
+  minimum. Each plan bundles included quotas across function calls, database storage and I/O, file storage,
+  search storage and queries, action compute, and egress. Usage above the included quota is billed via
+  pay-as-you-go overage rates.
+sources:
+  - https://www.convex.dev/pricing
+  - https://docs.convex.dev/production/state/limits
 plans:
-  - id: convex-free
-    name: Free
+  - id: convex-starter
+    name: Starter
     type: freemium
-    description: Free entry tier for the Convex API surface. Intended for evaluation, prototyping, and
-      low-volume integrations. Real limits and pricing must be reconciled with the provider's published
-      plan documentation.
+    description: Free tier (no credit card) for evaluation, prototyping, and small production apps.
+      Pay-as-you-go overages available without upgrading.
     entries:
-      - label: API Requests
-        description: Monthly API request quota across all included endpoints
-        name: api_requests
+      - label: Function calls (included)
+        name: function_calls_included
         type: quota
-        metric: requests
-        limit: 1000
+        metric: request
+        limit: 1000000
         timeFrame: month
         geo: global
-        domains:
-          - https://{deployment-name}.convex.cloud
-          - https://api.convex.dev/v1
-          - https://{deployment-name}.convex.cloud/api/v1
         unit: 1
         price: '0.00'
         userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the free tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 10
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://{deployment-name}.convex.cloud
-          - https://api.convex.dev/v1
-          - https://{deployment-name}.convex.cloud/api/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-    elements:
-      - name: Public Documentation
-      - name: Community Support
-      - name: Sandbox Access
-      - name: Convex HTTP API
-      - name: Convex Management API
-      - name: Convex Deployment Platform API
-      - name: Convex JavaScript SDK
-      - name: Convex Server SDK
-  - id: convex-pro
-    name: Professional
-    type: paid
-    description: Production tier for Convex. Provides higher quotas, priority support, and access to the
-      broader API portfolio. Pricing placeholder; align with the provider's pricing page.
-    entries:
-      - label: API Requests
-        description: Monthly API request quota
-        name: api_requests
-        type: quota
-        metric: requests
-        limit: 100000
-        timeFrame: month
-        geo: global
-        domains:
-          - https://{deployment-name}.convex.cloud
-          - https://api.convex.dev/v1
-          - https://{deployment-name}.convex.cloud/api/v1
-        unit: 1
-        price: TBD
-        userMultiplied: false
-      - label: Rate Limit
-        description: Maximum requests per minute on the professional tier
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 100
-        timeFrame: minute
-        geo: global
-        domains:
-          - https://{deployment-name}.convex.cloud
-          - https://api.convex.dev/v1
-          - https://{deployment-name}.convex.cloud/api/v1
-        unit: 1
-        price: '0.00'
-        userMultiplied: false
-      - label: Overage
-        description: Per-request price after monthly quota is exceeded
-        name: overage
+      - label: Function calls (overage)
+        name: function_calls_overage
         type: metered
-        metric: requests
+        metric: request
         limit: -1
         timeFrame: month
         geo: global
-        domains:
-          - https://{deployment-name}.convex.cloud
-          - https://api.convex.dev/v1
-          - https://{deployment-name}.convex.cloud/api/v1
+        unit: 1000000
+        price: '$2.20 per 1M'
+        userMultiplied: false
+      - label: Database storage
+        name: database_storage
+        type: metered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.22/GB-month (0.5 GB included)'
+        userMultiplied: false
+      - label: File storage
+        name: file_storage
+        type: metered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.033/GB-month (1 GB included)'
+        userMultiplied: false
+      - label: Search storage
+        name: search_storage
+        type: metered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.55/GB-month (0.5 GB included)'
+        userMultiplied: false
+      - label: Database I/O
+        name: database_io
+        type: metered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.22/GB (1 GB included)'
+        userMultiplied: false
+      - label: Action compute
+        name: action_compute
+        type: metered
+        metric: gb-hour
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.33/GB-hour (20 GB-hours included)'
+        userMultiplied: false
+      - label: Search queries
+        name: search_queries
+        type: metered
+        metric: query-gb
+        limit: -1
+        timeFrame: month
+        geo: global
         unit: 1000
-        price: TBD
+        price: '$0.11 per 1,000 query-GB (3,000 query-GB included)'
+        userMultiplied: false
+      - label: Data egress
+        name: data_egress
+        type: metered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.132/GB (1 GB included)'
         userMultiplied: false
     elements:
-      - name: All Production Endpoints
-      - name: Email Support
-      - name: SLA Targets
-      - name: Webhook Subscriptions
+      - name: Up to 6 developer seats
+      - name: Community Support
+      - name: Public Documentation
       - name: Convex HTTP API
       - name: Convex Management API
       - name: Convex Deployment Platform API
       - name: Convex JavaScript SDK
       - name: Convex Server SDK
-  - id: convex-enterprise
-    name: Enterprise
-    type: enterprise
-    description: Custom-negotiated tier for Convex. Includes dedicated capacity, contractual SLAs, security
-      review, data residency options, and named technical account management.
+  - id: convex-professional
+    name: Professional
+    type: subscription
+    description: Per-developer subscription with significantly larger included quotas and lower per-unit
+      overage rates. Supports up to 20 developer seats.
     entries:
-      - label: API Requests
-        description: Negotiated request volume; -1 indicates uncapped subject to fair use
-        name: api_requests
+      - label: Developer seat
+        name: developer_seat
+        type: subscription
+        metric: seat
+        limit: 20
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$25/developer/month'
+        userMultiplied: true
+      - label: Function calls (included)
+        name: function_calls_included
         type: quota
-        metric: requests
+        metric: request
+        limit: 25000000
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: included
+        userMultiplied: false
+      - label: Function calls (overage)
+        name: function_calls_overage
+        type: metered
+        metric: request
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1000000
+        price: '$2 per 1M'
+        userMultiplied: false
+      - label: Database storage
+        name: database_storage
+        type: metered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.20/GB-month (50 GB included)'
+        userMultiplied: false
+      - label: File storage
+        name: file_storage
+        type: metered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.03/GB-month (100 GB included)'
+        userMultiplied: false
+      - label: Search storage
+        name: search_storage
+        type: metered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.50/GB-month (1 GB included)'
+        userMultiplied: false
+      - label: Database I/O
+        name: database_io
+        type: metered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.20/GB (50 GB included)'
+        userMultiplied: false
+      - label: Action compute
+        name: action_compute
+        type: metered
+        metric: gb-hour
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.30/GB-hour (250 GB-hours included)'
+        userMultiplied: false
+      - label: Search queries
+        name: search_queries
+        type: metered
+        metric: query-gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1000
+        price: '$0.10 per 1,000 query-GB (50,000 query-GB included)'
+        userMultiplied: false
+      - label: Data egress
+        name: data_egress
+        type: metered
+        metric: gb
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: 1
+        price: '$0.12/GB (50 GB included)'
+        userMultiplied: false
+    elements:
+      - name: Up to 20 developer seats
+      - name: Higher concurrency limits
+      - name: Email Support
+      - name: Convex HTTP API
+      - name: Convex Management API
+      - name: Convex Deployment Platform API
+      - name: Convex JavaScript SDK
+      - name: Convex Server SDK
+  - id: convex-business-enterprise
+    name: Business & Enterprise
+    type: enterprise
+    description: Custom-negotiated tier starting at a $2,500 monthly minimum. Supports 50+ developer
+      seats, custom quotas, dedicated capacity, optional CPU-time pricing, and contractual SLAs.
+    entries:
+      - label: Monthly minimum
+        name: monthly_minimum
+        type: subscription
+        metric: month
+        limit: 1
+        timeFrame: month
+        geo: configurable
+        unit: 1
+        price: '$2,500/month minimum'
+        userMultiplied: false
+      - label: Custom usage (all meters)
+        name: custom_usage
+        type: metered
+        metric: varies
         limit: -1
         timeFrame: month
         geo: configurable
-        domains:
-          - https://{deployment-name}.convex.cloud
-          - https://api.convex.dev/v1
-          - https://{deployment-name}.convex.cloud/api/v1
-        unit: 1
-        price: custom
-        userMultiplied: false
-      - label: Rate Limit
-        description: Negotiated burst and steady-state rate
-        name: rate_limit
-        type: rate
-        metric: requests_per_minute
-        limit: 1000
-        timeFrame: minute
-        geo: configurable
-        domains:
-          - https://{deployment-name}.convex.cloud
-          - https://api.convex.dev/v1
-          - https://{deployment-name}.convex.cloud/api/v1
         unit: 1
         price: custom
         userMultiplied: false
     elements:
-      - name: Unlimited / Negotiated Volume
-      - name: 24/7 Dedicated Support
+      - name: 50+ developer seats
+      - name: Custom quotas and committed-use discounts
+      - name: Optional CPU-time pricing model
       - name: Contractual SLA
-      - name: Security & Compliance Review
       - name: Dedicated Account Manager
-      - name: Custom Data Residency
       - name: Convex HTTP API
       - name: Convex Management API
       - name: Convex Deployment Platform API
