@@ -231,6 +231,10 @@ common:
   - type: Vocabulary
     url: vocabulary/convex-vocabulary.yml
 
+  - type: Integrations
+    url: https://www.convex.dev/partners
+integrations:
+  - name: Apply to join our partner network
 maintainers:
   - FN: API Evangelist
     email: info@apievangelist.com
