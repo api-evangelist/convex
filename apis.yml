@@ -1,7 +1,7 @@
 aid: convex
 url: https://raw.githubusercontent.com/api-evangelist/convex/refs/heads/main/apis.yml
 name: Convex
-x-type: company
+kind: company
 description: >-
   Convex is a serverless backend platform that provides a real-time database,
   cloud functions, and infrastructure for building modern web and mobile
@@ -226,7 +226,7 @@ common:
     url: json-schema/convex-function-schema.json
   - type: JSONSchema
     url: json-schema/convex-deployment-schema.json
-  - type: JSON-LD
+  - type: JSONLD
     url: json-ld/convex-context.jsonld
   - type: Vocabulary
     url: vocabulary/convex-vocabulary.yml
