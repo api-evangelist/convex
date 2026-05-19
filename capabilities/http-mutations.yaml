@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Convex HTTP API — Mutations
+  description: 'Convex HTTP API — Mutations. 1 operations. Lead operation: Execute a mutation function. Self-contained Naftiko
+    capability covering one Convex business surface.'
+  tags:
+  - Convex
+  - Mutations
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    CONVEX_API_KEY: CONVEX_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: http-mutations
+    baseUri: https://{deploymentName}.convex.cloud
+    description: Convex HTTP API — Mutations business capability. Self-contained, no shared references.
+    resources:
+    - name: api-mutation
+      path: /api/mutation
+      operations:
+      - name: executemutation
+        method: POST
+        description: Execute a mutation function
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.CONVEX_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: http-mutations-rest
+    port: 8080
+    description: REST adapter for Convex HTTP API — Mutations. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/mutation
+      name: api-mutation
+      description: REST surface for api-mutation.
+      operations:
+      - method: POST
+        name: executemutation
+        description: Execute a mutation function
+        call: http-mutations.executemutation
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: http-mutations-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Convex HTTP API — Mutations. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: execute-mutation-function
+      description: Execute a mutation function
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: http-mutations.executemutation
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

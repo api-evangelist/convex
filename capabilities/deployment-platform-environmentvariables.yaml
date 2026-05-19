@@ -1,0 +1,156 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Convex Deployment Platform API — EnvironmentVariables
+  description: 'Convex Deployment Platform API — EnvironmentVariables. 3 operations. Lead operation: Delete environment variables.
+    Self-contained Naftiko capability covering one Convex business surface.'
+  tags:
+  - Convex
+  - EnvironmentVariables
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    CONVEX_API_KEY: CONVEX_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: deployment-platform-environmentvariables
+    baseUri: https://{deploymentName}.convex.cloud/api/v1
+    description: Convex Deployment Platform API — EnvironmentVariables business capability. Self-contained, no shared references.
+    resources:
+    - name: delete_environment_variables
+      path: /delete_environment_variables
+      operations:
+      - name: deleteenvironmentvariables
+        method: POST
+        description: Delete environment variables
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    - name: list_environment_variables
+      path: /list_environment_variables
+      operations:
+      - name: listenvironmentvariables
+        method: POST
+        description: List environment variables
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: update_environment_variables
+      path: /update_environment_variables
+      operations:
+      - name: updateenvironmentvariables
+        method: POST
+        description: Update environment variables
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: apikey
+      key: Authorization
+      value: '{{env.CONVEX_API_KEY}}'
+      placement: header
+  exposes:
+  - type: rest
+    namespace: deployment-platform-environmentvariables-rest
+    port: 8080
+    description: REST adapter for Convex Deployment Platform API — EnvironmentVariables. One Spectral-compliant resource per
+      consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/delete-environment-variables
+      name: delete-environment-variables
+      description: REST surface for delete_environment_variables.
+      operations:
+      - method: POST
+        name: deleteenvironmentvariables
+        description: Delete environment variables
+        call: deployment-platform-environmentvariables.deleteenvironmentvariables
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/list-environment-variables
+      name: list-environment-variables
+      description: REST surface for list_environment_variables.
+      operations:
+      - method: POST
+        name: listenvironmentvariables
+        description: List environment variables
+        call: deployment-platform-environmentvariables.listenvironmentvariables
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/update-environment-variables
+      name: update-environment-variables
+      description: REST surface for update_environment_variables.
+      operations:
+      - method: POST
+        name: updateenvironmentvariables
+        description: Update environment variables
+        call: deployment-platform-environmentvariables.updateenvironmentvariables
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: deployment-platform-environmentvariables-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Convex Deployment Platform API — EnvironmentVariables. One tool per consumed operation, routed
+      inline through this capability's consumes block.
+    tools:
+    - name: delete-environment-variables
+      description: Delete environment variables
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: deployment-platform-environmentvariables.deleteenvironmentvariables
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: list-environment-variables
+      description: List environment variables
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: deployment-platform-environmentvariables.listenvironmentvariables
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-environment-variables
+      description: Update environment variables
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: deployment-platform-environmentvariables.updateenvironmentvariables
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

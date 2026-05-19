@@ -1,0 +1,70 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Convex Management API — Teams
+  description: 'Convex Management API — Teams. 1 operations. Lead operation: List team members. Self-contained Naftiko capability
+    covering one Convex business surface.'
+  tags:
+  - Convex
+  - Teams
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    CONVEX_API_KEY: CONVEX_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: management-teams
+    baseUri: https://api.convex.dev/v1
+    description: Convex Management API — Teams business capability. Self-contained, no shared references.
+    resources:
+    - name: teams-team_id-members
+      path: /teams/{team_id}/members
+      operations:
+      - name: listteammembers
+        method: GET
+        description: List team members
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    authentication:
+      type: bearer
+      token: '{{env.CONVEX_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: management-teams-rest
+    port: 8080
+    description: REST adapter for Convex Management API — Teams. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/teams/{team-id}/members
+      name: teams-team-id-members
+      description: REST surface for teams-team_id-members.
+      operations:
+      - method: GET
+        name: listteammembers
+        description: List team members
+        call: management-teams.listteammembers
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: management-teams-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Convex Management API — Teams. One tool per consumed operation, routed inline through this
+      capability's consumes block.
+    tools:
+    - name: list-team-members
+      description: List team members
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: management-teams.listteammembers
+      outputParameters:
+      - type: object
+        mapping: $.

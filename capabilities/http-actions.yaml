@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Convex HTTP API — Actions
+  description: 'Convex HTTP API — Actions. 1 operations. Lead operation: Execute an action function. Self-contained Naftiko
+    capability covering one Convex business surface.'
+  tags:
+  - Convex
+  - Actions
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    CONVEX_API_KEY: CONVEX_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: http-actions
+    baseUri: https://{deploymentName}.convex.cloud
+    description: Convex HTTP API — Actions business capability. Self-contained, no shared references.
+    resources:
+    - name: api-action
+      path: /api/action
+      operations:
+      - name: executeaction
+        method: POST
+        description: Execute an action function
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.CONVEX_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: http-actions-rest
+    port: 8080
+    description: REST adapter for Convex HTTP API — Actions. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/action
+      name: api-action
+      description: REST surface for api-action.
+      operations:
+      - method: POST
+        name: executeaction
+        description: Execute an action function
+        call: http-actions.executeaction
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: http-actions-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Convex HTTP API — Actions. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: execute-action-function
+      description: Execute an action function
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: http-actions.executeaction
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

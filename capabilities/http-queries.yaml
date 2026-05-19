@@ -1,0 +1,80 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Convex HTTP API — Queries
+  description: 'Convex HTTP API — Queries. 1 operations. Lead operation: Execute a query function. Self-contained Naftiko
+    capability covering one Convex business surface.'
+  tags:
+  - Convex
+  - Queries
+  created: '2026-05-19'
+  modified: '2026-05-19'
+binds:
+- namespace: env
+  keys:
+    CONVEX_API_KEY: CONVEX_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: http-queries
+    baseUri: https://{deploymentName}.convex.cloud
+    description: Convex HTTP API — Queries business capability. Self-contained, no shared references.
+    resources:
+    - name: api-query
+      path: /api/query
+      operations:
+      - name: executequery
+        method: POST
+        description: Execute a query function
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          description: Request body (JSON).
+          required: true
+    authentication:
+      type: bearer
+      token: '{{env.CONVEX_API_KEY}}'
+  exposes:
+  - type: rest
+    namespace: http-queries-rest
+    port: 8080
+    description: REST adapter for Convex HTTP API — Queries. One Spectral-compliant resource per consumed operation, prefixed
+      with /v1.
+    resources:
+    - path: /v1/api/query
+      name: api-query
+      description: REST surface for api-query.
+      operations:
+      - method: POST
+        name: executequery
+        description: Execute a query function
+        call: http-queries.executequery
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: http-queries-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for Convex HTTP API — Queries. One tool per consumed operation, routed inline through this capability's
+      consumes block.
+    tools:
+    - name: execute-query-function
+      description: Execute a query function
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: false
+      call: http-queries.executequery
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
