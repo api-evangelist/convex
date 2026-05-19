@@ -20,7 +20,7 @@ tags:
   - Serverless
   - TypeScript
 created: '2026-03-21'
-modified: '2026-04-28'
+modified: '2026-05-19'
 specificationVersion: '0.19'
 apis:
   - aid: convex:http-api
@@ -233,6 +233,9 @@ common:
 
   - type: Integrations
     url: https://www.convex.dev/partners
+  - name: MCP Server
+    url: https://stack.convex.dev/convex-mcp-server
+    type: MCPServer
 integrations:
   - name: Apply to join our partner network
 maintainers:
