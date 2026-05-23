@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateCustomDomainRequest",
+  "title": "CreateCustomDomainRequest",
+  "type": "object",
+  "required": [
+    "domain",
+    "request_destination"
+  ],
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "The custom domain name to associate with the deployment."
+    },
+    "request_destination": {
+      "type": "string",
+      "description": "The routing destination for requests to this domain.",
+      "enum": [
+        "convexCloud",
+        "convexSite"
+      ]
+    }
+  }
+}

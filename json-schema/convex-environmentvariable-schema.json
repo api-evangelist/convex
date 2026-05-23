@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/EnvironmentVariable",
+  "title": "EnvironmentVariable",
+  "type": "object",
+  "required": [
+    "name",
+    "value"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The environment variable key name. Must follow standard environment variable naming conventions (uppercase letters, digits, underscores).",
+      "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+      "example": "DATABASE_URL"
+    },
+    "value": {
+      "type": "string",
+      "description": "The environment variable value. May contain any string value including connection strings, API keys, or configuration data.",
+      "example": "https://db.example.com/mydb"
+    }
+  }
+}

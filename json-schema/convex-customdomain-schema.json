@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CustomDomain",
+  "title": "CustomDomain",
+  "type": "object",
+  "required": [
+    "domain",
+    "request_destination"
+  ],
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "The custom domain name (e.g. \"api.example.com\")."
+    },
+    "request_destination": {
+      "type": "string",
+      "description": "The routing destination for requests to this domain. convexCloud routes to the function API; convexSite routes to HTTP action endpoints.",
+      "enum": [
+        "convexCloud",
+        "convexSite"
+      ]
+    }
+  }
+}

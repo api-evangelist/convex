@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/AccessToken",
+  "title": "AccessToken",
+  "type": "object",
+  "required": [
+    "name",
+    "token"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the access token."
+    },
+    "token": {
+      "type": "string",
+      "description": "The token value used for API authentication. Only returned at creation time; store it securely as it cannot be retrieved later."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the token was created."
+    }
+  }
+}

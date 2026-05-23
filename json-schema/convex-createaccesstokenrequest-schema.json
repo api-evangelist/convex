@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateAccessTokenRequest",
+  "title": "CreateAccessTokenRequest",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-readable name for the access token."
+    }
+  }
+}

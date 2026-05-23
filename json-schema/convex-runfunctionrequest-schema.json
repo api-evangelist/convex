@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/RunFunctionRequest",
+  "title": "RunFunctionRequest",
+  "type": "object",
+  "required": [
+    "args"
+  ],
+  "properties": {
+    "args": {
+      "type": "object",
+      "description": "Named arguments to pass to the function as a JSON object. The keys and value types must match the function's declared parameter types.",
+      "additionalProperties": true
+    },
+    "format": {
+      "type": "string",
+      "description": "Output format for the response value. Currently only \"json\" is supported and is also the default when omitted.",
+      "enum": [
+        "json"
+      ],
+      "default": "json"
+    }
+  }
+}

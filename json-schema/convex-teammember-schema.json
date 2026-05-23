@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/TeamMember",
+  "title": "TeamMember",
+  "type": "object",
+  "required": [
+    "id",
+    "role"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Unique identifier of the team member."
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email address of the team member."
+    },
+    "role": {
+      "type": "string",
+      "description": "The member's role within the team.",
+      "enum": [
+        "admin",
+        "developer"
+      ]
+    }
+  }
+}

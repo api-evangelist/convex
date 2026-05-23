@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateDeployKeyRequest",
+  "title": "CreateDeployKeyRequest",
+  "type": "object",
+  "required": [
+    "deployment_name"
+  ],
+  "properties": {
+    "deployment_name": {
+      "type": "string",
+      "description": "The name of the deployment this key should be scoped to."
+    },
+    "key_name": {
+      "type": "string",
+      "description": "Optional human-readable name for the deploy key."
+    }
+  }
+}

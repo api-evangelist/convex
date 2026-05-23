@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FunctionRequest",
+  "title": "FunctionRequest",
+  "type": "object",
+  "required": [
+    "path",
+    "args"
+  ],
+  "properties": {
+    "path": {
+      "type": "string",
+      "description": "The fully-qualified function path in the format \"module:functionName\" (e.g. \"messages:list\"). The module name maps to the file path within the convex/ directory.",
+      "pattern": "^[a-zA-Z0-9_/]+:[a-zA-Z0-9_]+$",
+      "example": "messages:list"
+    },
+    "args": {
+      "type": "object",
+      "description": "Named arguments to pass to the function as a JSON object. The keys and value types must match the function's declared parameter types.",
+      "additionalProperties": true
+    },
+    "format": {
+      "type": "string",
+      "description": "Output format for the response value. Currently only \"json\" is supported and is also the default when omitted.",
+      "enum": [
+        "json"
+      ],
+      "default": "json"
+    }
+  }
+}

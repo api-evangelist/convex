@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/DeployKey",
+  "title": "DeployKey",
+  "type": "object",
+  "required": [
+    "name",
+    "deployment_name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the deploy key."
+    },
+    "deployment_name": {
+      "type": "string",
+      "description": "The deployment this key is scoped to."
+    },
+    "key": {
+      "type": "string",
+      "description": "The deploy key value. Only present immediately after creation; not returned by list operations."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the key was created."
+    }
+  }
+}

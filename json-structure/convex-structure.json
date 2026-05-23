@@ -1,0 +1,264 @@
+{
+  "provider": "Convex",
+  "providerId": "convex",
+  "kind": "json-structure",
+  "description": "Structural overview of the Convex API surface; extracted from openapi/.",
+  "schemaCount": 11,
+  "operationCount": 17,
+  "schemas": [
+    {
+      "name": "Project",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "id",
+        "slug",
+        "name",
+        "team_id"
+      ]
+    },
+    {
+      "name": "Deployment",
+      "type": "object",
+      "propertyCount": 7,
+      "required": [
+        "id",
+        "name",
+        "deployment_type"
+      ]
+    },
+    {
+      "name": "CreateProjectRequest",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "CreateCloudDeploymentRequest",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "deployment_type",
+        "region"
+      ]
+    },
+    {
+      "name": "CreateDeployKeyRequest",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "deployment_name"
+      ]
+    },
+    {
+      "name": "DeployKey",
+      "type": "object",
+      "propertyCount": 4,
+      "required": [
+        "name",
+        "deployment_name"
+      ]
+    },
+    {
+      "name": "CustomDomain",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "domain",
+        "request_destination"
+      ]
+    },
+    {
+      "name": "CreateCustomDomainRequest",
+      "type": "object",
+      "propertyCount": 2,
+      "required": [
+        "domain",
+        "request_destination"
+      ]
+    },
+    {
+      "name": "TeamMember",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "id",
+        "role"
+      ]
+    },
+    {
+      "name": "CreateAccessTokenRequest",
+      "type": "object",
+      "propertyCount": 1,
+      "required": [
+        "name"
+      ]
+    },
+    {
+      "name": "AccessToken",
+      "type": "object",
+      "propertyCount": 3,
+      "required": [
+        "name",
+        "token"
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "method": "POST",
+      "path": "/teams/{team_id}/create_project",
+      "operationId": "createProject",
+      "summary": "Create a new project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/teams/{team_id}/list_projects",
+      "operationId": "listProjects",
+      "summary": "List projects in a team",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}",
+      "operationId": "getProject",
+      "summary": "Get a project by ID",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/teams/{team_id_or_slug}/projects/{project_slug}",
+      "operationId": "getProjectBySlug",
+      "summary": "Get a project by team and project slug",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/projects/{project_id}/delete",
+      "operationId": "deleteProject",
+      "summary": "Delete a project",
+      "tags": [
+        "Projects"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/projects/{project_id}/deployments/create_cloud",
+      "operationId": "createCloudDeployment",
+      "summary": "Create a cloud deployment",
+      "tags": [
+        "Deployments"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/deployments/list",
+      "operationId": "listDeployments",
+      "summary": "List deployments in a project",
+      "tags": [
+        "Deployments"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/deployments/{deployment_name}",
+      "operationId": "getDeployment",
+      "summary": "Get a deployment by name",
+      "tags": [
+        "Deployments"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/deployments/{deployment_name}/delete",
+      "operationId": "deleteDeployment",
+      "summary": "Delete a deployment",
+      "tags": [
+        "Deployments"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/deployment/default_prod",
+      "operationId": "getDefaultProdDeployment",
+      "summary": "Get default production deployment",
+      "tags": [
+        "Deployments"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/projects/{project_id}/deployments/create_deploy_key",
+      "operationId": "createDeployKey",
+      "summary": "Create a deploy key",
+      "tags": [
+        "DeployKeys"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/projects/{project_id}/deployment/deploy_key/list",
+      "operationId": "listDeployKeys",
+      "summary": "List deploy keys for a project",
+      "tags": [
+        "DeployKeys"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/deployments/{deployment_name}/custom_domains/create",
+      "operationId": "createCustomDomain",
+      "summary": "Create a custom domain",
+      "tags": [
+        "CustomDomains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/deployments/{deployment_name}/custom_domains/list",
+      "operationId": "listCustomDomains",
+      "summary": "List custom domains for a deployment",
+      "tags": [
+        "CustomDomains"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/deployments/{deployment_name}/custom_domains/delete",
+      "operationId": "deleteCustomDomain",
+      "summary": "Delete a custom domain",
+      "tags": [
+        "CustomDomains"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/teams/{team_id}/members",
+      "operationId": "listTeamMembers",
+      "summary": "List team members",
+      "tags": [
+        "Teams"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/teams/{team_id}/create_access_token",
+      "operationId": "createAccessToken",
+      "summary": "Create a team access token",
+      "tags": [
+        "AccessTokens"
+      ]
+    }
+  ]
+}

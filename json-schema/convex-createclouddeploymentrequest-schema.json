@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/CreateCloudDeploymentRequest",
+  "title": "CreateCloudDeploymentRequest",
+  "type": "object",
+  "required": [
+    "deployment_type",
+    "region"
+  ],
+  "properties": {
+    "deployment_type": {
+      "type": "string",
+      "description": "The type of deployment environment to create.",
+      "enum": [
+        "dev",
+        "prod",
+        "preview",
+        "custom"
+      ]
+    },
+    "region": {
+      "type": "string",
+      "description": "The cloud region where the deployment should run.",
+      "enum": [
+        "aws-us-east-1",
+        "aws-eu-west-1"
+      ]
+    },
+    "deployment_class": {
+      "type": "string",
+      "description": "Compute class for the deployment.",
+      "enum": [
+        "s16",
+        "s256",
+        "d1024"
+      ]
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FunctionErrorResponse",
+  "title": "FunctionErrorResponse",
+  "type": "object",
+  "required": [
+    "status",
+    "errorMessage",
+    "logLines"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Indicates the function encountered an error during execution.",
+      "enum": [
+        "error"
+      ]
+    },
+    "errorMessage": {
+      "type": "string",
+      "description": "A human-readable description of the error that occurred during function execution."
+    },
+    "errorData": {
+      "type": "object",
+      "description": "Additional structured data about the error, present when the function throws a ConvexError with associated data. The shape depends on the application-specific error definition.",
+      "additionalProperties": true
+    },
+    "logLines": {
+      "type": "array",
+      "description": "An array of strings representing console output produced by the function prior to the error.",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

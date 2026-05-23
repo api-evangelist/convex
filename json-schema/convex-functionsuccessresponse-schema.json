@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/FunctionSuccessResponse",
+  "title": "FunctionSuccessResponse",
+  "type": "object",
+  "required": [
+    "status",
+    "value",
+    "logLines"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "Indicates the function executed without error.",
+      "enum": [
+        "success"
+      ]
+    },
+    "value": {
+      "description": "The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null."
+    },
+    "logLines": {
+      "type": "array",
+      "description": "An array of strings representing console output (e.g. console.log) produced by the function during execution.",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

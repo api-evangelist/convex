@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/components/schemas/Project",
+  "title": "Project",
+  "type": "object",
+  "required": [
+    "id",
+    "slug",
+    "name",
+    "team_id"
+  ],
+  "properties": {
+    "id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "Unique integer identifier for the project."
+    },
+    "slug": {
+      "type": "string",
+      "description": "Human-readable URL-safe identifier for the project within the team."
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name of the project."
+    },
+    "team_id": {
+      "type": "integer",
+      "format": "int64",
+      "description": "ID of the team that owns this project."
+    }
+  }
+}
