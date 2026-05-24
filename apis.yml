@@ -231,6 +231,8 @@ common:
 - name: MCP Server
   url: https://stack.convex.dev/convex-mcp-server
   type: MCPServer
+- type: LLMsTxt
+  url: https://docs.convex.dev/llms.txt
 integrations:
 - name: Apply to join our partner network
 maintainers:
