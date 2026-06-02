@@ -1,0 +1,571 @@
+asyncapi: 2.6.0
+info:
+  title: Convex Sync Protocol
+  version: '1.39.1'
+  description: |
+    AsyncAPI description of the Convex WebSocket sync protocol used between
+    Convex client SDKs (browser/Node/React/React Native) and a Convex
+    deployment's sync worker.
+
+    The client opens a WebSocket to `wss://{deployment}.convex.cloud/api/{clientVersion}/sync`,
+    where `{deployment}` is the deployment subdomain (e.g. `happy-animal-123`)
+    and `{clientVersion}` is the version constant exported from `convex` (the
+    `convex-js` npm package). Messages are JSON envelopes discriminated by a
+    `type` field. The client and server each maintain a state machine: the
+    client publishes connection, auth, query-set, mutation, action, and event
+    messages; the server publishes transition, response, auth-error, and
+    fatal-error messages, plus periodic pings.
+
+    Message shapes are derived from the open source Convex client at
+    `get-convex/convex-js` (`src/browser/sync/protocol.ts` and
+    `src/browser/sync/client.ts`). No message types are fabricated; only
+    those defined in the source are included.
+  contact:
+    name: Convex
+    url: https://docs.convex.dev/
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+  x-source:
+    - https://github.com/get-convex/convex-js/blob/main/src/browser/sync/protocol.ts
+    - https://github.com/get-convex/convex-js/blob/main/src/browser/sync/client.ts
+    - https://github.com/get-convex/convex-js/blob/main/src/browser/sync/web_socket_manager.ts
+
+defaultContentType: application/json
+
+servers:
+  production:
+    url: '{deployment}.convex.cloud'
+    protocol: wss
+    description: |
+      Convex deployment sync endpoint. The full WebSocket URL is
+      `wss://{deployment}.convex.cloud/api/{clientVersion}/sync`, built by the
+      client by replacing `https` with `wss` on the deployment origin and
+      appending `/api/${version}/sync`.
+    variables:
+      deployment:
+        description: Deployment subdomain (e.g. `happy-animal-123`).
+        default: happy-animal-123
+  local:
+    url: '127.0.0.1:{port}'
+    protocol: ws
+    description: Local `convex dev` / self-hosted backend sync endpoint.
+    variables:
+      port:
+        description: Local backend port.
+        default: '3210'
+
+channels:
+  /api/{clientVersion}/sync:
+    description: |
+      Single bidirectional WebSocket channel used by the Convex sync protocol.
+      All client and server messages flow over this channel as JSON envelopes
+      keyed by a `type` discriminator.
+    parameters:
+      clientVersion:
+        description: |
+          Version of the `convex` npm package the client was built against
+          (the `version` export from `convex-js`). Sent verbatim in the URL
+          path.
+        schema:
+          type: string
+          example: 1.39.1
+    publish:
+      operationId: clientToServer
+      summary: Messages published by the client SDK to the Convex sync worker.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/Connect'
+          - $ref: '#/components/messages/Authenticate'
+          - $ref: '#/components/messages/ModifyQuerySet'
+          - $ref: '#/components/messages/Mutation'
+          - $ref: '#/components/messages/Action'
+          - $ref: '#/components/messages/Event'
+    subscribe:
+      operationId: serverToClient
+      summary: Messages pushed by the Convex sync worker to the client SDK.
+      message:
+        oneOf:
+          - $ref: '#/components/messages/Transition'
+          - $ref: '#/components/messages/TransitionChunk'
+          - $ref: '#/components/messages/MutationResponse'
+          - $ref: '#/components/messages/ActionResponse'
+          - $ref: '#/components/messages/AuthError'
+          - $ref: '#/components/messages/FatalError'
+          - $ref: '#/components/messages/Ping'
+
+components:
+  messages:
+    Connect:
+      name: Connect
+      title: Connect
+      summary: Opens or resumes a sync session.
+      description: |
+        First message the client sends after the WebSocket opens. Identifies
+        the session, the reconnect count, and the highest server timestamp the
+        client has already observed so the server can resume state delivery.
+      payload:
+        $ref: '#/components/schemas/ConnectMessage'
+    Authenticate:
+      name: Authenticate
+      title: Authenticate
+      summary: Supplies (or clears) the identity used to run queries, mutations, and actions.
+      payload:
+        $ref: '#/components/schemas/AuthenticateMessage'
+    ModifyQuerySet:
+      name: ModifyQuerySet
+      title: ModifyQuerySet
+      summary: Adds or removes subscribed queries from the client's active query set.
+      payload:
+        $ref: '#/components/schemas/ModifyQuerySetMessage'
+    Mutation:
+      name: Mutation
+      title: Mutation
+      summary: Requests execution of a Convex mutation function.
+      payload:
+        $ref: '#/components/schemas/MutationMessage'
+    Action:
+      name: Action
+      title: Action
+      summary: Requests execution of a Convex action function.
+      payload:
+        $ref: '#/components/schemas/ActionMessage'
+    Event:
+      name: Event
+      title: Event
+      summary: Client-emitted telemetry / lifecycle event (e.g. `ClientConnect`).
+      payload:
+        $ref: '#/components/schemas/EventMessage'
+
+    Transition:
+      name: Transition
+      title: Transition
+      summary: Advances the client from one server state version to the next, with per-query modifications.
+      payload:
+        $ref: '#/components/schemas/TransitionMessage'
+    TransitionChunk:
+      name: TransitionChunk
+      title: TransitionChunk
+      summary: One chunk of a large `Transition` message split across multiple frames.
+      payload:
+        $ref: '#/components/schemas/TransitionChunkMessage'
+    MutationResponse:
+      name: MutationResponse
+      title: MutationResponse
+      summary: Result of a previously sent `Mutation` request.
+      payload:
+        $ref: '#/components/schemas/MutationResponseMessage'
+    ActionResponse:
+      name: ActionResponse
+      title: ActionResponse
+      summary: Result of a previously sent `Action` request.
+      payload:
+        $ref: '#/components/schemas/ActionResponseMessage'
+    AuthError:
+      name: AuthError
+      title: AuthError
+      summary: Authentication failure reported by the server.
+      payload:
+        $ref: '#/components/schemas/AuthErrorMessage'
+    FatalError:
+      name: FatalError
+      title: FatalError
+      summary: Unrecoverable error; the server will close the connection.
+      payload:
+        $ref: '#/components/schemas/FatalErrorMessage'
+    Ping:
+      name: Ping
+      title: Ping
+      summary: Liveness ping from the server.
+      payload:
+        $ref: '#/components/schemas/PingMessage'
+
+  schemas:
+    JSONValue:
+      description: Any JSON value (as serialized by Convex's value encoding).
+      oneOf:
+        - type: object
+        - type: array
+        - type: string
+        - type: number
+        - type: boolean
+        - type: 'null'
+    RequestId:
+      type: string
+      description: Client-generated id correlating a request with its response.
+    QueryId:
+      type: string
+      description: Client-generated id identifying a subscribed query within the session.
+    QuerySetVersion:
+      type: integer
+      description: Monotonic version of the client's query set.
+    IdentityVersion:
+      type: integer
+      description: Monotonic version of the client's identity state.
+    StateVersion:
+      type: object
+      description: Server state version (server-assigned timestamp plus query-set version).
+      properties:
+        querySet:
+          type: integer
+        ts:
+          $ref: '#/components/schemas/TS'
+        identity:
+          $ref: '#/components/schemas/IdentityVersion'
+    TS:
+      type: string
+      description: Convex server timestamp (opaque encoded integer).
+    QueryJournal:
+      description: Opaque per-query state that lets the server resume deterministic execution.
+      oneOf:
+        - type: string
+        - type: 'null'
+    LogLines:
+      type: array
+      items:
+        type: string
+      description: Structured log output captured during function execution.
+    UserIdentityAttributes:
+      type: object
+      description: Convex user identity attributes used when an admin token impersonates a user.
+      additionalProperties: true
+
+    ConnectMessage:
+      type: object
+      required: [type, sessionId, connectionCount, lastCloseReason, clientTs]
+      properties:
+        type:
+          type: string
+          enum: [Connect]
+        sessionId:
+          type: string
+          description: Stable id for this client session across reconnects.
+        connectionCount:
+          type: integer
+          description: Number of WebSocket connections opened in this session so far.
+        lastCloseReason:
+          oneOf:
+            - type: string
+            - type: 'null'
+        maxObservedTimestamp:
+          $ref: '#/components/schemas/TS'
+        clientTs:
+          type: number
+          description: Client wall-clock time (ms) at connect, used for clock-skew estimation.
+
+    AuthenticateMessage:
+      type: object
+      required: [type, tokenType, baseVersion]
+      properties:
+        type:
+          type: string
+          enum: [Authenticate]
+        tokenType:
+          type: string
+          enum: [Admin, User, None]
+        value:
+          type: string
+          description: Auth token (required when `tokenType` is `Admin` or `User`).
+        baseVersion:
+          $ref: '#/components/schemas/IdentityVersion'
+        impersonating:
+          $ref: '#/components/schemas/UserIdentityAttributes'
+
+    ModifyQuerySetMessage:
+      type: object
+      required: [type, baseVersion, newVersion, modifications]
+      properties:
+        type:
+          type: string
+          enum: [ModifyQuerySet]
+        baseVersion:
+          $ref: '#/components/schemas/QuerySetVersion'
+        newVersion:
+          $ref: '#/components/schemas/QuerySetVersion'
+        modifications:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/AddQuery'
+              - $ref: '#/components/schemas/RemoveQuery'
+
+    AddQuery:
+      type: object
+      required: [type, queryId, udfPath, args]
+      properties:
+        type:
+          type: string
+          enum: [Add]
+        queryId:
+          $ref: '#/components/schemas/QueryId'
+        udfPath:
+          type: string
+          description: Path to the query function (e.g. `messages:list`).
+        args:
+          type: array
+          items:
+            $ref: '#/components/schemas/JSONValue'
+        journal:
+          $ref: '#/components/schemas/QueryJournal'
+        componentPath:
+          type: string
+
+    RemoveQuery:
+      type: object
+      required: [type, queryId]
+      properties:
+        type:
+          type: string
+          enum: [Remove]
+        queryId:
+          $ref: '#/components/schemas/QueryId'
+
+    MutationMessage:
+      type: object
+      required: [type, requestId, udfPath, args]
+      properties:
+        type:
+          type: string
+          enum: [Mutation]
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        udfPath:
+          type: string
+        args:
+          type: array
+          items:
+            $ref: '#/components/schemas/JSONValue'
+        componentPath:
+          type: string
+
+    ActionMessage:
+      type: object
+      required: [type, requestId, udfPath, args]
+      properties:
+        type:
+          type: string
+          enum: [Action]
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        udfPath:
+          type: string
+        args:
+          type: array
+          items:
+            $ref: '#/components/schemas/JSONValue'
+        componentPath:
+          type: string
+
+    EventMessage:
+      type: object
+      required: [type, eventType, event]
+      properties:
+        type:
+          type: string
+          enum: [Event]
+        eventType:
+          type: string
+          description: Event name (e.g. `ClientConnect`).
+        event:
+          description: Arbitrary event payload.
+
+    TransitionMessage:
+      type: object
+      required: [type, startVersion, endVersion, modifications]
+      properties:
+        type:
+          type: string
+          enum: [Transition]
+        startVersion:
+          $ref: '#/components/schemas/StateVersion'
+        endVersion:
+          $ref: '#/components/schemas/StateVersion'
+        modifications:
+          type: array
+          items:
+            oneOf:
+              - $ref: '#/components/schemas/QueryUpdated'
+              - $ref: '#/components/schemas/QueryFailed'
+              - $ref: '#/components/schemas/QueryRemoved'
+        clientClockSkew:
+          type: number
+        serverTs:
+          type: number
+
+    QueryUpdated:
+      type: object
+      required: [type, queryId, value, logLines, journal]
+      properties:
+        type:
+          type: string
+          enum: [QueryUpdated]
+        queryId:
+          $ref: '#/components/schemas/QueryId'
+        value:
+          $ref: '#/components/schemas/JSONValue'
+        logLines:
+          $ref: '#/components/schemas/LogLines'
+        journal:
+          $ref: '#/components/schemas/QueryJournal'
+
+    QueryFailed:
+      type: object
+      required: [type, queryId, errorMessage, logLines, journal]
+      properties:
+        type:
+          type: string
+          enum: [QueryFailed]
+        queryId:
+          $ref: '#/components/schemas/QueryId'
+        errorMessage:
+          type: string
+        logLines:
+          $ref: '#/components/schemas/LogLines'
+        errorData:
+          $ref: '#/components/schemas/JSONValue'
+        journal:
+          $ref: '#/components/schemas/QueryJournal'
+
+    QueryRemoved:
+      type: object
+      required: [type, queryId]
+      properties:
+        type:
+          type: string
+          enum: [QueryRemoved]
+        queryId:
+          $ref: '#/components/schemas/QueryId'
+
+    TransitionChunkMessage:
+      type: object
+      required: [type, chunk, partNumber, totalParts, transitionId]
+      properties:
+        type:
+          type: string
+          enum: [TransitionChunk]
+        chunk:
+          type: string
+          description: Base64/JSON-encoded chunk of a serialized `Transition`.
+        partNumber:
+          type: integer
+        totalParts:
+          type: integer
+        transitionId:
+          type: string
+
+    MutationResponseMessage:
+      oneOf:
+        - $ref: '#/components/schemas/MutationResponseSuccess'
+        - $ref: '#/components/schemas/MutationResponseFailure'
+
+    MutationResponseSuccess:
+      type: object
+      required: [type, requestId, success, result, ts, logLines]
+      properties:
+        type:
+          type: string
+          enum: [MutationResponse]
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        success:
+          type: boolean
+          enum: [true]
+        result:
+          $ref: '#/components/schemas/JSONValue'
+        ts:
+          $ref: '#/components/schemas/TS'
+        logLines:
+          $ref: '#/components/schemas/LogLines'
+
+    MutationResponseFailure:
+      type: object
+      required: [type, requestId, success, result, logLines]
+      properties:
+        type:
+          type: string
+          enum: [MutationResponse]
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        success:
+          type: boolean
+          enum: [false]
+        result:
+          type: string
+          description: Human-readable error message.
+        logLines:
+          $ref: '#/components/schemas/LogLines'
+        errorData:
+          $ref: '#/components/schemas/JSONValue'
+
+    ActionResponseMessage:
+      oneOf:
+        - $ref: '#/components/schemas/ActionResponseSuccess'
+        - $ref: '#/components/schemas/ActionResponseFailure'
+
+    ActionResponseSuccess:
+      type: object
+      required: [type, requestId, success, result, logLines]
+      properties:
+        type:
+          type: string
+          enum: [ActionResponse]
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        success:
+          type: boolean
+          enum: [true]
+        result:
+          $ref: '#/components/schemas/JSONValue'
+        logLines:
+          $ref: '#/components/schemas/LogLines'
+
+    ActionResponseFailure:
+      type: object
+      required: [type, requestId, success, result, logLines]
+      properties:
+        type:
+          type: string
+          enum: [ActionResponse]
+        requestId:
+          $ref: '#/components/schemas/RequestId'
+        success:
+          type: boolean
+          enum: [false]
+        result:
+          type: string
+        logLines:
+          $ref: '#/components/schemas/LogLines'
+        errorData:
+          $ref: '#/components/schemas/JSONValue'
+
+    AuthErrorMessage:
+      type: object
+      required: [type, error, baseVersion, authUpdateAttempted]
+      properties:
+        type:
+          type: string
+          enum: [AuthError]
+        error:
+          type: string
+        baseVersion:
+          $ref: '#/components/schemas/IdentityVersion'
+        authUpdateAttempted:
+          type: boolean
+
+    FatalErrorMessage:
+      type: object
+      required: [type, error]
+      properties:
+        type:
+          type: string
+          enum: [FatalError]
+        error:
+          type: string
+
+    PingMessage:
+      type: object
+      required: [type]
+      properties:
+        type:
+          type: string
+          enum: [Ping]

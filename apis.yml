@@ -17,7 +17,7 @@ tags:
 - Serverless
 - TypeScript
 created: '2026-03-21'
-modified: '2026-05-19'
+modified: '2026-05-29'
 specificationVersion: '0.19'
 apis:
 - aid: convex:http-api
@@ -136,6 +136,40 @@ apis:
   - Reading deployment configuration for IaC drift detection
   - Building admin tooling that targets a specific deployment
   - Synchronizing config across multiple Convex deployments
+- aid: convex:sync-protocol
+  name: Convex Sync Protocol
+  tags:
+  - Real-Time
+  - Reactive
+  - Sync
+  - WebSocket
+  image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
+  humanURL: https://docs.convex.dev/understanding/
+  properties:
+  - url: https://docs.convex.dev/understanding/
+    type: Documentation
+  - url: https://github.com/get-convex/convex-js/blob/main/src/browser/sync/protocol.ts
+    type: SourceCode
+  - url: asyncapi/convex-asyncapi.yml
+    type: AsyncAPI
+  description: The Convex Sync Protocol is the bidirectional WebSocket protocol spoken between Convex client SDKs and the sync
+    worker of a Convex deployment. Clients open a single WebSocket connection to wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
+    and exchange JSON envelopes (discriminated by a `type` field) to authenticate, subscribe to reactive query sets, invoke
+    mutations and actions, and receive query transitions, function responses, auth errors, fatal errors, and pings. The protocol
+    is implemented in the open source convex-js client (`src/browser/sync/protocol.ts`).
+  x-features:
+  - Connect / Authenticate session handshake with reconnection state
+  - ModifyQuerySet subscriptions with Add and Remove modifications
+  - Mutation and Action request/response with requestId correlation
+  - Transition and TransitionChunk messages carrying QueryUpdated, QueryFailed, and QueryRemoved state modifications
+  - AuthError, FatalError, and Ping server-pushed messages
+  - Client-emitted Event telemetry frames (e.g. ClientConnect)
+  x-useCases:
+  - Building custom Convex clients in languages other than JavaScript
+  - Auditing and governing the realtime traffic of Convex deployments
+  - Implementing observability and replay tooling for sync sessions
+  - Documenting Convex's reactive backend for security and compliance review
 - aid: convex:javascript-sdk
   name: Convex JavaScript SDK
   tags:
