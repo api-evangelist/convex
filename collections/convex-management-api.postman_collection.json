@@ -1,0 +1,3318 @@
+{
+  "item": [
+    {
+      "id": "bcd58f90-3773-4576-905b-bd8c39aae4df",
+      "name": "AccessTokens",
+      "description": {
+        "content": "Create and manage Team Access Tokens used for authenticating Management API requests on behalf of a team.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7046ae44-1cbe-4485-8151-81b17845dbbf",
+          "name": "Create a team access token",
+          "request": {
+            "name": "Create a team access token",
+            "description": {
+              "content": "Creates a new Team Access Token for the specified team. Team Access Tokens are used to authenticate Management API requests and grant access to all projects and deployments within the team. The token value is only returned at creation time and should be stored securely.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "teams",
+                ":team_id",
+                "create_access_token"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "team_id",
+                  "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ecb3b769-10bf-4c45-bbdf-ebe952e026de",
+              "name": "Access token created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "create_access_token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"token\": \"string\",\n  \"created_at\": \"2013-05-13T17:16:31.900Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6a4d90ec-6134-447b-8269-7301aca08b7b",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "create_access_token"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "e949c3ed-5412-4856-94dc-19558453f33a",
+      "name": "CustomDomains",
+      "description": {
+        "content": "Configure custom domain names for Convex deployments. Supports both convexCloud (function API) and convexSite (HTTP actions) request destinations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c39b591d-62e1-439e-8ce6-b96790525451",
+          "name": "Create a custom domain",
+          "request": {
+            "name": "Create a custom domain",
+            "description": {
+              "content": "Associates a custom domain with a Convex deployment. Supports two request destination types: convexCloud for routing to the function API (queries, mutations, actions), and convexSite for routing to HTTP action endpoints. Domain verification and DNS configuration is handled separately.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "deployments",
+                ":deployment_name",
+                "custom_domains",
+                "create"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deployment_name",
+                  "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domain\": \"<string>\",\n  \"request_destination\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a8f5feb2-1ab5-4a44-89c9-316ade710127",
+              "name": "Custom domain created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "custom_domains",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\",\n  \"request_destination\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"domain\": \"string\",\n  \"request_destination\": \"convexSite\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a0789554-d0b4-40d2-a5df-679d211af45a",
+              "name": "Bad request — invalid domain or destination type",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "custom_domains",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\",\n  \"request_destination\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "69e7cff1-586f-4b1d-9ff5-1d66895b77ca",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "custom_domains",
+                    "create"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\",\n  \"request_destination\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a6bf02f9-b472-47d2-865f-d0631164a7b7",
+          "name": "List custom domains for a deployment",
+          "request": {
+            "name": "List custom domains for a deployment",
+            "description": {
+              "content": "Returns all custom domains configured for a deployment. Each entry includes the domain name, request destination type, and verification status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "deployments",
+                ":deployment_name",
+                "custom_domains",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deployment_name",
+                  "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "543c6619-8637-45b4-b49a-f7189cf80c31",
+              "name": "Custom domains listed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "custom_domains",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"domain\": \"string\",\n    \"request_destination\": \"convexCloud\"\n  },\n  {\n    \"domain\": \"string\",\n    \"request_destination\": \"convexSite\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5492efe7-7916-40f3-a069-6acc2dc081b1",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "custom_domains",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "87004312-f067-444c-b40b-3724b8d03876",
+          "name": "Delete a custom domain",
+          "request": {
+            "name": "Delete a custom domain",
+            "description": {
+              "content": "Removes a custom domain association from a Convex deployment. After deletion, traffic to the domain will no longer be routed to the deployment. DNS records should be removed separately.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "deployments",
+                ":deployment_name",
+                "custom_domains",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deployment_name",
+                  "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"domain\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "35a17e94-9229-4212-84c2-1732eead8135",
+              "name": "Custom domain deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "custom_domains",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "54d1b677-f91d-40cb-b370-8b170608cfdc",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "custom_domains",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7b3619c7-2e3d-498a-9a01-fe11fc803a2d",
+              "name": "Custom domain not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "custom_domains",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"domain\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "833f5af0-cb51-4fb5-9d6b-53738e671c18",
+      "name": "DeployKeys",
+      "description": {
+        "content": "Create and manage deploy keys for CLI operations and CI/CD pipelines. Deploy keys authenticate the Convex CLI when pushing function code to a deployment.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "956142fe-351d-499f-a27e-9c947d84bc65",
+          "name": "Create a deploy key",
+          "request": {
+            "name": "Create a deploy key",
+            "description": {
+              "content": "Creates a new deploy key for a project, scoped to a specific deployment. Deploy keys are used by the Convex CLI and CI/CD pipelines to push function code to deployments. Keys can be standard or preview keys for Vercel-style preview deployments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "deployments",
+                "create_deploy_key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "project_id",
+                  "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deployment_name\": \"<string>\",\n  \"key_name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "715531be-ebb7-4edd-9625-fd2be62b88ae",
+              "name": "Deploy key created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployments",
+                    "create_deploy_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment_name\": \"<string>\",\n  \"key_name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"deployment_name\": \"string\",\n  \"key\": \"string\",\n  \"created_at\": \"1950-10-01T07:30:11.953Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7f37e71c-b6d4-4f3e-bc61-9f66fe7e8d7b",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployments",
+                    "create_deploy_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment_name\": \"<string>\",\n  \"key_name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8010dc5b-20f7-4a35-834a-a7eab2b1205b",
+          "name": "List deploy keys for a project",
+          "request": {
+            "name": "List deploy keys for a project",
+            "description": {
+              "content": "Returns all deploy keys associated with a Convex project. Includes key names, creation dates, and the deployment each key is scoped to. Key values are not returned after initial creation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "deployment",
+                "deploy_key",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "project_id",
+                  "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7703d16a-0c6e-4998-9091-85c05b639d44",
+              "name": "Deploy keys listed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployment",
+                    "deploy_key",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"string\",\n    \"deployment_name\": \"string\",\n    \"key\": \"string\",\n    \"created_at\": \"1957-06-18T16:20:01.788Z\"\n  },\n  {\n    \"name\": \"string\",\n    \"deployment_name\": \"string\",\n    \"key\": \"string\",\n    \"created_at\": \"1967-09-09T03:15:35.082Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "685db2fc-2825-41a9-af61-a374beb34f0f",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployment",
+                    "deploy_key",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "8a8b004b-dabf-4c98-a2ef-766a82be77dc",
+      "name": "Deployments",
+      "description": {
+        "content": "Create, list, retrieve, update, and delete Convex cloud and local deployments. Deployments are the runtime environments where Convex backend functions execute.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ab28e6bd-d07c-453c-b110-25cb5fc3387b",
+          "name": "Create a cloud deployment",
+          "request": {
+            "name": "Create a cloud deployment",
+            "description": {
+              "content": "Creates a new cloud deployment within a project in the specified region and deployment class. Cloud deployments run on Convex-managed infrastructure and are accessible via a public URL. Supports dev, prod, preview, and custom deployment types.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "deployments",
+                "create_cloud"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "project_id",
+                  "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deployment_type\": \"<string>\",\n  \"region\": \"<string>\",\n  \"deployment_class\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f1ef46e5-876e-407d-aa8b-427575421ffd",
+              "name": "Deployment created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployments",
+                    "create_cloud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment_type\": \"<string>\",\n  \"region\": \"<string>\",\n  \"deployment_class\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 7776,\n  \"name\": \"string\",\n  \"deployment_type\": \"dev\",\n  \"deployment_class\": \"d1024\",\n  \"region\": \"aws-us-east-1\",\n  \"project_id\": 9794,\n  \"url\": \"http://IaPNVBpWMwztSURIemKuNQzoGPkFAfSR.rcrsFokVHroWjKh22BtYzDEyRRL0XGvZvsWvTzHTvLOuYaPmXdyhE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a238c87c-3558-4d24-99a2-ccf1aa276f9c",
+              "name": "Bad request — invalid region or deployment class",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployments",
+                    "create_cloud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment_type\": \"<string>\",\n  \"region\": \"<string>\",\n  \"deployment_class\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5a3cf9b8-7d7c-4eb5-b89c-67dc58928414",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployments",
+                    "create_cloud"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment_type\": \"<string>\",\n  \"region\": \"<string>\",\n  \"deployment_class\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "21318f60-ebdc-4893-b8a4-063cdfa90734",
+          "name": "List deployments in a project",
+          "request": {
+            "name": "List deployments in a project",
+            "description": {
+              "content": "Returns all deployments associated with a Convex project. Each deployment entry includes its ID, name, deployment URL, type (dev, prod, preview, custom), status, region, and class.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "deployments",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "project_id",
+                  "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "64f79d92-3e43-46dc-93f8-f3c15d74dabb",
+              "name": "Deployments listed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployments",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 6957,\n    \"name\": \"string\",\n    \"deployment_type\": \"dev\",\n    \"deployment_class\": \"d1024\",\n    \"region\": \"aws-eu-west-1\",\n    \"project_id\": 9044,\n    \"url\": \"http://sz.vsbtUHc4iS8OUtzSTLAgxrkgOv5Ozk2xQbDpgxTi6a\"\n  },\n  {\n    \"id\": 1373,\n    \"name\": \"string\",\n    \"deployment_type\": \"custom\",\n    \"deployment_class\": \"s16\",\n    \"region\": \"aws-us-east-1\",\n    \"project_id\": 3924,\n    \"url\": \"http://Zl.okxW5Hy.+fN+2\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a3bf57bc-94d1-498c-813d-cf6dc4184671",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployments",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "10dc49e4-f617-4058-9a61-abfc5621bd3d",
+          "name": "Get a deployment by name",
+          "request": {
+            "name": "Get a deployment by name",
+            "description": {
+              "content": "Retrieves details for a specific deployment identified by its name (e.g. \"happy-otter-123\"). Returns the deployment URL, type, status, region, class, and associated project information.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "deployments",
+                ":deployment_name"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deployment_name",
+                  "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c6282d62-8f7b-4e3d-8ad1-abeef9687db2",
+              "name": "Deployment retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 7776,\n  \"name\": \"string\",\n  \"deployment_type\": \"dev\",\n  \"deployment_class\": \"d1024\",\n  \"region\": \"aws-us-east-1\",\n  \"project_id\": 9794,\n  \"url\": \"http://IaPNVBpWMwztSURIemKuNQzoGPkFAfSR.rcrsFokVHroWjKh22BtYzDEyRRL0XGvZvsWvTzHTvLOuYaPmXdyhE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3fbdcf44-182e-468f-82e8-ed949ddf035c",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d1eaa42e-7b95-4427-b767-220a2b17b9bc",
+              "name": "Deployment not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e45bf42c-b470-4adf-8a27-9a7ff647bbef",
+          "name": "Delete a deployment",
+          "request": {
+            "name": "Delete a deployment",
+            "description": {
+              "content": "Permanently deletes a Convex deployment. All deployed functions, database data, and file storage associated with the deployment are permanently removed. This operation is irreversible.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "deployments",
+                ":deployment_name",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deployment_name",
+                  "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "879654c0-ec16-4f96-843c-75243184133e",
+              "name": "Deployment deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "39b43eaf-b81e-4fb1-9b2c-e28f06dca202",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "e792e567-9116-4c1a-a5d8-0119f76d32b6",
+              "name": "Deployment not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "deployments",
+                    ":deployment_name",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deployment_name",
+                      "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2e9c36c2-5419-44a0-8e99-f004ff5361eb",
+          "name": "Get default production deployment",
+          "request": {
+            "name": "Get default production deployment",
+            "description": {
+              "content": "Retrieves the default production deployment for a project. Most projects have a single production deployment designated as the default. Returns full deployment details including URL, region, class, and status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "deployment",
+                "default_prod"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "project_id",
+                  "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "d0180846-93b5-4e0b-95e6-5ceddd7bd62b",
+              "name": "Default production deployment retrieved",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployment",
+                    "default_prod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 7776,\n  \"name\": \"string\",\n  \"deployment_type\": \"dev\",\n  \"deployment_class\": \"d1024\",\n  \"region\": \"aws-us-east-1\",\n  \"project_id\": 9794,\n  \"url\": \"http://IaPNVBpWMwztSURIemKuNQzoGPkFAfSR.rcrsFokVHroWjKh22BtYzDEyRRL0XGvZvsWvTzHTvLOuYaPmXdyhE\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "02d0e5df-e242-4e70-a8b9-bf94cd684368",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployment",
+                    "default_prod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "ce6e5708-b07b-4375-9332-e39ebe702506",
+              "name": "No default production deployment found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployment",
+                    "default_prod"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "69ea3d54-75ca-4b54-9704-7f28db4410c4",
+      "name": "Projects",
+      "description": {
+        "content": "Create, list, retrieve, and delete Convex projects within a team. Projects group deployments and serve as the top-level organizational unit for Convex applications.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9a280db2-1193-4219-9a9b-badeb3868f23",
+          "name": "Create a new project",
+          "request": {
+            "name": "Create a new project",
+            "description": {
+              "content": "Provisions a new Convex project within the specified team. Optionally creates an initial production deployment in the specified cloud region and deployment class. Returns the new project's ID and slug along with details of any provisioned deployment.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "teams",
+                ":team_id",
+                "create_project"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "team_id",
+                  "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\",\n  \"deployment_region\": \"<string>\",\n  \"deployment_class\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "55dfd0fa-12a6-4641-bf22-b49e6fb7c9e1",
+              "name": "Project created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "create_project"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\",\n  \"deployment_region\": \"<string>\",\n  \"deployment_class\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 143,\n  \"slug\": \"string\",\n  \"name\": \"string\",\n  \"team_id\": 2618\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99857f77-8a64-4c76-883d-491dc139c4e8",
+              "name": "Bad request — invalid parameters",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "create_project"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\",\n  \"deployment_region\": \"<string>\",\n  \"deployment_class\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "f9ef11f9-0633-4548-ab56-f12ca53a0bfd",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "create_project"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\",\n  \"deployment_region\": \"<string>\",\n  \"deployment_class\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a223049b-3f61-4448-b628-e1f20f552086",
+          "name": "List projects in a team",
+          "request": {
+            "name": "List projects in a team",
+            "description": {
+              "content": "Returns all Convex projects belonging to the specified team. Each project entry includes its ID, slug, name, and associated deployment information. Useful for enumerating resources available to the authenticated token holder.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "teams",
+                ":team_id",
+                "list_projects"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "team_id",
+                  "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "65a92b30-cda4-4f75-b49e-eafd761d7496",
+              "name": "Projects listed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "list_projects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 8086,\n    \"slug\": \"string\",\n    \"name\": \"string\",\n    \"team_id\": 2819\n  },\n  {\n    \"id\": 7432,\n    \"slug\": \"string\",\n    \"name\": \"string\",\n    \"team_id\": 8359\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aea71ca2-239b-4fa7-ba8d-10996c943483",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "list_projects"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "885e8051-55f0-47a7-b4da-067bc8976211",
+          "name": "Get a project by ID",
+          "request": {
+            "name": "Get a project by ID",
+            "description": {
+              "content": "Retrieves details for a specific Convex project identified by its integer project ID. Returns the project's name, slug, team association, and deployment summary.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "project_id",
+                  "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a28ced38-c4de-4c62-9d57-453a26072f31",
+              "name": "Project retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 143,\n  \"slug\": \"string\",\n  \"name\": \"string\",\n  \"team_id\": 2618\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0c2f61d4-4383-48d0-9baf-f5f300c54f14",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "35f801b3-5be0-405b-b7f8-792c8a9b6b1a",
+              "name": "Project not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bf29d1f7-7116-4faf-936b-c260a39b9e2a",
+          "name": "Get a project by team and project slug",
+          "request": {
+            "name": "Get a project by team and project slug",
+            "description": {
+              "content": "Retrieves a project by its human-readable slug within a team identified by either team ID or team slug. This is useful when project identifiers are stored as slugs rather than integer IDs.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "teams",
+                ":team_id_or_slug",
+                "projects",
+                ":project_slug"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "team_id_or_slug",
+                  "description": "(Required) Either the integer team ID or the human-readable team slug."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "project_slug",
+                  "description": "(Required) The human-readable slug of the project within the team."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6413a957-dd76-4a7a-b8f5-4c924f5d2785",
+              "name": "Project retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id_or_slug",
+                    "projects",
+                    ":project_slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "team_id_or_slug",
+                      "description": "(Required) Either the integer team ID or the human-readable team slug."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_slug",
+                      "description": "(Required) The human-readable slug of the project within the team."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 143,\n  \"slug\": \"string\",\n  \"name\": \"string\",\n  \"team_id\": 2618\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8698b89c-b99a-4093-b768-ba72b679d92e",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id_or_slug",
+                    "projects",
+                    ":project_slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "team_id_or_slug",
+                      "description": "(Required) Either the integer team ID or the human-readable team slug."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_slug",
+                      "description": "(Required) The human-readable slug of the project within the team."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c8ef72f4-3c5f-4c36-b903-96c946e56f2e",
+              "name": "Project not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id_or_slug",
+                    "projects",
+                    ":project_slug"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "team_id_or_slug",
+                      "description": "(Required) Either the integer team ID or the human-readable team slug."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "project_slug",
+                      "description": "(Required) The human-readable slug of the project within the team."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "105ed282-090f-4d47-b101-040f396199c9",
+          "name": "Delete a project",
+          "request": {
+            "name": "Delete a project",
+            "description": {
+              "content": "Permanently deletes a Convex project and all associated deployments. This operation is irreversible. All deployments within the project are also deleted, and all associated resources (functions, data, files) are permanently removed.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "delete"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "project_id",
+                  "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b388aa5f-9239-4045-860e-cc7405937971",
+              "name": "Project deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4653824a-2866-4ef0-88da-6057aa14265f",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "7fdd852c-348f-47a5-97a9-dd7f8f8b8381",
+              "name": "Project not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "delete"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "c390f1f4-e2e9-4918-8f17-628210e09fee",
+      "name": "Teams",
+      "description": {
+        "content": "Manage Convex teams, team members, and team-level access tokens. Teams are the billing and administrative unit that owns projects.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "bb6191f3-50eb-4bc9-a9d5-c585122b5de3",
+          "name": "List team members",
+          "request": {
+            "name": "List team members",
+            "description": {
+              "content": "Returns all members of the specified team along with their roles. Roles include admin (full management access) and developer (standard access). Useful for auditing team membership and access levels.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "teams",
+                ":team_id",
+                "members"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "team_id",
+                  "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "71686366-ca7b-4dfe-bcfe-a934cb03d048",
+              "name": "Team members listed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 7862,\n    \"role\": \"admin\",\n    \"email\": \"7QZpUBYidzYKtbs@DcVkvMvBMNYA.jrl\"\n  },\n  {\n    \"id\": 2034,\n    \"role\": \"admin\",\n    \"email\": \"muZ8XgUvvsXz@KgymwtXukcG.mkd\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "37cd6f59-d4a4-406a-b10a-e543a9b65960",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.convex.dev/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "e10a24ef-4ba6-4e67-b441-9aa21f98890d",
+    "name": "Convex Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically. It enables developers and platform integrations to create projects, manage deployments across cloud regions, configure custom domains, and handle team membership without using the Convex dashboard. The API supports two token types: Team Access Tokens (for managing your own team's resources) and OAuth Application Tokens (for third-party integrations acting on behalf of users). A JavaScript client wrapper is available via the @convex-dev/platform npm package. The API is currently in Beta.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+      "type": "text/plain"
+    }
+  }
+}

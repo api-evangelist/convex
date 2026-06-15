@@ -1,0 +1,116 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Convex HTTP API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Queries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a query function",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/query",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a read-only query function deployed on the Convex backend. The function is identified by its module path and export name (e.g. \"myModule:myQuery\"). Named arguments are passed as a JSON object. Returns the function's return value and any console log output produced during execution."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Mutations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute a mutation function",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/mutation",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes a mutation function that performs transactional writes to the Convex database. The function is identified by its module path and export name. Named arguments are passed as a JSON object. Mutations are atomic and strongly consistent. Returns the function's return value and any console log output produced during execution."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute an action function",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/action",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes an action function for general-purpose server-side operations. Actions can call external services, interact with the database through queries and mutations, and perform non-transactional work. The function is identified by its module path and export name. Named arguments are passed as a JSON object. Returns the function's return value and any console log output."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Functions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute any function by identifier",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/run/:functionIdentifier",
+            "params": [
+              {
+                "name": "functionIdentifier",
+                "value": "",
+                "type": "path",
+                "description": "The fully-qualified function identifier in the format \"module:exportName\" (e.g. \"messages:list\", \"users:createUser\"). The module name corresponds to the file path within the convex/ directory, and the export name corresponds to the exported function name."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes any deployed Convex function — query, mutation, or action — identified by the function path in the URL. The function identifier follows the format \"module:exportName\" (e.g. \"messages:list\" or \"users:createUser\"). Named arguments are passed as a JSON object in the request body. This unified endpoint automatically dispatches to the appropriate function type. Returns the function's return value and any console log output produced during execution."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
