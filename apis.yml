@@ -8,7 +8,7 @@ description: >-
   transactional mutations, and integrated file storage, all accessible through a suite of HTTP, management, and
   deployment APIs alongside JavaScript and server SDKs for full-stack application development. The platform is SOC 2
   Type II, HIPAA, and GDPR compliant.
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 tags:
   - Backend
   - Database
@@ -28,7 +28,7 @@ apis:
       - Functions
       - Real-Time
       - Serverless
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://{deployment-name}.convex.cloud
     humanURL: https://docs.convex.dev/http-api/
     properties:
@@ -60,7 +60,7 @@ apis:
       - Deployments
       - Management
       - Projects
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://api.convex.dev/v1
     humanURL: https://docs.convex.dev/management-api
     properties:
@@ -96,7 +96,7 @@ apis:
       - Configuration
       - Deployment
       - Environment Variables
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: https://{deployment-name}.convex.cloud/api/v1
     humanURL: https://docs.convex.dev/deployment-platform-api
     properties:
@@ -126,7 +126,7 @@ apis:
       - Reactive
       - Sync
       - WebSocket
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
     humanURL: https://docs.convex.dev/understanding/
     properties:
@@ -162,7 +162,7 @@ apis:
       - JavaScript
       - SDK
       - TypeScript
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://docs.convex.dev/api/
     properties:
       - url: https://docs.convex.dev/api/
@@ -193,7 +193,7 @@ apis:
       - Database
       - Serverless Functions
       - TypeScript
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://docs.convex.dev/functions
     properties:
       - url: https://docs.convex.dev/functions
