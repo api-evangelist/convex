@@ -220,6 +220,14 @@ apis:
       - Scheduling recurring background work with cron jobs
       - Building HTTP webhook handlers inside Convex deployments
 common:
+  - type: TrustCenter
+    url: security/convex-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/convex-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/convex-domain-security.yml
+  - type: Authentication
+    url: authentication/convex-authentication.yml
   - type: LinkedIn
     url: https://www.linkedin.com/company/convex-dev
   - type: Portal

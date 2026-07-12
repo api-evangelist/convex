@@ -1,0 +1,29 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/convex-deployment-platform-api-openapi.yml, openapi/convex-http-api-openapi.yml,
+  openapi/convex-management-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: convexAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: 'Authorization header using a deployment key, Team Access Token, or OAuth Application
+    Token. The token must be prefixed with the string "Convex " (e.g. "Authorization: Convex
+    prod:abc123..."). Deployment keys are created in the dashboard or via the Management API.'
+  sources:
+  - openapi/convex-deployment-platform-api-openapi.yml
+  - openapi/convex-http-api-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  description: Bearer token from the application's configured authentication provider (e.g.
+    Auth0, Clerk). Used for user-level authorization of function calls.
+  sources:
+  - openapi/convex-http-api-openapi.yml
+  - openapi/convex-management-api-openapi.yml

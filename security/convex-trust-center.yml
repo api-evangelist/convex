@@ -1,0 +1,17 @@
+generated: '2026-07-11'
+method: searched
+probe: true
+source: https://www.convex.dev/security
+url: https://www.convex.dev/security
+certifications:
+- SOC 2
+- HIPAA
+- FedRAMP
+- GDPR
+evidence:
+- source: https://www.convex.dev/security
+  keywords:
+  - soc 2
+  - hipaa
+  - fedramp
+  - gdpr
