@@ -220,6 +220,8 @@ apis:
       - Scheduling recurring background work with cron jobs
       - Building HTTP webhook handlers inside Convex deployments
 common:
+  - type: AgenticAccess
+    url: agentic-access/convex-agentic-access.yml
   - type: TrustCenter
     url: security/convex-trust-center.yml
   - type: VulnerabilityDisclosure
