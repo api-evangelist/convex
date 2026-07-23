@@ -1,0 +1,117 @@
+openapi: 3.1.0
+info:
+  title: Convex Deployment Platform AccessTokens DeployKeys API
+  description: The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as "Convex {token}". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.
+  version: v1-beta
+  contact:
+    name: Convex Platform Support
+    email: platforms@convex.dev
+    url: https://www.convex.dev/community
+  termsOfService: https://www.convex.dev/terms
+servers:
+- url: https://{deploymentName}.convex.cloud/api/v1
+  description: Convex Deployment Server
+  variables:
+    deploymentName:
+      default: happy-otter-123
+      description: The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.
+security:
+- convexAuth: []
+tags:
+- name: DeployKeys
+  description: Create and manage deploy keys for CLI operations and CI/CD pipelines. Deploy keys authenticate the Convex CLI when pushing function code to a deployment.
+paths:
+  /projects/{project_id}/deployments/create_deploy_key:
+    post:
+      operationId: createDeployKey
+      summary: Create a deploy key
+      description: Creates a new deploy key for a project, scoped to a specific deployment. Deploy keys are used by the Convex CLI and CI/CD pipelines to push function code to deployments. Keys can be standard or preview keys for Vercel-style preview deployments.
+      tags:
+      - DeployKeys
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeployKeyRequest'
+      responses:
+        '200':
+          description: Deploy key created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeployKey'
+        '401':
+          description: Unauthorized — missing or invalid token
+  /projects/{project_id}/deployment/deploy_key/list:
+    get:
+      operationId: listDeployKeys
+      summary: List deploy keys for a project
+      description: Returns all deploy keys associated with a Convex project. Includes key names, creation dates, and the deployment each key is scoped to. Key values are not returned after initial creation.
+      tags:
+      - DeployKeys
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Deploy keys listed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeployKey'
+        '401':
+          description: Unauthorized — missing or invalid token
+components:
+  schemas:
+    CreateDeployKeyRequest:
+      type: object
+      required:
+      - deployment_name
+      properties:
+        deployment_name:
+          type: string
+          description: The name of the deployment this key should be scoped to.
+        key_name:
+          type: string
+          description: Optional human-readable name for the deploy key.
+    DeployKey:
+      type: object
+      required:
+      - name
+      - deployment_name
+      properties:
+        name:
+          type: string
+          description: Human-readable name of the deploy key.
+        deployment_name:
+          type: string
+          description: The deployment this key is scoped to.
+        key:
+          type: string
+          description: The deploy key value. Only present immediately after creation; not returned by list operations.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the key was created.
+  parameters:
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    convexAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Authorization header using a deployment key, Team Access Token, or OAuth Application Token. The token must be prefixed with the string "Convex " (e.g. "Authorization: Convex prod:abc123..."). Deployment keys are created in the dashboard or via the Management API.'
+externalDocs:
+  description: Convex Deployment Platform API Documentation
+  url: https://docs.convex.dev/deployment-platform-api

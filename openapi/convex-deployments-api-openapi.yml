@@ -1,0 +1,222 @@
+openapi: 3.1.0
+info:
+  title: Convex Deployment Platform AccessTokens Deployments API
+  description: The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as "Convex {token}". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.
+  version: v1-beta
+  contact:
+    name: Convex Platform Support
+    email: platforms@convex.dev
+    url: https://www.convex.dev/community
+  termsOfService: https://www.convex.dev/terms
+servers:
+- url: https://{deploymentName}.convex.cloud/api/v1
+  description: Convex Deployment Server
+  variables:
+    deploymentName:
+      default: happy-otter-123
+      description: The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.
+security:
+- convexAuth: []
+tags:
+- name: Deployments
+  description: Create, list, retrieve, update, and delete Convex cloud and local deployments. Deployments are the runtime environments where Convex backend functions execute.
+paths:
+  /projects/{project_id}/deployments/create_cloud:
+    post:
+      operationId: createCloudDeployment
+      summary: Create a cloud deployment
+      description: Creates a new cloud deployment within a project in the specified region and deployment class. Cloud deployments run on Convex-managed infrastructure and are accessible via a public URL. Supports dev, prod, preview, and custom deployment types.
+      tags:
+      - Deployments
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCloudDeploymentRequest'
+      responses:
+        '200':
+          description: Deployment created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+        '400':
+          description: Bad request — invalid region or deployment class
+        '401':
+          description: Unauthorized — missing or invalid token
+  /projects/{project_id}/deployments/list:
+    get:
+      operationId: listDeployments
+      summary: List deployments in a project
+      description: Returns all deployments associated with a Convex project. Each deployment entry includes its ID, name, deployment URL, type (dev, prod, preview, custom), status, region, and class.
+      tags:
+      - Deployments
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Deployments listed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Deployment'
+        '401':
+          description: Unauthorized — missing or invalid token
+  /deployments/{deployment_name}:
+    get:
+      operationId: getDeployment
+      summary: Get a deployment by name
+      description: Retrieves details for a specific deployment identified by its name (e.g. "happy-otter-123"). Returns the deployment URL, type, status, region, class, and associated project information.
+      tags:
+      - Deployments
+      parameters:
+      - $ref: '#/components/parameters/deploymentName'
+      responses:
+        '200':
+          description: Deployment retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: Deployment not found
+  /deployments/{deployment_name}/delete:
+    post:
+      operationId: deleteDeployment
+      summary: Delete a deployment
+      description: Permanently deletes a Convex deployment. All deployed functions, database data, and file storage associated with the deployment are permanently removed. This operation is irreversible.
+      tags:
+      - Deployments
+      parameters:
+      - $ref: '#/components/parameters/deploymentName'
+      responses:
+        '200':
+          description: Deployment deleted successfully
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: Deployment not found
+  /projects/{project_id}/deployment/default_prod:
+    get:
+      operationId: getDefaultProdDeployment
+      summary: Get default production deployment
+      description: Retrieves the default production deployment for a project. Most projects have a single production deployment designated as the default. Returns full deployment details including URL, region, class, and status.
+      tags:
+      - Deployments
+      parameters:
+      - $ref: '#/components/parameters/projectId'
+      responses:
+        '200':
+          description: Default production deployment retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Deployment'
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: No default production deployment found
+components:
+  parameters:
+    deploymentName:
+      name: deployment_name
+      in: path
+      required: true
+      description: The unique name of the deployment (e.g. "happy-otter-123"). This is the subdomain portion of the deployment URL at convex.cloud.
+      schema:
+        type: string
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
+      schema:
+        type: integer
+        format: int64
+  schemas:
+    CreateCloudDeploymentRequest:
+      type: object
+      required:
+      - deployment_type
+      - region
+      properties:
+        deployment_type:
+          type: string
+          description: The type of deployment environment to create.
+          enum:
+          - dev
+          - prod
+          - preview
+          - custom
+        region:
+          type: string
+          description: The cloud region where the deployment should run.
+          enum:
+          - aws-us-east-1
+          - aws-eu-west-1
+        deployment_class:
+          type: string
+          description: Compute class for the deployment.
+          enum:
+          - s16
+          - s256
+          - d1024
+    Deployment:
+      type: object
+      required:
+      - id
+      - name
+      - deployment_type
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique integer identifier for the deployment.
+        name:
+          type: string
+          description: Unique name of the deployment used as the subdomain of the deployment URL (e.g. "happy-otter-123").
+        deployment_type:
+          type: string
+          description: The type of deployment environment.
+          enum:
+          - dev
+          - prod
+          - preview
+          - custom
+        deployment_class:
+          type: string
+          description: The compute class of the deployment, determining resource limits and pricing tier.
+          enum:
+          - s16
+          - s256
+          - d1024
+        region:
+          type: string
+          description: The cloud region where the deployment runs.
+          enum:
+          - aws-us-east-1
+          - aws-eu-west-1
+        project_id:
+          type: integer
+          format: int64
+          description: ID of the project that owns this deployment.
+        url:
+          type: string
+          format: uri
+          description: The base URL of the deployment in the format https://{name}.convex.cloud.
+  securitySchemes:
+    convexAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Authorization header using a deployment key, Team Access Token, or OAuth Application Token. The token must be prefixed with the string "Convex " (e.g. "Authorization: Convex prod:abc123..."). Deployment keys are created in the dashboard or via the Management API.'
+externalDocs:
+  description: Convex Deployment Platform API Documentation
+  url: https://docs.convex.dev/deployment-platform-api

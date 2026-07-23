@@ -1,0 +1,146 @@
+openapi: 3.1.0
+info:
+  title: Convex Deployment Platform AccessTokens CustomDomains API
+  description: The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as "Convex {token}". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.
+  version: v1-beta
+  contact:
+    name: Convex Platform Support
+    email: platforms@convex.dev
+    url: https://www.convex.dev/community
+  termsOfService: https://www.convex.dev/terms
+servers:
+- url: https://{deploymentName}.convex.cloud/api/v1
+  description: Convex Deployment Server
+  variables:
+    deploymentName:
+      default: happy-otter-123
+      description: The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.
+security:
+- convexAuth: []
+tags:
+- name: CustomDomains
+  description: Configure custom domain names for Convex deployments. Supports both convexCloud (function API) and convexSite (HTTP actions) request destinations.
+paths:
+  /deployments/{deployment_name}/custom_domains/create:
+    post:
+      operationId: createCustomDomain
+      summary: Create a custom domain
+      description: 'Associates a custom domain with a Convex deployment. Supports two request destination types: convexCloud for routing to the function API (queries, mutations, actions), and convexSite for routing to HTTP action endpoints. Domain verification and DNS configuration is handled separately.'
+      tags:
+      - CustomDomains
+      parameters:
+      - $ref: '#/components/parameters/deploymentName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomDomainRequest'
+      responses:
+        '200':
+          description: Custom domain created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomDomain'
+        '400':
+          description: Bad request — invalid domain or destination type
+        '401':
+          description: Unauthorized — missing or invalid token
+  /deployments/{deployment_name}/custom_domains/list:
+    get:
+      operationId: listCustomDomains
+      summary: List custom domains for a deployment
+      description: Returns all custom domains configured for a deployment. Each entry includes the domain name, request destination type, and verification status.
+      tags:
+      - CustomDomains
+      parameters:
+      - $ref: '#/components/parameters/deploymentName'
+      responses:
+        '200':
+          description: Custom domains listed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomDomain'
+        '401':
+          description: Unauthorized — missing or invalid token
+  /deployments/{deployment_name}/custom_domains/delete:
+    post:
+      operationId: deleteCustomDomain
+      summary: Delete a custom domain
+      description: Removes a custom domain association from a Convex deployment. After deletion, traffic to the domain will no longer be routed to the deployment. DNS records should be removed separately.
+      tags:
+      - CustomDomains
+      parameters:
+      - $ref: '#/components/parameters/deploymentName'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - domain
+              properties:
+                domain:
+                  type: string
+                  description: The custom domain name to remove.
+      responses:
+        '200':
+          description: Custom domain deleted successfully
+        '401':
+          description: Unauthorized — missing or invalid token
+        '404':
+          description: Custom domain not found
+components:
+  schemas:
+    CreateCustomDomainRequest:
+      type: object
+      required:
+      - domain
+      - request_destination
+      properties:
+        domain:
+          type: string
+          description: The custom domain name to associate with the deployment.
+        request_destination:
+          type: string
+          description: The routing destination for requests to this domain.
+          enum:
+          - convexCloud
+          - convexSite
+    CustomDomain:
+      type: object
+      required:
+      - domain
+      - request_destination
+      properties:
+        domain:
+          type: string
+          description: The custom domain name (e.g. "api.example.com").
+        request_destination:
+          type: string
+          description: The routing destination for requests to this domain. convexCloud routes to the function API; convexSite routes to HTTP action endpoints.
+          enum:
+          - convexCloud
+          - convexSite
+  parameters:
+    deploymentName:
+      name: deployment_name
+      in: path
+      required: true
+      description: The unique name of the deployment (e.g. "happy-otter-123"). This is the subdomain portion of the deployment URL at convex.cloud.
+      schema:
+        type: string
+  securitySchemes:
+    convexAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Authorization header using a deployment key, Team Access Token, or OAuth Application Token. The token must be prefixed with the string "Convex " (e.g. "Authorization: Convex prod:abc123..."). Deployment keys are created in the dashboard or via the Management API.'
+externalDocs:
+  description: Convex Deployment Platform API Documentation
+  url: https://docs.convex.dev/deployment-platform-api

@@ -1,0 +1,142 @@
+openapi: 3.1.0
+info:
+  title: Convex Deployment Platform AccessTokens Functions API
+  description: The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as "Convex {token}". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.
+  version: v1-beta
+  contact:
+    name: Convex Platform Support
+    email: platforms@convex.dev
+    url: https://www.convex.dev/community
+  termsOfService: https://www.convex.dev/terms
+servers:
+- url: https://{deploymentName}.convex.cloud/api/v1
+  description: Convex Deployment Server
+  variables:
+    deploymentName:
+      default: happy-otter-123
+      description: The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.
+security:
+- convexAuth: []
+tags:
+- name: Functions
+  description: Execute any deployed function by its identifier using the unified run endpoint, which accepts the function type implicitly based on the deployed function definition.
+paths:
+  /api/run/{functionIdentifier}:
+    post:
+      operationId: runFunction
+      summary: Execute any function by identifier
+      description: Executes any deployed Convex function — query, mutation, or action — identified by the function path in the URL. The function identifier follows the format "module:exportName" (e.g. "messages:list" or "users:createUser"). Named arguments are passed as a JSON object in the request body. This unified endpoint automatically dispatches to the appropriate function type. Returns the function's return value and any console log output produced during execution.
+      tags:
+      - Functions
+      parameters:
+      - $ref: '#/components/parameters/functionIdentifier'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RunFunctionRequest'
+      responses:
+        '200':
+          description: Function executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionSuccessResponse'
+        '400':
+          description: Bad request — invalid function identifier or argument format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+        '401':
+          description: Unauthorized — missing or invalid authorization token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+        '404':
+          description: Function not found at the given identifier
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FunctionErrorResponse'
+components:
+  schemas:
+    FunctionErrorResponse:
+      type: object
+      required:
+      - status
+      - errorMessage
+      - logLines
+      properties:
+        status:
+          type: string
+          description: Indicates the function encountered an error during execution.
+          enum:
+          - error
+        errorMessage:
+          type: string
+          description: A human-readable description of the error that occurred during function execution.
+        errorData:
+          type: object
+          description: Additional structured data about the error, present when the function throws a ConvexError with associated data. The shape depends on the application-specific error definition.
+          additionalProperties: true
+        logLines:
+          type: array
+          description: An array of strings representing console output produced by the function prior to the error.
+          items:
+            type: string
+    FunctionSuccessResponse:
+      type: object
+      required:
+      - status
+      - value
+      - logLines
+      properties:
+        status:
+          type: string
+          description: Indicates the function executed without error.
+          enum:
+          - success
+        value:
+          description: The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.
+        logLines:
+          type: array
+          description: An array of strings representing console output (e.g. console.log) produced by the function during execution.
+          items:
+            type: string
+    RunFunctionRequest:
+      type: object
+      required:
+      - args
+      properties:
+        args:
+          type: object
+          description: Named arguments to pass to the function as a JSON object. The keys and value types must match the function's declared parameter types.
+          additionalProperties: true
+        format:
+          type: string
+          description: Output format for the response value. Currently only "json" is supported and is also the default when omitted.
+          enum:
+          - json
+          default: json
+  parameters:
+    functionIdentifier:
+      name: functionIdentifier
+      in: path
+      required: true
+      description: The fully-qualified function identifier in the format "module:exportName" (e.g. "messages:list", "users:createUser"). The module name corresponds to the file path within the convex/ directory, and the export name corresponds to the exported function name.
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9_/]+:[a-zA-Z0-9_]+$
+        example: messages:list
+  securitySchemes:
+    convexAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Authorization header using a deployment key, Team Access Token, or OAuth Application Token. The token must be prefixed with the string "Convex " (e.g. "Authorization: Convex prod:abc123..."). Deployment keys are created in the dashboard or via the Management API.'
+externalDocs:
+  description: Convex Deployment Platform API Documentation
+  url: https://docs.convex.dev/deployment-platform-api
