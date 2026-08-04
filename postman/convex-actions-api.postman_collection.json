@@ -1,0 +1,336 @@
+{
+  "info": {
+    "_postman_id": "f26839da-3237-4755-b2ea-faba7e26de26",
+    "name": "Convex Deployment Platform AccessTokens Actions API",
+    "description": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:26:19.000Z",
+    "updatedAt": "2026-07-28T01:26:19.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-f26839da-3237-4755-b2ea-faba7e26de26"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "action",
+          "item": [
+            {
+              "name": "Execute an action function",
+              "id": "0a922138-7bd2-443c-9946-b408b05cbe09",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"w94Ka9Gy:xPXRG\",\n  \"args\": {\n    \"consequat19\": true,\n    \"tempor_991\": \"consequat quis exercitation\",\n    \"magna_77_\": -14084154.77522698,\n    \"ut2f\": true\n  },\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/action",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "action"
+                  ]
+                },
+                "description": "Executes an action function for general-purpose server-side operations. Actions can call external services, interact with the database through queries and mutations, and perform non-transactional work. The function is identified by its module path and export name. Named arguments are passed as a JSON object. Returns the function's return value and any console log output."
+              },
+              "response": [
+                {
+                  "id": "4ddea555-6e44-4778-94e5-8aaac926ef25",
+                  "name": "Action executed successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"w94Ka9Gy:xPXRG\",\n  \"args\": {\n    \"consequat19\": true,\n    \"tempor_991\": \"consequat quis exercitation\",\n    \"magna_77_\": -14084154.77522698,\n    \"ut2f\": true\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/action",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "action"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"success\",\n  \"value\": {\n    \"description\": \"The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.\"\n  },\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-07-28T01:26:20.000Z",
+                  "updatedAt": "2026-07-28T01:26:20.000Z",
+                  "uid": "35240-4ddea555-6e44-4778-94e5-8aaac926ef25"
+                },
+                {
+                  "id": "74c084fe-089a-4460-9c85-946f85102c10",
+                  "name": "Bad request \u2014 invalid function path or argument format",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"w94Ka9Gy:xPXRG\",\n  \"args\": {\n    \"consequat19\": true,\n    \"tempor_991\": \"consequat quis exercitation\",\n    \"magna_77_\": -14084154.77522698,\n    \"ut2f\": true\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/action",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "action"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"Excepteur6\": 69702980\n  }\n}",
+                  "createdAt": "2026-07-28T01:26:20.000Z",
+                  "updatedAt": "2026-07-28T01:26:20.000Z",
+                  "uid": "35240-74c084fe-089a-4460-9c85-946f85102c10"
+                },
+                {
+                  "id": "4cb7f511-b276-405e-8ec1-b878f0d58f79",
+                  "name": "Unauthorized \u2014 missing or invalid authorization token",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"w94Ka9Gy:xPXRG\",\n  \"args\": {\n    \"consequat19\": true,\n    \"tempor_991\": \"consequat quis exercitation\",\n    \"magna_77_\": -14084154.77522698,\n    \"ut2f\": true\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/action",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "action"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"Excepteur6\": 69702980\n  }\n}",
+                  "createdAt": "2026-07-28T01:26:20.000Z",
+                  "updatedAt": "2026-07-28T01:26:20.000Z",
+                  "uid": "35240-4cb7f511-b276-405e-8ec1-b878f0d58f79"
+                },
+                {
+                  "id": "1e9b827b-6d0c-491e-94bd-4d45c6bac61e",
+                  "name": "Function not found at the given path",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"w94Ka9Gy:xPXRG\",\n  \"args\": {\n    \"consequat19\": true,\n    \"tempor_991\": \"consequat quis exercitation\",\n    \"magna_77_\": -14084154.77522698,\n    \"ut2f\": true\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/action",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "action"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"Excepteur6\": 69702980\n  }\n}",
+                  "createdAt": "2026-07-28T01:26:20.000Z",
+                  "updatedAt": "2026-07-28T01:26:20.000Z",
+                  "uid": "35240-1e9b827b-6d0c-491e-94bd-4d45c6bac61e"
+                }
+              ],
+              "createdAt": "2026-07-28T01:26:20.000Z",
+              "updatedAt": "2026-07-28T01:26:20.000Z",
+              "uid": "35240-0a922138-7bd2-443c-9946-b408b05cbe09"
+            }
+          ],
+          "id": "b21335ed-09be-4182-bc45-f2af13359023",
+          "createdAt": "2026-07-28T01:26:19.000Z",
+          "updatedAt": "2026-07-28T01:26:19.000Z",
+          "uid": "35240-b21335ed-09be-4182-bc45-f2af13359023"
+        }
+      ],
+      "id": "a064f73b-ec37-4478-b763-a46e6b3fab72",
+      "createdAt": "2026-07-28T01:26:19.000Z",
+      "updatedAt": "2026-07-28T01:26:19.000Z",
+      "uid": "35240-a064f73b-ec37-4478-b763-a46e6b3fab72"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "deploymentName",
+      "value": "happy-otter-123"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1"
+    }
+  ]
+}

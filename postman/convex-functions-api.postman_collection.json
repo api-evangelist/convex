@@ -1,0 +1,378 @@
+{
+  "info": {
+    "_postman_id": "66f552b5-49a6-4c65-9970-fd2ee4561a3c",
+    "name": "Convex Deployment Platform AccessTokens Functions API",
+    "description": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:26:24.000Z",
+    "updatedAt": "2026-07-28T01:26:24.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-66f552b5-49a6-4c65-9970-fd2ee4561a3c"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "run",
+          "item": [
+            {
+              "name": "{functionIdentifier}",
+              "item": [
+                {
+                  "name": "Execute any function by identifier",
+                  "id": "6276df78-2fa0-44bc-ada2-9eb466b0404c",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"args\": {\n    \"veniamd17\": -81797009.12967359,\n    \"est__\": \"occaecat\"\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/run/:functionIdentifier",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "run",
+                        ":functionIdentifier"
+                      ],
+                      "variable": [
+                        {
+                          "id": "eab4df95-3967-42cd-9a0b-3463b181970c",
+                          "key": "functionIdentifier",
+                          "value": "N:F6kxuWfCQQH",
+                          "description": "(Required) The fully-qualified function identifier in the format \"module:exportName\" (e.g. \"messages:list\", \"users:createUser\"). The module name corresponds to the file path within the convex/ directory, and the export name corresponds to the exported function name."
+                        }
+                      ]
+                    },
+                    "description": "Executes any deployed Convex function \u2014 query, mutation, or action \u2014 identified by the function path in the URL. The function identifier follows the format \"module:exportName\" (e.g. \"messages:list\" or \"users:createUser\"). Named arguments are passed as a JSON object in the request body. This unified endpoint automatically dispatches to the appropriate function type. Returns the function's return value and any console log output produced during execution."
+                  },
+                  "response": [
+                    {
+                      "id": "7a5b9c47-bd8e-4e7b-9dfc-106c57217379",
+                      "name": "Function executed successfully",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"args\": {\n    \"veniamd17\": -81797009.12967359,\n    \"est__\": \"occaecat\"\n  },\n  \"format\": \"json\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/run/:functionIdentifier",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "run",
+                            ":functionIdentifier"
+                          ],
+                          "variable": [
+                            {
+                              "key": "functionIdentifier"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"success\",\n  \"value\": {\n    \"description\": \"The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.\"\n  },\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "createdAt": "2026-07-28T01:26:24.000Z",
+                      "updatedAt": "2026-07-28T01:26:24.000Z",
+                      "uid": "35240-7a5b9c47-bd8e-4e7b-9dfc-106c57217379"
+                    },
+                    {
+                      "id": "08fbb4f9-9412-43d2-abbc-b7d68fff3b16",
+                      "name": "Bad request \u2014 invalid function identifier or argument format",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"args\": {\n    \"veniamd17\": -81797009.12967359,\n    \"est__\": \"occaecat\"\n  },\n  \"format\": \"json\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/run/:functionIdentifier",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "run",
+                            ":functionIdentifier"
+                          ],
+                          "variable": [
+                            {
+                              "key": "functionIdentifier"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"nulla9_7\": true,\n    \"enim_145\": true,\n    \"labore_95\": false\n  }\n}",
+                      "createdAt": "2026-07-28T01:26:24.000Z",
+                      "updatedAt": "2026-07-28T01:26:24.000Z",
+                      "uid": "35240-08fbb4f9-9412-43d2-abbc-b7d68fff3b16"
+                    },
+                    {
+                      "id": "bd1c0ef1-7572-41fa-ad1a-1e3417f06b92",
+                      "name": "Unauthorized \u2014 missing or invalid authorization token",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"args\": {\n    \"veniamd17\": -81797009.12967359,\n    \"est__\": \"occaecat\"\n  },\n  \"format\": \"json\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/run/:functionIdentifier",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "run",
+                            ":functionIdentifier"
+                          ],
+                          "variable": [
+                            {
+                              "key": "functionIdentifier"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"nulla9_7\": true,\n    \"enim_145\": true,\n    \"labore_95\": false\n  }\n}",
+                      "createdAt": "2026-07-28T01:26:24.000Z",
+                      "updatedAt": "2026-07-28T01:26:24.000Z",
+                      "uid": "35240-bd1c0ef1-7572-41fa-ad1a-1e3417f06b92"
+                    },
+                    {
+                      "id": "76073cd4-a41c-4b69-a25d-d9383c34633b",
+                      "name": "Function not found at the given identifier",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"args\": {\n    \"veniamd17\": -81797009.12967359,\n    \"est__\": \"occaecat\"\n  },\n  \"format\": \"json\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/run/:functionIdentifier",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "run",
+                            ":functionIdentifier"
+                          ],
+                          "variable": [
+                            {
+                              "key": "functionIdentifier"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"nulla9_7\": true,\n    \"enim_145\": true,\n    \"labore_95\": false\n  }\n}",
+                      "createdAt": "2026-07-28T01:26:24.000Z",
+                      "updatedAt": "2026-07-28T01:26:24.000Z",
+                      "uid": "35240-76073cd4-a41c-4b69-a25d-d9383c34633b"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:26:24.000Z",
+                  "updatedAt": "2026-07-28T01:26:24.000Z",
+                  "uid": "35240-6276df78-2fa0-44bc-ada2-9eb466b0404c"
+                }
+              ],
+              "id": "c7c47393-9ff3-483d-9073-fa429afd2879",
+              "createdAt": "2026-07-28T01:26:24.000Z",
+              "updatedAt": "2026-07-28T01:26:24.000Z",
+              "uid": "35240-c7c47393-9ff3-483d-9073-fa429afd2879"
+            }
+          ],
+          "id": "dd6aae02-81ee-4e49-9a34-eabcf853b9b2",
+          "createdAt": "2026-07-28T01:26:24.000Z",
+          "updatedAt": "2026-07-28T01:26:24.000Z",
+          "uid": "35240-dd6aae02-81ee-4e49-9a34-eabcf853b9b2"
+        }
+      ],
+      "id": "525d6344-c6f8-4bc0-b4ce-8c775afa21ba",
+      "createdAt": "2026-07-28T01:26:24.000Z",
+      "updatedAt": "2026-07-28T01:26:24.000Z",
+      "uid": "35240-525d6344-c6f8-4bc0-b4ce-8c775afa21ba"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "deploymentName",
+      "value": "happy-otter-123"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1"
+    }
+  ]
+}

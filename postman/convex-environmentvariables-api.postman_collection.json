@@ -1,0 +1,668 @@
+{
+  "info": {
+    "_postman_id": "5b489056-6851-4467-b8d1-36bf57583abb",
+    "name": "Convex Deployment Platform AccessTokens EnvironmentVariables API",
+    "description": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:26:23.000Z",
+    "updatedAt": "2026-07-28T01:26:23.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-5b489056-6851-4467-b8d1-36bf57583abb"
+  },
+  "item": [
+    {
+      "name": "list_environment_variables",
+      "item": [
+        {
+          "name": "List environment variables",
+          "id": "e76d6c79-518c-4ab4-80b9-4c9996e1cd1b",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/list_environment_variables",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "list_environment_variables"
+              ]
+            },
+            "description": "Retrieves all environment variables configured for the deployment. Returns an array of key-value pairs representing the current environment variable configuration. Sensitive values are returned in full and should be handled securely. Authentication requires a deployment key, Team Access Token, or OAuth Application Token formatted as \"Convex {token}\" in the Authorization header."
+          },
+          "response": [
+            {
+              "id": "befa007a-9d68-4c15-a63e-c6b11ed13ae3",
+              "name": "Environment variables retrieved successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/list_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "list_environment_variables"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "[\n  {\n    \"name\": \"uX06kgEp\",\n    \"value\": \"<string>\"\n  },\n  {\n    \"name\": \"JdfJWK\",\n    \"value\": \"<string>\"\n  }\n]",
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-befa007a-9d68-4c15-a63e-c6b11ed13ae3"
+            },
+            {
+              "id": "414a313f-1c3d-4f44-8777-d5cbfeea8e33",
+              "name": "Unauthorized \u2014 missing or invalid Authorization header. Ensure the token is prefixed with \"Convex \" (e.g. \"Authorization: Convex <token>\").",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/list_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "list_environment_variables"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-414a313f-1c3d-4f44-8777-d5cbfeea8e33"
+            },
+            {
+              "id": "3171a9a8-98ee-41af-b02e-4491faf1ecb3",
+              "name": "Forbidden \u2014 the provided token does not have administrative access to this deployment.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/list_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "list_environment_variables"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-3171a9a8-98ee-41af-b02e-4491faf1ecb3"
+            }
+          ],
+          "createdAt": "2026-07-28T01:26:23.000Z",
+          "updatedAt": "2026-07-28T01:26:23.000Z",
+          "uid": "35240-e76d6c79-518c-4ab4-80b9-4c9996e1cd1b"
+        }
+      ],
+      "id": "ca7b87b4-4167-456b-96b5-3b1015b2155d",
+      "createdAt": "2026-07-28T01:26:23.000Z",
+      "updatedAt": "2026-07-28T01:26:23.000Z",
+      "uid": "35240-ca7b87b4-4167-456b-96b5-3b1015b2155d"
+    },
+    {
+      "name": "update_environment_variables",
+      "item": [
+        {
+          "name": "Update environment variables",
+          "id": "80fad785-da98-4649-a3aa-8b20d9eea043",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"changes\": [\n    {\n      \"name\": \"os_rl5e\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"name\": \"J4oq_\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/update_environment_variables",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "update_environment_variables"
+              ]
+            },
+            "description": "Creates or updates one or more environment variables for the deployment. Existing variables with matching keys are overwritten. Variables not included in the request are left unchanged. Changes take effect after the next deployment push. Authentication requires a deployment key, Team Access Token, or OAuth Application Token formatted as \"Convex {token}\" in the Authorization header."
+          },
+          "response": [
+            {
+              "id": "e754db03-85be-4d06-8a64-207edeb14f3a",
+              "name": "Environment variables updated successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"changes\": [\n    {\n      \"name\": \"os_rl5e\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"name\": \"J4oq_\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/update_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "update_environment_variables"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-e754db03-85be-4d06-8a64-207edeb14f3a"
+            },
+            {
+              "id": "26d9ddc9-3fc2-49ad-9cff-28d3c8cb48e7",
+              "name": "Bad request \u2014 invalid variable name or value format",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"changes\": [\n    {\n      \"name\": \"os_rl5e\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"name\": \"J4oq_\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/update_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "update_environment_variables"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-26d9ddc9-3fc2-49ad-9cff-28d3c8cb48e7"
+            },
+            {
+              "id": "976ad4f5-ab47-4eb5-b695-70e6836067af",
+              "name": "Unauthorized \u2014 missing or invalid Authorization header. Ensure the token is prefixed with \"Convex \".",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"changes\": [\n    {\n      \"name\": \"os_rl5e\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"name\": \"J4oq_\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/update_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "update_environment_variables"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-976ad4f5-ab47-4eb5-b695-70e6836067af"
+            },
+            {
+              "id": "647e937e-48f5-49c6-8b12-3e16a063b9de",
+              "name": "Forbidden \u2014 the provided token does not have administrative access to this deployment.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"changes\": [\n    {\n      \"name\": \"os_rl5e\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"name\": \"J4oq_\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/update_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "update_environment_variables"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-647e937e-48f5-49c6-8b12-3e16a063b9de"
+            }
+          ],
+          "createdAt": "2026-07-28T01:26:23.000Z",
+          "updatedAt": "2026-07-28T01:26:23.000Z",
+          "uid": "35240-80fad785-da98-4649-a3aa-8b20d9eea043"
+        }
+      ],
+      "id": "657fc773-4580-40c1-ad25-6eb2e5cc1000",
+      "createdAt": "2026-07-28T01:26:23.000Z",
+      "updatedAt": "2026-07-28T01:26:23.000Z",
+      "uid": "35240-657fc773-4580-40c1-ad25-6eb2e5cc1000"
+    },
+    {
+      "name": "delete_environment_variables",
+      "item": [
+        {
+          "name": "Delete environment variables",
+          "id": "37f02502-aeda-405e-87b9-de20a74cab06",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/delete_environment_variables",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "delete_environment_variables"
+              ]
+            },
+            "description": "Removes one or more environment variables from the deployment by their key names. Deleted variables are no longer accessible to backend functions after the next deployment push. Authentication requires a deployment key, Team Access Token, or OAuth Application Token formatted as \"Convex {token}\" in the Authorization header."
+          },
+          "response": [
+            {
+              "id": "233d54d4-ec05-47d4-8b6a-d68a607308a3",
+              "name": "Environment variables deleted successfully",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete_environment_variables"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-233d54d4-ec05-47d4-8b6a-d68a607308a3"
+            },
+            {
+              "id": "50023bce-7ace-4f4f-a7f0-1ad3a4d606a0",
+              "name": "Bad request \u2014 invalid variable name format",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete_environment_variables"
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-50023bce-7ace-4f4f-a7f0-1ad3a4d606a0"
+            },
+            {
+              "id": "261918ad-d92b-4111-9491-c8c05eb8cca1",
+              "name": "Unauthorized \u2014 missing or invalid Authorization header.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete_environment_variables"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-261918ad-d92b-4111-9491-c8c05eb8cca1"
+            },
+            {
+              "id": "b43e9d9b-4d85-4929-93cb-934b7bd6735f",
+              "name": "Forbidden \u2014 the provided token does not have administrative access to this deployment.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: apikey",
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/delete_environment_variables",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "delete_environment_variables"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-07-28T01:26:23.000Z",
+              "updatedAt": "2026-07-28T01:26:23.000Z",
+              "uid": "35240-b43e9d9b-4d85-4929-93cb-934b7bd6735f"
+            }
+          ],
+          "createdAt": "2026-07-28T01:26:23.000Z",
+          "updatedAt": "2026-07-28T01:26:23.000Z",
+          "uid": "35240-37f02502-aeda-405e-87b9-de20a74cab06"
+        }
+      ],
+      "id": "6f17fa38-7c0e-44c0-8c90-88d0e88c1935",
+      "createdAt": "2026-07-28T01:26:23.000Z",
+      "updatedAt": "2026-07-28T01:26:23.000Z",
+      "uid": "35240-6f17fa38-7c0e-44c0-8c90-88d0e88c1935"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "deploymentName",
+      "value": "happy-otter-123"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1"
+    }
+  ]
+}

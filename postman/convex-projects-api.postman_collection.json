@@ -1,0 +1,1001 @@
+{
+  "info": {
+    "_postman_id": "b60dc6cd-06a7-43dc-8a32-baf0b9d4a80f",
+    "name": "Convex Deployment Platform AccessTokens Projects API",
+    "description": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:26:25.000Z",
+    "updatedAt": "2026-07-28T01:26:26.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b60dc6cd-06a7-43dc-8a32-baf0b9d4a80f"
+  },
+  "item": [
+    {
+      "name": "teams",
+      "item": [
+        {
+          "name": "{team_id}",
+          "item": [
+            {
+              "name": "create_project",
+              "item": [
+                {
+                  "name": "Create a new project",
+                  "id": "414e311a-73dd-4f4c-b66e-5005cce2b8a1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\",\n  \"deployment_region\": \"aws-us-east-1\",\n  \"deployment_class\": \"s256\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/teams/:team_id/create_project",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "teams",
+                        ":team_id",
+                        "create_project"
+                      ],
+                      "variable": [
+                        {
+                          "id": "316358e4-dfd4-4ba6-b95c-6ff893ac7e4b",
+                          "key": "team_id",
+                          "value": "<long>",
+                          "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                        }
+                      ]
+                    },
+                    "description": "Provisions a new Convex project within the specified team. Optionally creates an initial production deployment in the specified cloud region and deployment class. Returns the new project's ID and slug along with details of any provisioned deployment."
+                  },
+                  "response": [
+                    {
+                      "id": "7dcf72b2-bf55-4846-8773-efa747d1fcc5",
+                      "name": "Project created successfully",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\",\n  \"deployment_region\": \"aws-us-east-1\",\n  \"deployment_class\": \"s256\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/teams/:team_id/create_project",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "teams",
+                            ":team_id",
+                            "create_project"
+                          ],
+                          "variable": [
+                            {
+                              "key": "team_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"id\": \"<long>\",\n  \"slug\": \"<string>\",\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\"\n}",
+                      "createdAt": "2026-07-28T01:26:26.000Z",
+                      "updatedAt": "2026-07-28T01:26:26.000Z",
+                      "uid": "35240-7dcf72b2-bf55-4846-8773-efa747d1fcc5"
+                    },
+                    {
+                      "id": "ce77d330-144c-4bb1-9ea1-8916d6bdb06d",
+                      "name": "Bad request \u2014 invalid parameters",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\",\n  \"deployment_region\": \"aws-us-east-1\",\n  \"deployment_class\": \"s256\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/teams/:team_id/create_project",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "teams",
+                            ":team_id",
+                            "create_project"
+                          ],
+                          "variable": [
+                            {
+                              "key": "team_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:26:26.000Z",
+                      "updatedAt": "2026-07-28T01:26:26.000Z",
+                      "uid": "35240-ce77d330-144c-4bb1-9ea1-8916d6bdb06d"
+                    },
+                    {
+                      "id": "9f4d3964-9fbd-4023-be4d-46dde53f5445",
+                      "name": "Unauthorized \u2014 missing or invalid token",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\",\n  \"deployment_region\": \"aws-us-east-1\",\n  \"deployment_class\": \"s256\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/teams/:team_id/create_project",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "teams",
+                            ":team_id",
+                            "create_project"
+                          ],
+                          "variable": [
+                            {
+                              "key": "team_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:26:26.000Z",
+                      "updatedAt": "2026-07-28T01:26:26.000Z",
+                      "uid": "35240-9f4d3964-9fbd-4023-be4d-46dde53f5445"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:26:26.000Z",
+                  "updatedAt": "2026-07-28T01:26:26.000Z",
+                  "uid": "35240-414e311a-73dd-4f4c-b66e-5005cce2b8a1"
+                }
+              ],
+              "id": "d591ddd1-9337-4307-a37d-fd422ece56c9",
+              "createdAt": "2026-07-28T01:26:26.000Z",
+              "updatedAt": "2026-07-28T01:26:26.000Z",
+              "uid": "35240-d591ddd1-9337-4307-a37d-fd422ece56c9"
+            },
+            {
+              "name": "list_projects",
+              "item": [
+                {
+                  "name": "List projects in a team",
+                  "id": "c95d1d65-9bb2-4fe1-af09-0c621929fe76",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/teams/:team_id/list_projects",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "teams",
+                        ":team_id",
+                        "list_projects"
+                      ],
+                      "variable": [
+                        {
+                          "id": "a82695dd-a442-4079-9e42-1a15d2dc4abb",
+                          "key": "team_id",
+                          "value": "<long>",
+                          "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                        }
+                      ]
+                    },
+                    "description": "Returns all Convex projects belonging to the specified team. Each project entry includes its ID, slug, name, and associated deployment information. Useful for enumerating resources available to the authenticated token holder."
+                  },
+                  "response": [
+                    {
+                      "id": "31db7f83-aee2-4d33-9338-5c2cbcf091b5",
+                      "name": "Projects listed successfully",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/teams/:team_id/list_projects",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "teams",
+                            ":team_id",
+                            "list_projects"
+                          ],
+                          "variable": [
+                            {
+                              "key": "team_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"id\": \"<long>\",\n    \"slug\": \"<string>\",\n    \"name\": \"<string>\",\n    \"team_id\": \"<long>\"\n  },\n  {\n    \"id\": \"<long>\",\n    \"slug\": \"<string>\",\n    \"name\": \"<string>\",\n    \"team_id\": \"<long>\"\n  }\n]",
+                      "createdAt": "2026-07-28T01:26:26.000Z",
+                      "updatedAt": "2026-07-28T01:26:26.000Z",
+                      "uid": "35240-31db7f83-aee2-4d33-9338-5c2cbcf091b5"
+                    },
+                    {
+                      "id": "f86a0a17-e41b-44f0-bfcd-5b5fd2c8b14d",
+                      "name": "Unauthorized \u2014 missing or invalid token",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/teams/:team_id/list_projects",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "teams",
+                            ":team_id",
+                            "list_projects"
+                          ],
+                          "variable": [
+                            {
+                              "key": "team_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:26:26.000Z",
+                      "updatedAt": "2026-07-28T01:26:26.000Z",
+                      "uid": "35240-f86a0a17-e41b-44f0-bfcd-5b5fd2c8b14d"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:26:26.000Z",
+                  "updatedAt": "2026-07-28T01:26:26.000Z",
+                  "uid": "35240-c95d1d65-9bb2-4fe1-af09-0c621929fe76"
+                }
+              ],
+              "id": "8312cb7b-3d3c-42e7-8712-3b5e81a03e11",
+              "createdAt": "2026-07-28T01:26:26.000Z",
+              "updatedAt": "2026-07-28T01:26:26.000Z",
+              "uid": "35240-8312cb7b-3d3c-42e7-8712-3b5e81a03e11"
+            }
+          ],
+          "id": "098e2fba-4499-4f3b-8403-118177777dda",
+          "createdAt": "2026-07-28T01:26:26.000Z",
+          "updatedAt": "2026-07-28T01:26:26.000Z",
+          "uid": "35240-098e2fba-4499-4f3b-8403-118177777dda"
+        },
+        {
+          "name": "{team_id_or_slug}",
+          "item": [
+            {
+              "name": "projects",
+              "item": [
+                {
+                  "name": "{project_slug}",
+                  "item": [
+                    {
+                      "name": "Get a project by team and project slug",
+                      "id": "92b20e38-8bb5-452f-9ba2-7ad83e3e0727",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/teams/:team_id_or_slug/projects/:project_slug",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "teams",
+                            ":team_id_or_slug",
+                            "projects",
+                            ":project_slug"
+                          ],
+                          "variable": [
+                            {
+                              "id": "1e8b58fa-92c9-4ab3-9ed8-180be24989b3",
+                              "key": "team_id_or_slug",
+                              "value": "<string>",
+                              "description": "(Required) Either the integer team ID or the human-readable team slug."
+                            },
+                            {
+                              "id": "aae3a8e7-4b98-4ce5-8df6-6eb114bb04b4",
+                              "key": "project_slug",
+                              "value": "<string>",
+                              "description": "(Required) The human-readable slug of the project within the team."
+                            }
+                          ]
+                        },
+                        "description": "Retrieves a project by its human-readable slug within a team identified by either team ID or team slug. This is useful when project identifiers are stored as slugs rather than integer IDs."
+                      },
+                      "response": [
+                        {
+                          "id": "3aff26d7-a0f8-4471-8313-7d0e86655649",
+                          "name": "Project retrieved successfully",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/teams/:team_id_or_slug/projects/:project_slug",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "teams",
+                                ":team_id_or_slug",
+                                "projects",
+                                ":project_slug"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "team_id_or_slug"
+                                },
+                                {
+                                  "key": "project_slug"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"id\": \"<long>\",\n  \"slug\": \"<string>\",\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\"\n}",
+                          "createdAt": "2026-07-28T01:26:26.000Z",
+                          "updatedAt": "2026-07-28T01:26:26.000Z",
+                          "uid": "35240-3aff26d7-a0f8-4471-8313-7d0e86655649"
+                        },
+                        {
+                          "id": "0ab7c21d-7ef2-4881-a7cd-d65403ffd800",
+                          "name": "Unauthorized \u2014 missing or invalid token",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/teams/:team_id_or_slug/projects/:project_slug",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "teams",
+                                ":team_id_or_slug",
+                                "projects",
+                                ":project_slug"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "team_id_or_slug"
+                                },
+                                {
+                                  "key": "project_slug"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:26:26.000Z",
+                          "updatedAt": "2026-07-28T01:26:26.000Z",
+                          "uid": "35240-0ab7c21d-7ef2-4881-a7cd-d65403ffd800"
+                        },
+                        {
+                          "id": "e8a72c4b-a5ff-4684-a545-4cbe146f00b8",
+                          "name": "Project not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/teams/:team_id_or_slug/projects/:project_slug",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "teams",
+                                ":team_id_or_slug",
+                                "projects",
+                                ":project_slug"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "team_id_or_slug"
+                                },
+                                {
+                                  "key": "project_slug"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:26:26.000Z",
+                          "updatedAt": "2026-07-28T01:26:26.000Z",
+                          "uid": "35240-e8a72c4b-a5ff-4684-a545-4cbe146f00b8"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:26:26.000Z",
+                      "updatedAt": "2026-07-28T01:26:26.000Z",
+                      "uid": "35240-92b20e38-8bb5-452f-9ba2-7ad83e3e0727"
+                    }
+                  ],
+                  "id": "8349e9f5-7435-47b3-8076-96f95849415a",
+                  "createdAt": "2026-07-28T01:26:26.000Z",
+                  "updatedAt": "2026-07-28T01:26:26.000Z",
+                  "uid": "35240-8349e9f5-7435-47b3-8076-96f95849415a"
+                }
+              ],
+              "id": "05c4c964-87cb-4347-970c-1ae0b6724914",
+              "createdAt": "2026-07-28T01:26:26.000Z",
+              "updatedAt": "2026-07-28T01:26:26.000Z",
+              "uid": "35240-05c4c964-87cb-4347-970c-1ae0b6724914"
+            }
+          ],
+          "id": "259fcf9e-f234-4d46-bb25-c4f7527478f0",
+          "createdAt": "2026-07-28T01:26:26.000Z",
+          "updatedAt": "2026-07-28T01:26:26.000Z",
+          "uid": "35240-259fcf9e-f234-4d46-bb25-c4f7527478f0"
+        }
+      ],
+      "id": "bbea8cf6-799f-4748-9a86-d90e5831fe2a",
+      "createdAt": "2026-07-28T01:26:26.000Z",
+      "updatedAt": "2026-07-28T01:26:26.000Z",
+      "uid": "35240-bbea8cf6-799f-4748-9a86-d90e5831fe2a"
+    },
+    {
+      "name": "projects",
+      "item": [
+        {
+          "name": "{project_id}",
+          "item": [
+            {
+              "name": "delete",
+              "item": [
+                {
+                  "name": "Delete a project",
+                  "id": "b05fc7e3-52b6-4290-8716-4024f4dc5339",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:project_id/delete",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":project_id",
+                        "delete"
+                      ],
+                      "variable": [
+                        {
+                          "id": "659d2c7c-d541-421e-886a-867c718beb93",
+                          "key": "project_id",
+                          "value": "<long>",
+                          "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                        }
+                      ]
+                    },
+                    "description": "Permanently deletes a Convex project and all associated deployments. This operation is irreversible. All deployments within the project are also deleted, and all associated resources (functions, data, files) are permanently removed."
+                  },
+                  "response": [
+                    {
+                      "id": "ff7af19d-8adc-4abd-a7a7-01fa75aadd99",
+                      "name": "Project deleted successfully",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:project_id/delete",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":project_id",
+                            "delete"
+                          ],
+                          "variable": [
+                            {
+                              "key": "project_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:26:26.000Z",
+                      "updatedAt": "2026-07-28T01:26:26.000Z",
+                      "uid": "35240-ff7af19d-8adc-4abd-a7a7-01fa75aadd99"
+                    },
+                    {
+                      "id": "dec949f5-da1b-4a38-bbcc-c786a9775d61",
+                      "name": "Unauthorized \u2014 missing or invalid token",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:project_id/delete",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":project_id",
+                            "delete"
+                          ],
+                          "variable": [
+                            {
+                              "key": "project_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:26:26.000Z",
+                      "updatedAt": "2026-07-28T01:26:26.000Z",
+                      "uid": "35240-dec949f5-da1b-4a38-bbcc-c786a9775d61"
+                    },
+                    {
+                      "id": "c1a2fca0-34af-4b7c-b768-23ccc3f93311",
+                      "name": "Project not found",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:project_id/delete",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":project_id",
+                            "delete"
+                          ],
+                          "variable": [
+                            {
+                              "key": "project_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:26:26.000Z",
+                      "updatedAt": "2026-07-28T01:26:26.000Z",
+                      "uid": "35240-c1a2fca0-34af-4b7c-b768-23ccc3f93311"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:26:26.000Z",
+                  "updatedAt": "2026-07-28T01:26:26.000Z",
+                  "uid": "35240-b05fc7e3-52b6-4290-8716-4024f4dc5339"
+                }
+              ],
+              "id": "f4536e25-3086-4a0b-823f-76cdc3944d52",
+              "createdAt": "2026-07-28T01:26:26.000Z",
+              "updatedAt": "2026-07-28T01:26:26.000Z",
+              "uid": "35240-f4536e25-3086-4a0b-823f-76cdc3944d52"
+            },
+            {
+              "name": "Get a project by ID",
+              "id": "4c6a7bde-56af-4b7e-bd4e-b743fc2a307e",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/projects/:project_id",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "projects",
+                    ":project_id"
+                  ],
+                  "variable": [
+                    {
+                      "id": "7af3c90f-7bf5-49fd-89cd-d794516bcbee",
+                      "key": "project_id",
+                      "value": "<long>",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    }
+                  ]
+                },
+                "description": "Retrieves details for a specific Convex project identified by its integer project ID. Returns the project's name, slug, team association, and deployment summary."
+              },
+              "response": [
+                {
+                  "id": "1c13444c-d8cd-4384-b564-792ed10213c5",
+                  "name": "Project retrieved successfully",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:project_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":project_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "project_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"id\": \"<long>\",\n  \"slug\": \"<string>\",\n  \"name\": \"<string>\",\n  \"team_id\": \"<long>\"\n}",
+                  "createdAt": "2026-07-28T01:26:26.000Z",
+                  "updatedAt": "2026-07-28T01:26:26.000Z",
+                  "uid": "35240-1c13444c-d8cd-4384-b564-792ed10213c5"
+                },
+                {
+                  "id": "6f4579e5-633b-4f3b-a79b-7100fd076276",
+                  "name": "Unauthorized \u2014 missing or invalid token",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:project_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":project_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "project_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:26:26.000Z",
+                  "updatedAt": "2026-07-28T01:26:26.000Z",
+                  "uid": "35240-6f4579e5-633b-4f3b-a79b-7100fd076276"
+                },
+                {
+                  "id": "2b03189b-1f3b-4919-80c6-c9c43d7fd56d",
+                  "name": "Project not found",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/projects/:project_id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "projects",
+                        ":project_id"
+                      ],
+                      "variable": [
+                        {
+                          "key": "project_id"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-07-28T01:26:26.000Z",
+                  "updatedAt": "2026-07-28T01:26:26.000Z",
+                  "uid": "35240-2b03189b-1f3b-4919-80c6-c9c43d7fd56d"
+                }
+              ],
+              "createdAt": "2026-07-28T01:26:26.000Z",
+              "updatedAt": "2026-07-28T01:26:26.000Z",
+              "uid": "35240-4c6a7bde-56af-4b7e-bd4e-b743fc2a307e"
+            }
+          ],
+          "id": "20497fbd-53f4-45b5-a7b3-92bfc1f789fa",
+          "createdAt": "2026-07-28T01:26:26.000Z",
+          "updatedAt": "2026-07-28T01:26:26.000Z",
+          "uid": "35240-20497fbd-53f4-45b5-a7b3-92bfc1f789fa"
+        }
+      ],
+      "id": "f764eb6b-e867-49c5-873c-12946c5fb9c0",
+      "createdAt": "2026-07-28T01:26:26.000Z",
+      "updatedAt": "2026-07-28T01:26:26.000Z",
+      "uid": "35240-f764eb6b-e867-49c5-873c-12946c5fb9c0"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "deploymentName",
+      "value": "happy-otter-123"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1"
+    }
+  ]
+}

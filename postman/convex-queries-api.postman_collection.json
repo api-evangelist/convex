@@ -1,0 +1,336 @@
+{
+  "info": {
+    "_postman_id": "b29e055f-6634-4af4-a19f-b24626dab514",
+    "name": "Convex Deployment Platform AccessTokens Queries API",
+    "description": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:26:26.000Z",
+    "updatedAt": "2026-07-28T01:26:27.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b29e055f-6634-4af4-a19f-b24626dab514"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "query",
+          "item": [
+            {
+              "name": "Execute a query function",
+              "id": "96b53c2f-8e32-4364-9c05-2aec72cd2995",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"L6:Ycg\",\n  \"args\": {\n    \"qui_e\": true\n  },\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/query",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "query"
+                  ]
+                },
+                "description": "Executes a read-only query function deployed on the Convex backend. The function is identified by its module path and export name (e.g. \"myModule:myQuery\"). Named arguments are passed as a JSON object. Returns the function's return value and any console log output produced during execution."
+              },
+              "response": [
+                {
+                  "id": "9012506b-3110-4bf3-a312-6f19c7e4185f",
+                  "name": "Function executed successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"L6:Ycg\",\n  \"args\": {\n    \"qui_e\": true\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/query",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "query"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"success\",\n  \"value\": {\n    \"description\": \"The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.\"\n  },\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-07-28T01:26:27.000Z",
+                  "updatedAt": "2026-07-28T01:26:27.000Z",
+                  "uid": "35240-9012506b-3110-4bf3-a312-6f19c7e4185f"
+                },
+                {
+                  "id": "c60d715a-8eb6-4d73-a332-b1b89b093d03",
+                  "name": "Bad request \u2014 invalid function path or argument format",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"L6:Ycg\",\n  \"args\": {\n    \"qui_e\": true\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/query",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "query"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"anim7\": \"consectetur \"\n  }\n}",
+                  "createdAt": "2026-07-28T01:26:27.000Z",
+                  "updatedAt": "2026-07-28T01:26:27.000Z",
+                  "uid": "35240-c60d715a-8eb6-4d73-a332-b1b89b093d03"
+                },
+                {
+                  "id": "9e909277-b019-49d5-b8a5-a27662a33ea0",
+                  "name": "Unauthorized \u2014 missing or invalid authorization token",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"L6:Ycg\",\n  \"args\": {\n    \"qui_e\": true\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/query",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "query"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"anim7\": \"consectetur \"\n  }\n}",
+                  "createdAt": "2026-07-28T01:26:27.000Z",
+                  "updatedAt": "2026-07-28T01:26:27.000Z",
+                  "uid": "35240-9e909277-b019-49d5-b8a5-a27662a33ea0"
+                },
+                {
+                  "id": "77044889-4741-4750-9646-c975f6d51019",
+                  "name": "Function not found at the given path",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"L6:Ycg\",\n  \"args\": {\n    \"qui_e\": true\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/query",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "query"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"anim7\": \"consectetur \"\n  }\n}",
+                  "createdAt": "2026-07-28T01:26:27.000Z",
+                  "updatedAt": "2026-07-28T01:26:27.000Z",
+                  "uid": "35240-77044889-4741-4750-9646-c975f6d51019"
+                }
+              ],
+              "createdAt": "2026-07-28T01:26:27.000Z",
+              "updatedAt": "2026-07-28T01:26:27.000Z",
+              "uid": "35240-96b53c2f-8e32-4364-9c05-2aec72cd2995"
+            }
+          ],
+          "id": "b88485fd-2e57-40d1-a8d9-f4e25754d12d",
+          "createdAt": "2026-07-28T01:26:27.000Z",
+          "updatedAt": "2026-07-28T01:26:27.000Z",
+          "uid": "35240-b88485fd-2e57-40d1-a8d9-f4e25754d12d"
+        }
+      ],
+      "id": "3cb0f33d-0a86-4817-91c8-c4fc3f36a246",
+      "createdAt": "2026-07-28T01:26:27.000Z",
+      "updatedAt": "2026-07-28T01:26:27.000Z",
+      "uid": "35240-3cb0f33d-0a86-4817-91c8-c4fc3f36a246"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "deploymentName",
+      "value": "happy-otter-123"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1"
+    }
+  ]
+}

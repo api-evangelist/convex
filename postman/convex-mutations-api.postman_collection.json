@@ -1,0 +1,336 @@
+{
+  "info": {
+    "_postman_id": "c61a1620-ed2c-4681-abab-4492b6345496",
+    "name": "Convex Deployment Platform AccessTokens Mutations API",
+    "description": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:26:25.000Z",
+    "updatedAt": "2026-07-28T01:26:25.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-c61a1620-ed2c-4681-abab-4492b6345496"
+  },
+  "item": [
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "mutation",
+          "item": [
+            {
+              "name": "Execute a mutation function",
+              "id": "035e3641-23c3-46f8-a095-b4726197f924",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"trMH7lf:8OEF7VFoo\",\n  \"args\": {\n    \"reprehenderit29\": -62118615,\n    \"Duis3\": \"voluptate laborum\",\n    \"cillum6_3\": false,\n    \"ut7b2\": true,\n    \"dolore1\": 38460873.35446918\n  },\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/api/mutation",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "mutation"
+                  ]
+                },
+                "description": "Executes a mutation function that performs transactional writes to the Convex database. The function is identified by its module path and export name. Named arguments are passed as a JSON object. Mutations are atomic and strongly consistent. Returns the function's return value and any console log output produced during execution."
+              },
+              "response": [
+                {
+                  "id": "2076ea25-2f3e-43b2-a4c9-a46d3e3d7bae",
+                  "name": "Mutation executed successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"trMH7lf:8OEF7VFoo\",\n  \"args\": {\n    \"reprehenderit29\": -62118615,\n    \"Duis3\": \"voluptate laborum\",\n    \"cillum6_3\": false,\n    \"ut7b2\": true,\n    \"dolore1\": 38460873.35446918\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/mutation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "mutation"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"success\",\n  \"value\": {\n    \"description\": \"The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.\"\n  },\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "createdAt": "2026-07-28T01:26:25.000Z",
+                  "updatedAt": "2026-07-28T01:26:25.000Z",
+                  "uid": "35240-2076ea25-2f3e-43b2-a4c9-a46d3e3d7bae"
+                },
+                {
+                  "id": "e27d1770-8ae6-47dd-a6f7-740ea79d404b",
+                  "name": "Bad request \u2014 invalid function path or argument format",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"trMH7lf:8OEF7VFoo\",\n  \"args\": {\n    \"reprehenderit29\": -62118615,\n    \"Duis3\": \"voluptate laborum\",\n    \"cillum6_3\": false,\n    \"ut7b2\": true,\n    \"dolore1\": 38460873.35446918\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/mutation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "mutation"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"qui_74e\": false,\n    \"Duis6\": 43480867,\n    \"magna_8bb\": -82644909,\n    \"nostrud_f\": 81755975,\n    \"officia_13a\": -95223380\n  }\n}",
+                  "createdAt": "2026-07-28T01:26:25.000Z",
+                  "updatedAt": "2026-07-28T01:26:25.000Z",
+                  "uid": "35240-e27d1770-8ae6-47dd-a6f7-740ea79d404b"
+                },
+                {
+                  "id": "b83d9aab-daac-43d8-8d97-aa5a3df4eaeb",
+                  "name": "Unauthorized \u2014 missing or invalid authorization token",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"trMH7lf:8OEF7VFoo\",\n  \"args\": {\n    \"reprehenderit29\": -62118615,\n    \"Duis3\": \"voluptate laborum\",\n    \"cillum6_3\": false,\n    \"ut7b2\": true,\n    \"dolore1\": 38460873.35446918\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/mutation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "mutation"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"qui_74e\": false,\n    \"Duis6\": 43480867,\n    \"magna_8bb\": -82644909,\n    \"nostrud_f\": 81755975,\n    \"officia_13a\": -95223380\n  }\n}",
+                  "createdAt": "2026-07-28T01:26:25.000Z",
+                  "updatedAt": "2026-07-28T01:26:25.000Z",
+                  "uid": "35240-b83d9aab-daac-43d8-8d97-aa5a3df4eaeb"
+                },
+                {
+                  "id": "300781ef-eba6-4dda-9707-1e9ee3d72648",
+                  "name": "Function not found at the given path",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"path\": \"trMH7lf:8OEF7VFoo\",\n  \"args\": {\n    \"reprehenderit29\": -62118615,\n    \"Duis3\": \"voluptate laborum\",\n    \"cillum6_3\": false,\n    \"ut7b2\": true,\n    \"dolore1\": 38460873.35446918\n  },\n  \"format\": \"json\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/mutation",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "mutation"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"<string>\",\n  \"logLines\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"errorData\": {\n    \"qui_74e\": false,\n    \"Duis6\": 43480867,\n    \"magna_8bb\": -82644909,\n    \"nostrud_f\": 81755975,\n    \"officia_13a\": -95223380\n  }\n}",
+                  "createdAt": "2026-07-28T01:26:25.000Z",
+                  "updatedAt": "2026-07-28T01:26:25.000Z",
+                  "uid": "35240-300781ef-eba6-4dda-9707-1e9ee3d72648"
+                }
+              ],
+              "createdAt": "2026-07-28T01:26:25.000Z",
+              "updatedAt": "2026-07-28T01:26:25.000Z",
+              "uid": "35240-035e3641-23c3-46f8-a095-b4726197f924"
+            }
+          ],
+          "id": "c0674965-b901-4898-853a-811c3bf0a798",
+          "createdAt": "2026-07-28T01:26:25.000Z",
+          "updatedAt": "2026-07-28T01:26:25.000Z",
+          "uid": "35240-c0674965-b901-4898-853a-811c3bf0a798"
+        }
+      ],
+      "id": "562ac660-9f43-4154-bac6-e9461a93a949",
+      "createdAt": "2026-07-28T01:26:25.000Z",
+      "updatedAt": "2026-07-28T01:26:25.000Z",
+      "uid": "35240-562ac660-9f43-4154-bac6-e9461a93a949"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "deploymentName",
+      "value": "happy-otter-123"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1"
+    }
+  ]
+}

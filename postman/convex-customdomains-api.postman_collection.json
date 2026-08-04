@@ -1,0 +1,678 @@
+{
+  "info": {
+    "_postman_id": "389248cb-b5d0-4582-80a8-6d900cee19bd",
+    "name": "Convex Deployment Platform AccessTokens CustomDomains API",
+    "description": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:26:20.000Z",
+    "updatedAt": "2026-07-28T01:26:20.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-389248cb-b5d0-4582-80a8-6d900cee19bd"
+  },
+  "item": [
+    {
+      "name": "deployments",
+      "item": [
+        {
+          "name": "{deployment_name}",
+          "item": [
+            {
+              "name": "custom_domains",
+              "item": [
+                {
+                  "name": "create",
+                  "item": [
+                    {
+                      "name": "Create a custom domain",
+                      "id": "4b304707-e6db-40fc-876f-6d8618f744a2",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"domain\": \"<string>\",\n  \"request_destination\": \"convexCloud\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/create",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "deployments",
+                            ":deployment_name",
+                            "custom_domains",
+                            "create"
+                          ],
+                          "variable": [
+                            {
+                              "id": "fc9ffbee-d7d3-4500-8de6-a6bbfe1783a7",
+                              "key": "deployment_name",
+                              "value": "<string>",
+                              "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                            }
+                          ]
+                        },
+                        "description": "Associates a custom domain with a Convex deployment. Supports two request destination types: convexCloud for routing to the function API (queries, mutations, actions), and convexSite for routing to HTTP action endpoints. Domain verification and DNS configuration is handled separately."
+                      },
+                      "response": [
+                        {
+                          "id": "9d0bb760-d983-4d07-b7f8-daac0a132478",
+                          "name": "Custom domain created successfully",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"domain\": \"<string>\",\n  \"request_destination\": \"convexCloud\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/create",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "deployments",
+                                ":deployment_name",
+                                "custom_domains",
+                                "create"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deployment_name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"domain\": \"<string>\",\n  \"request_destination\": \"convexCloud\"\n}",
+                          "createdAt": "2026-07-28T01:26:20.000Z",
+                          "updatedAt": "2026-07-28T01:26:20.000Z",
+                          "uid": "35240-9d0bb760-d983-4d07-b7f8-daac0a132478"
+                        },
+                        {
+                          "id": "8c42c444-3a94-40ad-94d4-cc16653c5abd",
+                          "name": "Bad request \u2014 invalid domain or destination type",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"domain\": \"<string>\",\n  \"request_destination\": \"convexCloud\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/create",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "deployments",
+                                ":deployment_name",
+                                "custom_domains",
+                                "create"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deployment_name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:26:20.000Z",
+                          "updatedAt": "2026-07-28T01:26:20.000Z",
+                          "uid": "35240-8c42c444-3a94-40ad-94d4-cc16653c5abd"
+                        },
+                        {
+                          "id": "bebeea84-db96-415d-b67b-dc9436a55d83",
+                          "name": "Unauthorized \u2014 missing or invalid token",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"domain\": \"<string>\",\n  \"request_destination\": \"convexCloud\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/create",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "deployments",
+                                ":deployment_name",
+                                "custom_domains",
+                                "create"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deployment_name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:26:20.000Z",
+                          "updatedAt": "2026-07-28T01:26:20.000Z",
+                          "uid": "35240-bebeea84-db96-415d-b67b-dc9436a55d83"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:26:20.000Z",
+                      "updatedAt": "2026-07-28T01:26:20.000Z",
+                      "uid": "35240-4b304707-e6db-40fc-876f-6d8618f744a2"
+                    }
+                  ],
+                  "id": "ca632cdf-2336-4b22-8d84-eeb399f54275",
+                  "createdAt": "2026-07-28T01:26:20.000Z",
+                  "updatedAt": "2026-07-28T01:26:20.000Z",
+                  "uid": "35240-ca632cdf-2336-4b22-8d84-eeb399f54275"
+                },
+                {
+                  "name": "list",
+                  "item": [
+                    {
+                      "name": "List custom domains for a deployment",
+                      "id": "6c6aa352-f9d4-4b06-be50-34b6fc3572dc",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/list",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "deployments",
+                            ":deployment_name",
+                            "custom_domains",
+                            "list"
+                          ],
+                          "variable": [
+                            {
+                              "id": "2591d5a7-de5d-4d14-a42b-1baf6906a46e",
+                              "key": "deployment_name",
+                              "value": "<string>",
+                              "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                            }
+                          ]
+                        },
+                        "description": "Returns all custom domains configured for a deployment. Each entry includes the domain name, request destination type, and verification status."
+                      },
+                      "response": [
+                        {
+                          "id": "b6f75d0c-0562-4b7e-83c5-0d26eb974d23",
+                          "name": "Custom domains listed successfully",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/list",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "deployments",
+                                ":deployment_name",
+                                "custom_domains",
+                                "list"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deployment_name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "[\n  {\n    \"domain\": \"<string>\",\n    \"request_destination\": \"convexSite\"\n  },\n  {\n    \"domain\": \"<string>\",\n    \"request_destination\": \"convexCloud\"\n  }\n]",
+                          "createdAt": "2026-07-28T01:26:20.000Z",
+                          "updatedAt": "2026-07-28T01:26:20.000Z",
+                          "uid": "35240-b6f75d0c-0562-4b7e-83c5-0d26eb974d23"
+                        },
+                        {
+                          "id": "1825ce87-066f-4b79-983e-e148f4aeb9b4",
+                          "name": "Unauthorized \u2014 missing or invalid token",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/list",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "deployments",
+                                ":deployment_name",
+                                "custom_domains",
+                                "list"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deployment_name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:26:20.000Z",
+                          "updatedAt": "2026-07-28T01:26:20.000Z",
+                          "uid": "35240-1825ce87-066f-4b79-983e-e148f4aeb9b4"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:26:20.000Z",
+                      "updatedAt": "2026-07-28T01:26:20.000Z",
+                      "uid": "35240-6c6aa352-f9d4-4b06-be50-34b6fc3572dc"
+                    }
+                  ],
+                  "id": "90b7ef57-0d44-4438-b30d-242cf37b4fcb",
+                  "createdAt": "2026-07-28T01:26:20.000Z",
+                  "updatedAt": "2026-07-28T01:26:20.000Z",
+                  "uid": "35240-90b7ef57-0d44-4438-b30d-242cf37b4fcb"
+                },
+                {
+                  "name": "delete",
+                  "item": [
+                    {
+                      "name": "Delete a custom domain",
+                      "id": "997f237f-4538-49fc-911f-49a2f95da7b7",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"domain\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/delete",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "deployments",
+                            ":deployment_name",
+                            "custom_domains",
+                            "delete"
+                          ],
+                          "variable": [
+                            {
+                              "id": "c30b3b19-3f30-47e1-8d6d-07cda7ad6c84",
+                              "key": "deployment_name",
+                              "value": "<string>",
+                              "description": "(Required) The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+                            }
+                          ]
+                        },
+                        "description": "Removes a custom domain association from a Convex deployment. After deletion, traffic to the domain will no longer be routed to the deployment. DNS records should be removed separately."
+                      },
+                      "response": [
+                        {
+                          "id": "968dc748-d346-4f26-be64-063f96cbd4a4",
+                          "name": "Custom domain deleted successfully",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"domain\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/delete",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "deployments",
+                                ":deployment_name",
+                                "custom_domains",
+                                "delete"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deployment_name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:26:20.000Z",
+                          "updatedAt": "2026-07-28T01:26:20.000Z",
+                          "uid": "35240-968dc748-d346-4f26-be64-063f96cbd4a4"
+                        },
+                        {
+                          "id": "b2023375-380f-4498-be18-7a14de116afc",
+                          "name": "Unauthorized \u2014 missing or invalid token",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"domain\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/delete",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "deployments",
+                                ":deployment_name",
+                                "custom_domains",
+                                "delete"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deployment_name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:26:20.000Z",
+                          "updatedAt": "2026-07-28T01:26:20.000Z",
+                          "uid": "35240-b2023375-380f-4498-be18-7a14de116afc"
+                        },
+                        {
+                          "id": "695b23f3-b6d2-489d-a53a-e7d8a4445f84",
+                          "name": "Custom domain not found",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"domain\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/deployments/:deployment_name/custom_domains/delete",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "deployments",
+                                ":deployment_name",
+                                "custom_domains",
+                                "delete"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "deployment_name"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:26:20.000Z",
+                          "updatedAt": "2026-07-28T01:26:20.000Z",
+                          "uid": "35240-695b23f3-b6d2-489d-a53a-e7d8a4445f84"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:26:20.000Z",
+                      "updatedAt": "2026-07-28T01:26:20.000Z",
+                      "uid": "35240-997f237f-4538-49fc-911f-49a2f95da7b7"
+                    }
+                  ],
+                  "id": "7e2b9e4f-c055-4def-a0fe-386948cf9d51",
+                  "createdAt": "2026-07-28T01:26:20.000Z",
+                  "updatedAt": "2026-07-28T01:26:20.000Z",
+                  "uid": "35240-7e2b9e4f-c055-4def-a0fe-386948cf9d51"
+                }
+              ],
+              "id": "b6b42f38-00ec-40b1-9aa0-986d15db7160",
+              "createdAt": "2026-07-28T01:26:20.000Z",
+              "updatedAt": "2026-07-28T01:26:20.000Z",
+              "uid": "35240-b6b42f38-00ec-40b1-9aa0-986d15db7160"
+            }
+          ],
+          "id": "b48cff57-d736-48c0-8fe7-3b9572ce39fd",
+          "createdAt": "2026-07-28T01:26:20.000Z",
+          "updatedAt": "2026-07-28T01:26:20.000Z",
+          "uid": "35240-b48cff57-d736-48c0-8fe7-3b9572ce39fd"
+        }
+      ],
+      "id": "3caddb2f-b1f6-477f-8aae-b2205d4f804e",
+      "createdAt": "2026-07-28T01:26:20.000Z",
+      "updatedAt": "2026-07-28T01:26:20.000Z",
+      "uid": "35240-3caddb2f-b1f6-477f-8aae-b2205d4f804e"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "deploymentName",
+      "value": "happy-otter-123"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1"
+    }
+  ]
+}

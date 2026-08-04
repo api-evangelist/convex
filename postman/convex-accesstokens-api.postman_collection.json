@@ -1,0 +1,243 @@
+{
+  "info": {
+    "_postman_id": "ce401eb9-23c3-45b9-b093-db5d739b90b7",
+    "name": "Convex Deployment Platform AccessTokens API",
+    "description": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:26:18.000Z",
+    "updatedAt": "2026-07-28T01:26:18.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ce401eb9-23c3-45b9-b093-db5d739b90b7"
+  },
+  "item": [
+    {
+      "name": "teams",
+      "item": [
+        {
+          "name": "{team_id}",
+          "item": [
+            {
+              "name": "create_access_token",
+              "item": [
+                {
+                  "name": "Create a team access token",
+                  "id": "a51b0c12-84ab-4d04-8130-f1700cd4e1e8",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"name\": \"<string>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/teams/:team_id/create_access_token",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "teams",
+                        ":team_id",
+                        "create_access_token"
+                      ],
+                      "variable": [
+                        {
+                          "id": "738cc4b6-d0f1-4456-b501-9742ddc53f13",
+                          "key": "team_id",
+                          "value": "<long>",
+                          "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                        }
+                      ]
+                    },
+                    "description": "Creates a new Team Access Token for the specified team. Team Access Tokens are used to authenticate Management API requests and grant access to all projects and deployments within the team. The token value is only returned at creation time and should be stored securely."
+                  },
+                  "response": [
+                    {
+                      "id": "71b30c1f-4fcd-4def-9745-27947789d6e0",
+                      "name": "Access token created successfully",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/teams/:team_id/create_access_token",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "teams",
+                            ":team_id",
+                            "create_access_token"
+                          ],
+                          "variable": [
+                            {
+                              "key": "team_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"name\": \"<string>\",\n  \"token\": \"<string>\",\n  \"created_at\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-07-28T01:26:19.000Z",
+                      "updatedAt": "2026-07-28T01:26:19.000Z",
+                      "uid": "35240-71b30c1f-4fcd-4def-9745-27947789d6e0"
+                    },
+                    {
+                      "id": "16511da3-9f72-41a6-8e2f-565565837d90",
+                      "name": "Unauthorized \u2014 missing or invalid token",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"name\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/teams/:team_id/create_access_token",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "teams",
+                            ":team_id",
+                            "create_access_token"
+                          ],
+                          "variable": [
+                            {
+                              "key": "team_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:26:19.000Z",
+                      "updatedAt": "2026-07-28T01:26:19.000Z",
+                      "uid": "35240-16511da3-9f72-41a6-8e2f-565565837d90"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:26:19.000Z",
+                  "updatedAt": "2026-07-28T01:26:19.000Z",
+                  "uid": "35240-a51b0c12-84ab-4d04-8130-f1700cd4e1e8"
+                }
+              ],
+              "id": "4cedeb32-0a36-43bf-af1f-bedb29c2af54",
+              "createdAt": "2026-07-28T01:26:19.000Z",
+              "updatedAt": "2026-07-28T01:26:19.000Z",
+              "uid": "35240-4cedeb32-0a36-43bf-af1f-bedb29c2af54"
+            }
+          ],
+          "id": "b7905737-57e3-4154-9447-200bbeaaf6c4",
+          "createdAt": "2026-07-28T01:26:19.000Z",
+          "updatedAt": "2026-07-28T01:26:19.000Z",
+          "uid": "35240-b7905737-57e3-4154-9447-200bbeaaf6c4"
+        }
+      ],
+      "id": "735ec3d5-a4e1-4eeb-b0a3-acb62034a94d",
+      "createdAt": "2026-07-28T01:26:19.000Z",
+      "updatedAt": "2026-07-28T01:26:19.000Z",
+      "uid": "35240-735ec3d5-a4e1-4eeb-b0a3-acb62034a94d"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "deploymentName",
+      "value": "happy-otter-123"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1"
+    }
+  ]
+}

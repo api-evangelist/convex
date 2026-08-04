@@ -1,0 +1,418 @@
+{
+  "info": {
+    "_postman_id": "69dbbf57-3803-4219-b27a-3fed76bc7130",
+    "name": "Convex Deployment Platform AccessTokens DeployKeys API",
+    "description": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:26:21.000Z",
+    "updatedAt": "2026-07-28T01:26:21.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-69dbbf57-3803-4219-b27a-3fed76bc7130"
+  },
+  "item": [
+    {
+      "name": "projects",
+      "item": [
+        {
+          "name": "{project_id}",
+          "item": [
+            {
+              "name": "deployments",
+              "item": [
+                {
+                  "name": "create_deploy_key",
+                  "item": [
+                    {
+                      "name": "Create a deploy key",
+                      "id": "571638bb-7894-479d-91f6-e29b7123f845",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"deployment_name\": \"<string>\",\n  \"key_name\": \"<string>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/projects/:project_id/deployments/create_deploy_key",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "projects",
+                            ":project_id",
+                            "deployments",
+                            "create_deploy_key"
+                          ],
+                          "variable": [
+                            {
+                              "id": "d17c8481-dfa0-49c5-bda4-0e3609e11b8d",
+                              "key": "project_id",
+                              "value": "<long>",
+                              "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                            }
+                          ]
+                        },
+                        "description": "Creates a new deploy key for a project, scoped to a specific deployment. Deploy keys are used by the Convex CLI and CI/CD pipelines to push function code to deployments. Keys can be standard or preview keys for Vercel-style preview deployments."
+                      },
+                      "response": [
+                        {
+                          "id": "1b38bc58-9fe9-4322-9ef2-04c62840bcc9",
+                          "name": "Deploy key created successfully",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"deployment_name\": \"<string>\",\n  \"key_name\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/projects/:project_id/deployments/create_deploy_key",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "projects",
+                                ":project_id",
+                                "deployments",
+                                "create_deploy_key"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "project_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"name\": \"<string>\",\n  \"deployment_name\": \"<string>\",\n  \"key\": \"<string>\",\n  \"created_at\": \"<dateTime>\"\n}",
+                          "createdAt": "2026-07-28T01:26:21.000Z",
+                          "updatedAt": "2026-07-28T01:26:21.000Z",
+                          "uid": "35240-1b38bc58-9fe9-4322-9ef2-04c62840bcc9"
+                        },
+                        {
+                          "id": "2e04987c-b723-42da-a706-dca09b9a6df4",
+                          "name": "Unauthorized \u2014 missing or invalid token",
+                          "originalRequest": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"deployment_name\": \"<string>\",\n  \"key_name\": \"<string>\"\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/projects/:project_id/deployments/create_deploy_key",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "projects",
+                                ":project_id",
+                                "deployments",
+                                "create_deploy_key"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "project_id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-07-28T01:26:21.000Z",
+                          "updatedAt": "2026-07-28T01:26:21.000Z",
+                          "uid": "35240-2e04987c-b723-42da-a706-dca09b9a6df4"
+                        }
+                      ],
+                      "createdAt": "2026-07-28T01:26:21.000Z",
+                      "updatedAt": "2026-07-28T01:26:21.000Z",
+                      "uid": "35240-571638bb-7894-479d-91f6-e29b7123f845"
+                    }
+                  ],
+                  "id": "e7022c1f-eb46-4c91-8011-3ae7531eac0e",
+                  "createdAt": "2026-07-28T01:26:21.000Z",
+                  "updatedAt": "2026-07-28T01:26:21.000Z",
+                  "uid": "35240-e7022c1f-eb46-4c91-8011-3ae7531eac0e"
+                }
+              ],
+              "id": "a099d0a7-be7b-458b-a26e-68ea68649c27",
+              "createdAt": "2026-07-28T01:26:21.000Z",
+              "updatedAt": "2026-07-28T01:26:21.000Z",
+              "uid": "35240-a099d0a7-be7b-458b-a26e-68ea68649c27"
+            },
+            {
+              "name": "deployment",
+              "item": [
+                {
+                  "name": "deploy_key",
+                  "item": [
+                    {
+                      "name": "list",
+                      "item": [
+                        {
+                          "name": "List deploy keys for a project",
+                          "id": "ccfe54a0-15a5-472d-9028-e31a3df6b22a",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/projects/:project_id/deployment/deploy_key/list",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "projects",
+                                ":project_id",
+                                "deployment",
+                                "deploy_key",
+                                "list"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "55068f78-6314-4d68-9857-65e3d563f82d",
+                                  "key": "project_id",
+                                  "value": "<long>",
+                                  "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                                }
+                              ]
+                            },
+                            "description": "Returns all deploy keys associated with a Convex project. Includes key names, creation dates, and the deployment each key is scoped to. Key values are not returned after initial creation."
+                          },
+                          "response": [
+                            {
+                              "id": "b3547291-c7ed-46bc-bb7f-bf3c6feb4288",
+                              "name": "Deploy keys listed successfully",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/projects/:project_id/deployment/deploy_key/list",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "projects",
+                                    ":project_id",
+                                    "deployment",
+                                    "deploy_key",
+                                    "list"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "project_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "[\n  {\n    \"name\": \"<string>\",\n    \"deployment_name\": \"<string>\",\n    \"key\": \"<string>\",\n    \"created_at\": \"<dateTime>\"\n  },\n  {\n    \"name\": \"<string>\",\n    \"deployment_name\": \"<string>\",\n    \"key\": \"<string>\",\n    \"created_at\": \"<dateTime>\"\n  }\n]",
+                              "createdAt": "2026-07-28T01:26:21.000Z",
+                              "updatedAt": "2026-07-28T01:26:21.000Z",
+                              "uid": "35240-b3547291-c7ed-46bc-bb7f-bf3c6feb4288"
+                            },
+                            {
+                              "id": "6e4fd127-4f71-4d6c-a68c-39ad4ae2454e",
+                              "name": "Unauthorized \u2014 missing or invalid token",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/projects/:project_id/deployment/deploy_key/list",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "projects",
+                                    ":project_id",
+                                    "deployment",
+                                    "deploy_key",
+                                    "list"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "project_id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "text",
+                              "header": [],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": null,
+                              "createdAt": "2026-07-28T01:26:21.000Z",
+                              "updatedAt": "2026-07-28T01:26:21.000Z",
+                              "uid": "35240-6e4fd127-4f71-4d6c-a68c-39ad4ae2454e"
+                            }
+                          ],
+                          "createdAt": "2026-07-28T01:26:21.000Z",
+                          "updatedAt": "2026-07-28T01:26:21.000Z",
+                          "uid": "35240-ccfe54a0-15a5-472d-9028-e31a3df6b22a"
+                        }
+                      ],
+                      "id": "2441a263-4576-42db-a0ce-d88d01a39d82",
+                      "createdAt": "2026-07-28T01:26:21.000Z",
+                      "updatedAt": "2026-07-28T01:26:21.000Z",
+                      "uid": "35240-2441a263-4576-42db-a0ce-d88d01a39d82"
+                    }
+                  ],
+                  "id": "69d911f0-916e-4a0a-9eb0-737c36935de9",
+                  "createdAt": "2026-07-28T01:26:21.000Z",
+                  "updatedAt": "2026-07-28T01:26:21.000Z",
+                  "uid": "35240-69d911f0-916e-4a0a-9eb0-737c36935de9"
+                }
+              ],
+              "id": "93b30958-543d-4038-b155-7938ed2f35c4",
+              "createdAt": "2026-07-28T01:26:21.000Z",
+              "updatedAt": "2026-07-28T01:26:21.000Z",
+              "uid": "35240-93b30958-543d-4038-b155-7938ed2f35c4"
+            }
+          ],
+          "id": "365b6314-0c46-4755-bbe5-358249e05f4a",
+          "createdAt": "2026-07-28T01:26:21.000Z",
+          "updatedAt": "2026-07-28T01:26:21.000Z",
+          "uid": "35240-365b6314-0c46-4755-bbe5-358249e05f4a"
+        }
+      ],
+      "id": "7986e8d0-3ecc-43eb-9095-ec9cf6e78b29",
+      "createdAt": "2026-07-28T01:26:21.000Z",
+      "updatedAt": "2026-07-28T01:26:21.000Z",
+      "uid": "35240-7986e8d0-3ecc-43eb-9095-ec9cf6e78b29"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "deploymentName",
+      "value": "happy-otter-123"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1"
+    }
+  ]
+}

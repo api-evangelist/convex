@@ -1,0 +1,201 @@
+{
+  "info": {
+    "_postman_id": "fe092b83-c11a-4c2e-91bc-7ed6029b1371",
+    "name": "Convex Deployment Platform AccessTokens Teams API",
+    "description": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-07-28T01:26:28.000Z",
+    "updatedAt": "2026-07-28T01:26:28.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-fe092b83-c11a-4c2e-91bc-7ed6029b1371"
+  },
+  "item": [
+    {
+      "name": "teams",
+      "item": [
+        {
+          "name": "{team_id}",
+          "item": [
+            {
+              "name": "members",
+              "item": [
+                {
+                  "name": "List team members",
+                  "id": "0f984162-5a20-496a-9747-6bbdd0169858",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/teams/:team_id/members",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "teams",
+                        ":team_id",
+                        "members"
+                      ],
+                      "variable": [
+                        {
+                          "id": "bd057b57-7222-4313-9138-448085a53caa",
+                          "key": "team_id",
+                          "value": "<long>",
+                          "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                        }
+                      ]
+                    },
+                    "description": "Returns all members of the specified team along with their roles. Roles include admin (full management access) and developer (standard access). Useful for auditing team membership and access levels."
+                  },
+                  "response": [
+                    {
+                      "id": "388ccb81-e8bc-46cc-8737-ddb0af7504e9",
+                      "name": "Team members listed successfully",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/teams/:team_id/members",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "teams",
+                            ":team_id",
+                            "members"
+                          ],
+                          "variable": [
+                            {
+                              "key": "team_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "[\n  {\n    \"id\": \"<long>\",\n    \"role\": \"developer\",\n    \"email\": \"<email>\"\n  },\n  {\n    \"id\": \"<long>\",\n    \"role\": \"developer\",\n    \"email\": \"<email>\"\n  }\n]",
+                      "createdAt": "2026-07-28T01:26:28.000Z",
+                      "updatedAt": "2026-07-28T01:26:28.000Z",
+                      "uid": "35240-388ccb81-e8bc-46cc-8737-ddb0af7504e9"
+                    },
+                    {
+                      "id": "80164f72-863b-41c5-8378-f6c214d4e1c2",
+                      "name": "Unauthorized \u2014 missing or invalid token",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/teams/:team_id/members",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "teams",
+                            ":team_id",
+                            "members"
+                          ],
+                          "variable": [
+                            {
+                              "key": "team_id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "text",
+                      "header": [],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": null,
+                      "createdAt": "2026-07-28T01:26:28.000Z",
+                      "updatedAt": "2026-07-28T01:26:28.000Z",
+                      "uid": "35240-80164f72-863b-41c5-8378-f6c214d4e1c2"
+                    }
+                  ],
+                  "createdAt": "2026-07-28T01:26:28.000Z",
+                  "updatedAt": "2026-07-28T01:26:28.000Z",
+                  "uid": "35240-0f984162-5a20-496a-9747-6bbdd0169858"
+                }
+              ],
+              "id": "713735c9-00ba-4f82-ab32-b197487fdfe7",
+              "createdAt": "2026-07-28T01:26:28.000Z",
+              "updatedAt": "2026-07-28T01:26:28.000Z",
+              "uid": "35240-713735c9-00ba-4f82-ab32-b197487fdfe7"
+            }
+          ],
+          "id": "303c26b6-dd0d-45fc-be8e-c39bdbcfaab4",
+          "createdAt": "2026-07-28T01:26:28.000Z",
+          "updatedAt": "2026-07-28T01:26:28.000Z",
+          "uid": "35240-303c26b6-dd0d-45fc-be8e-c39bdbcfaab4"
+        }
+      ],
+      "id": "2697a82d-7794-4778-ada2-548701d0d746",
+      "createdAt": "2026-07-28T01:26:28.000Z",
+      "updatedAt": "2026-07-28T01:26:28.000Z",
+      "uid": "35240-2697a82d-7794-4778-ada2-548701d0d746"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "deploymentName",
+      "value": "happy-otter-123"
+    },
+    {
+      "key": "baseUrl",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1"
+    }
+  ]
+}

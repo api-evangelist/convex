@@ -1,0 +1,34 @@
+{
+  "provider": "convex",
+  "sources": [
+    "convex-accesstokens-api-openapi.yml",
+    "convex-actions-api-openapi.yml",
+    "convex-customdomains-api-openapi.yml",
+    "convex-deploykeys-api-openapi.yml",
+    "convex-deployments-api-openapi.yml",
+    "convex-environmentvariables-api-openapi.yml",
+    "convex-functions-api-openapi.yml",
+    "convex-mutations-api-openapi.yml",
+    "convex-projects-api-openapi.yml",
+    "convex-queries-api-openapi.yml",
+    "convex-teams-api-openapi.yml"
+  ],
+  "outputs": [
+    "convex-accesstokens-api-openapi.yml",
+    "convex-actions-api-openapi.yml",
+    "convex-customdomains-api-openapi.yml",
+    "convex-deploykeys-api-openapi.yml",
+    "convex-deployments-api-openapi.yml",
+    "convex-environmentvariables-api-openapi.yml",
+    "convex-functions-api-openapi.yml",
+    "convex-mutations-api-openapi.yml",
+    "convex-projects-api-openapi.yml",
+    "convex-queries-api-openapi.yml",
+    "convex-teams-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
