@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Convex Deployment Platform AccessTokens API",
+    "version": "v1-beta"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "AccessTokens",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a team access token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/teams/:team_id/create_access_token",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new Team Access Token for the specified team. Team Access Tokens are used to authenticate Management API requests and grant access to all projects and deployments within the team. The token value is only returned at creation time and should be stored securely."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

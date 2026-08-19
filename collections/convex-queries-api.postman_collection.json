@@ -1,0 +1,350 @@
+{
+  "item": [
+    {
+      "id": "6d0e0756-b22a-40c6-a886-546af3accac8",
+      "name": "Queries",
+      "description": {
+        "content": "Execute read-only query functions deployed on the Convex backend. Queries run in a transactional, reactive context and return data from the Convex database.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "77fd10f5-a61f-4ffe-b309-06852b614163",
+          "name": "Execute a query function",
+          "request": {
+            "name": "Execute a query function",
+            "description": {
+              "content": "Executes a read-only query function deployed on the Convex backend. The function is identified by its module path and export name (e.g. \"myModule:myQuery\"). Named arguments are passed as a JSON object. Returns the function's return value and any console log output produced during execution.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "query"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                  "type": "any",
+                  "value": "{{deploymentName}}",
+                  "key": "deploymentName"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"<string>\",\n  \"args\": {\n    \"key_0\": 5971.283111296949,\n    \"key_1\": 6324\n  },\n  \"format\": \"json\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "7942125b-9586-4855-9f33-cb799480963d",
+              "name": "Function executed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"messages:list\",\n  \"args\": {\n    \"key_0\": false\n  },\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"success\",\n  \"value\": {},\n  \"logLines\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "81fbb66d-fa33-4077-bf81-f667a411e850",
+              "name": "Bad request — invalid function path or argument format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"messages:list\",\n  \"args\": {\n    \"key_0\": false\n  },\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"string\",\n  \"logLines\": [\n    \"string\",\n    \"string\"\n  ],\n  \"errorData\": {\n    \"key_0\": 12\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e4a2e783-a549-4f28-b5f4-2584dada72a5",
+              "name": "Unauthorized — missing or invalid authorization token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"messages:list\",\n  \"args\": {\n    \"key_0\": false\n  },\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"string\",\n  \"logLines\": [\n    \"string\",\n    \"string\"\n  ],\n  \"errorData\": {\n    \"key_0\": 12\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3aa2161a-bfcf-4b86-9312-d61456d21f02",
+              "name": "Function not found at the given path",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "query"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"path\": \"messages:list\",\n  \"args\": {\n    \"key_0\": false\n  },\n  \"format\": \"json\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"error\",\n  \"errorMessage\": \"string\",\n  \"logLines\": [\n    \"string\",\n    \"string\"\n  ],\n  \"errorData\": {\n    \"key_0\": 12\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "happy-otter-123",
+      "key": "deploymentName"
+    },
+    {
+      "type": "string",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "23ad59c8-b762-458c-ba7f-2fcdd1341cb0",
+    "name": "Convex Deployment Platform AccessTokens Queries API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,125 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Convex Deployment Platform AccessTokens Deployments API",
+    "version": "v1-beta"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Deployments",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a cloud deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/projects/:project_id/deployments/create_cloud",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new cloud deployment within a project in the specified region and deployment class. Cloud deployments run on Convex-managed infrastructure and are accessible via a public URL. Supports dev, prod, preview, and custom deployment types."
+        },
+        {
+          "info": {
+            "name": "List deployments in a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/projects/:project_id/deployments/list",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+              }
+            ]
+          },
+          "docs": "Returns all deployments associated with a Convex project. Each deployment entry includes its ID, name, deployment URL, type (dev, prod, preview, custom), status, region, and class."
+        },
+        {
+          "info": {
+            "name": "Get a deployment by name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/deployments/:deployment_name",
+            "params": [
+              {
+                "name": "deployment_name",
+                "value": "",
+                "type": "path",
+                "description": "The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+              }
+            ]
+          },
+          "docs": "Retrieves details for a specific deployment identified by its name (e.g. \"happy-otter-123\"). Returns the deployment URL, type, status, region, class, and associated project information."
+        },
+        {
+          "info": {
+            "name": "Delete a deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/deployments/:deployment_name/delete",
+            "params": [
+              {
+                "name": "deployment_name",
+                "value": "",
+                "type": "path",
+                "description": "The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a Convex deployment. All deployed functions, database data, and file storage associated with the deployment are permanently removed. This operation is irreversible."
+        },
+        {
+          "info": {
+            "name": "Get default production deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/projects/:project_id/deployment/default_prod",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+              }
+            ]
+          },
+          "docs": "Retrieves the default production deployment for a project. Most projects have a single production deployment designated as the default. Returns full deployment details including URL, region, class, and status."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

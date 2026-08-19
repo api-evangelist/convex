@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Convex Deployment Platform AccessTokens Functions API",
+    "version": "v1-beta"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Functions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute any function by identifier",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/api/run/:functionIdentifier",
+            "params": [
+              {
+                "name": "functionIdentifier",
+                "value": "",
+                "type": "path",
+                "description": "The fully-qualified function identifier in the format \"module:exportName\" (e.g. \"messages:list\", \"users:createUser\"). The module name corresponds to the file path within the convex/ directory, and the export name corresponds to the exported function name."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes any deployed Convex function — query, mutation, or action — identified by the function path in the URL. The function identifier follows the format \"module:exportName\" (e.g. \"messages:list\" or \"users:createUser\"). Named arguments are passed as a JSON object in the request body. This unified endpoint automatically dispatches to the appropriate function type. Returns the function's return value and any console log output produced during execution."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

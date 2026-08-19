@@ -1,0 +1,131 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Convex Deployment Platform AccessTokens Projects API",
+    "version": "v1-beta"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Projects",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a new project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/teams/:team_id/create_project",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Provisions a new Convex project within the specified team. Optionally creates an initial production deployment in the specified cloud region and deployment class. Returns the new project's ID and slug along with details of any provisioned deployment."
+        },
+        {
+          "info": {
+            "name": "List projects in a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/teams/:team_id/list_projects",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+              }
+            ]
+          },
+          "docs": "Returns all Convex projects belonging to the specified team. Each project entry includes its ID, slug, name, and associated deployment information. Useful for enumerating resources available to the authenticated token holder."
+        },
+        {
+          "info": {
+            "name": "Get a project by ID",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/projects/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+              }
+            ]
+          },
+          "docs": "Retrieves details for a specific Convex project identified by its integer project ID. Returns the project's name, slug, team association, and deployment summary."
+        },
+        {
+          "info": {
+            "name": "Get a project by team and project slug",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/teams/:team_id_or_slug/projects/:project_slug",
+            "params": [
+              {
+                "name": "team_id_or_slug",
+                "value": "",
+                "type": "path",
+                "description": "Either the integer team ID or the human-readable team slug."
+              },
+              {
+                "name": "project_slug",
+                "value": "",
+                "type": "path",
+                "description": "The human-readable slug of the project within the team."
+              }
+            ]
+          },
+          "docs": "Retrieves a project by its human-readable slug within a team identified by either team ID or team slug. This is useful when project identifiers are stored as slugs rather than integer IDs."
+        },
+        {
+          "info": {
+            "name": "Delete a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/projects/:project_id/delete",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+              }
+            ]
+          },
+          "docs": "Permanently deletes a Convex project and all associated deployments. This operation is irreversible. All deployments within the project are also deleted, and all associated resources (functions, data, files) are permanently removed."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,223 @@
+{
+  "item": [
+    {
+      "id": "9bb9b2be-9f55-4cac-b4b1-781d33210261",
+      "name": "Teams",
+      "description": {
+        "content": "Manage Convex teams, team members, and team-level access tokens. Teams are the billing and administrative unit that owns projects.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "3384b82e-2f97-4a07-9ff8-43daad30c10a",
+          "name": "List team members",
+          "request": {
+            "name": "List team members",
+            "description": {
+              "content": "Returns all members of the specified team along with their roles. Roles include admin (full management access) and developer (standard access). Useful for auditing team membership and access levels.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "teams",
+                ":team_id",
+                "members"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "team_id",
+                  "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                },
+                {
+                  "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                  "type": "any",
+                  "value": "{{deploymentName}}",
+                  "key": "deploymentName"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8369e0de-fe11-4aa3-908b-2b6b2920fcc9",
+              "name": "Team members listed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    },
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 7165,\n    \"role\": \"developer\",\n    \"email\": \"qdIOn9lBM7@cMDAt.bt\"\n  },\n  {\n    \"id\": 9805,\n    \"role\": \"admin\",\n    \"email\": \"lZVRxTVfB7hsl@hagDXzYajOu.nu\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fda2b8b1-cd83-4d2a-aa4e-af448ce96f9b",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams",
+                    ":team_id",
+                    "members"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "team_id",
+                      "description": "(Required) The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+                    },
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "happy-otter-123",
+      "key": "deploymentName"
+    },
+    {
+      "type": "string",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "eee055f1-63f8-4669-89f1-42f8b7ad94bd",
+    "name": "Convex Deployment Platform AccessTokens Teams API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+      "type": "text/plain"
+    }
+  }
+}

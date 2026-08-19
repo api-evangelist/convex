@@ -1,0 +1,426 @@
+{
+  "item": [
+    {
+      "id": "03d98569-b656-4c6e-8378-af1238804f4c",
+      "name": "DeployKeys",
+      "description": {
+        "content": "Create and manage deploy keys for CLI operations and CI/CD pipelines. Deploy keys authenticate the Convex CLI when pushing function code to a deployment.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "2492ee79-4701-4e32-9501-7263dc0f050a",
+          "name": "Create a deploy key",
+          "request": {
+            "name": "Create a deploy key",
+            "description": {
+              "content": "Creates a new deploy key for a project, scoped to a specific deployment. Deploy keys are used by the Convex CLI and CI/CD pipelines to push function code to deployments. Keys can be standard or preview keys for Vercel-style preview deployments.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "deployments",
+                "create_deploy_key"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "project_id",
+                  "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                },
+                {
+                  "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                  "type": "any",
+                  "value": "{{deploymentName}}",
+                  "key": "deploymentName"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"deployment_name\": \"<string>\",\n  \"key_name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "53edf0c8-54d9-4b0a-a9ac-597ac109bbf9",
+              "name": "Deploy key created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployments",
+                    "create_deploy_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    },
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment_name\": \"<string>\",\n  \"key_name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"name\": \"string\",\n  \"deployment_name\": \"string\",\n  \"key\": \"string\",\n  \"created_at\": \"2002-08-09T23:08:34.840Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e63077ba-712b-42df-acb4-2b2c67175982",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployments",
+                    "create_deploy_key"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    },
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"deployment_name\": \"<string>\",\n  \"key_name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "503c75c9-0adf-4165-8190-e5bff3cc8b10",
+          "name": "List deploy keys for a project",
+          "request": {
+            "name": "List deploy keys for a project",
+            "description": {
+              "content": "Returns all deploy keys associated with a Convex project. Includes key names, creation dates, and the deployment each key is scoped to. Key values are not returned after initial creation.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "projects",
+                ":project_id",
+                "deployment",
+                "deploy_key",
+                "list"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "project_id",
+                  "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                },
+                {
+                  "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                  "type": "any",
+                  "value": "{{deploymentName}}",
+                  "key": "deploymentName"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "1b1e57bb-d8eb-459d-80a2-69023d62007d",
+              "name": "Deploy keys listed successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployment",
+                    "deploy_key",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    },
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"string\",\n    \"deployment_name\": \"string\",\n    \"key\": \"string\",\n    \"created_at\": \"1960-10-18T23:03:36.913Z\"\n  },\n  {\n    \"name\": \"string\",\n    \"deployment_name\": \"string\",\n    \"key\": \"string\",\n    \"created_at\": \"1963-03-19T02:36:31.083Z\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc9c7ed7-7aa7-467c-8239-d907d82621e5",
+              "name": "Unauthorized — missing or invalid token",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "projects",
+                    ":project_id",
+                    "deployment",
+                    "deploy_key",
+                    "list"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "project_id",
+                      "description": "(Required) The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+                    },
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "happy-otter-123",
+      "key": "deploymentName"
+    },
+    {
+      "type": "string",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "093c38f6-4620-4f39-8c5a-aae93114e21a",
+    "name": "Convex Deployment Platform AccessTokens DeployKeys API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+      "type": "text/plain"
+    }
+  }
+}

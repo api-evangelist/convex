@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Convex Deployment Platform AccessTokens Actions API",
+    "version": "v1-beta"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Actions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute an action function",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/api/action",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Executes an action function for general-purpose server-side operations. Actions can call external services, interact with the database through queries and mutations, and perform non-transactional work. The function is identified by its module path and export name. Named arguments are passed as a JSON object. Returns the function's return value and any console log output."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

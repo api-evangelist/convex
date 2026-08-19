@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Convex Deployment Platform AccessTokens Teams API",
+    "version": "v1-beta"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Teams",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List team members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/teams/:team_id/members",
+            "params": [
+              {
+                "name": "team_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens."
+              }
+            ]
+          },
+          "docs": "Returns all members of the specified team along with their roles. Roles include admin (full management access) and developer (standard access). Useful for auditing team membership and access levels."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

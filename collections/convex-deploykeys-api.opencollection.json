@@ -1,0 +1,68 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Convex Deployment Platform AccessTokens DeployKeys API",
+    "version": "v1-beta"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "DeployKeys",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a deploy key",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/projects/:project_id/deployments/create_deploy_key",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new deploy key for a project, scoped to a specific deployment. Deploy keys are used by the Convex CLI and CI/CD pipelines to push function code to deployments. Keys can be standard or preview keys for Vercel-style preview deployments."
+        },
+        {
+          "info": {
+            "name": "List deploy keys for a project",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/projects/:project_id/deployment/deploy_key/list",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation."
+              }
+            ]
+          },
+          "docs": "Returns all deploy keys associated with a Convex project. Includes key names, creation dates, and the deployment each key is scoped to. Key values are not returned after initial creation."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,776 @@
+{
+  "item": [
+    {
+      "id": "ec7c6548-b0a4-4729-bff1-a1dea80dabfb",
+      "name": "EnvironmentVariables",
+      "description": {
+        "content": "Manage environment variables for a Convex deployment. Environment variables are key-value pairs accessible to backend functions at runtime via process.env. Changes to environment variables take effect after the next deployment push.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "fa2efccc-4a86-4d3b-825b-eb6ee3a2a912",
+          "name": "List environment variables",
+          "request": {
+            "name": "List environment variables",
+            "description": {
+              "content": "Retrieves all environment variables configured for the deployment. Returns an array of key-value pairs representing the current environment variable configuration. Sensitive values are returned in full and should be handled securely. Authentication requires a deployment key, Team Access Token, or OAuth Application Token formatted as \"Convex {token}\" in the Authorization header.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "list_environment_variables"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                  "type": "any",
+                  "value": "{{deploymentName}}",
+                  "key": "deploymentName"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5c7a17fc-ee5c-4a94-b0d6-3b6a060c5daa",
+              "name": "Environment variables retrieved successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "list_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"name\": \"DATABASE_URL\",\n    \"value\": \"https://db.example.com/mydb\"\n  },\n  {\n    \"name\": \"DATABASE_URL\",\n    \"value\": \"https://db.example.com/mydb\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2194986a-114c-4abc-af26-944de1f8f79a",
+              "name": "Unauthorized — missing or invalid Authorization header. Ensure the token is prefixed with \"Convex \" (e.g. \"Authorization: Convex <token>\").",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "list_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a956cb77-16a7-42d2-a78a-3219450d5dcc",
+              "name": "Forbidden — the provided token does not have administrative access to this deployment.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "list_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7319bb59-992c-428a-ab48-dfe53bc558f9",
+          "name": "Update environment variables",
+          "request": {
+            "name": "Update environment variables",
+            "description": {
+              "content": "Creates or updates one or more environment variables for the deployment. Existing variables with matching keys are overwritten. Variables not included in the request are left unchanged. Changes take effect after the next deployment push. Authentication requires a deployment key, Team Access Token, or OAuth Application Token formatted as \"Convex {token}\" in the Authorization header.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "update_environment_variables"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                  "type": "any",
+                  "value": "{{deploymentName}}",
+                  "key": "deploymentName"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"changes\": [\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<string>\"\n    },\n    {\n      \"name\": \"<string>\",\n      \"value\": \"<string>\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a5adaefe-0ca5-427e-9d71-e6c6c3dced68",
+              "name": "Environment variables updated successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "update_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"changes\": [\n    {\n      \"name\": \"DATABASE_URL\",\n      \"value\": \"https://db.example.com/mydb\"\n    },\n    {\n      \"name\": \"DATABASE_URL\",\n      \"value\": \"https://db.example.com/mydb\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4eade2c4-7f19-448c-8a83-75334f0f508a",
+              "name": "Bad request — invalid variable name or value format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "update_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"changes\": [\n    {\n      \"name\": \"DATABASE_URL\",\n      \"value\": \"https://db.example.com/mydb\"\n    },\n    {\n      \"name\": \"DATABASE_URL\",\n      \"value\": \"https://db.example.com/mydb\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "0e8582c7-2619-42a1-83b6-47ada5ac0d50",
+              "name": "Unauthorized — missing or invalid Authorization header. Ensure the token is prefixed with \"Convex \".",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "update_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"changes\": [\n    {\n      \"name\": \"DATABASE_URL\",\n      \"value\": \"https://db.example.com/mydb\"\n    },\n    {\n      \"name\": \"DATABASE_URL\",\n      \"value\": \"https://db.example.com/mydb\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "44654fa3-ae97-40db-a6c3-dd5c37fc7b41",
+              "name": "Forbidden — the provided token does not have administrative access to this deployment.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "update_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"changes\": [\n    {\n      \"name\": \"DATABASE_URL\",\n      \"value\": \"https://db.example.com/mydb\"\n    },\n    {\n      \"name\": \"DATABASE_URL\",\n      \"value\": \"https://db.example.com/mydb\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e1ad98d6-c883-43af-bac7-44644f1c026d",
+          "name": "Delete environment variables",
+          "request": {
+            "name": "Delete environment variables",
+            "description": {
+              "content": "Removes one or more environment variables from the deployment by their key names. Deleted variables are no longer accessible to backend functions after the next deployment push. Authentication requires a deployment key, Team Access Token, or OAuth Application Token formatted as \"Convex {token}\" in the Authorization header.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "delete_environment_variables"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                  "type": "any",
+                  "value": "{{deploymentName}}",
+                  "key": "deploymentName"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "164cbbce-b4bc-494b-ac7d-5df499305332",
+              "name": "Environment variables deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delete_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c17f0346-6c1e-4e1d-9f84-b3e7f5c74f77",
+              "name": "Bad request — invalid variable name format",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delete_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "69a87969-8765-4186-81db-bad6751c439f",
+              "name": "Unauthorized — missing or invalid Authorization header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delete_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "8688051e-654f-4f1f-8076-f101efc2928a",
+              "name": "Forbidden — the provided token does not have administrative access to this deployment.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delete_environment_variables"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+                      "type": "any",
+                      "value": "{{deploymentName}}",
+                      "key": "deploymentName"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"names\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "happy-otter-123",
+      "key": "deploymentName"
+    },
+    {
+      "type": "string",
+      "value": "https://{{deploymentName}}.convex.cloud/api/v1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "07a5b077-b3da-4c12-9768-3218a29630f2",
+    "name": "Convex Deployment Platform AccessTokens EnvironmentVariables API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as \"Convex {token}\". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.\n\nContact Support:\n Name: Convex Platform Support\n Email: platforms@convex.dev",
+      "type": "text/plain"
+    }
+  }
+}

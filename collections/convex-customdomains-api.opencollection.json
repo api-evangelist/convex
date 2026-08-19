@@ -1,0 +1,91 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Convex Deployment Platform AccessTokens CustomDomains API",
+    "version": "v1-beta"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "CustomDomains",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a custom domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/deployments/:deployment_name/custom_domains/create",
+            "params": [
+              {
+                "name": "deployment_name",
+                "value": "",
+                "type": "path",
+                "description": "The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Associates a custom domain with a Convex deployment. Supports two request destination types: convexCloud for routing to the function API (queries, mutations, actions), and convexSite for routing to HTTP action endpoints. Domain verification and DNS configuration is handled separately."
+        },
+        {
+          "info": {
+            "name": "List custom domains for a deployment",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/deployments/:deployment_name/custom_domains/list",
+            "params": [
+              {
+                "name": "deployment_name",
+                "value": "",
+                "type": "path",
+                "description": "The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+              }
+            ]
+          },
+          "docs": "Returns all custom domains configured for a deployment. Each entry includes the domain name, request destination type, and verification status."
+        },
+        {
+          "info": {
+            "name": "Delete a custom domain",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{deploymentName}.convex.cloud/api/v1/deployments/:deployment_name/custom_domains/delete",
+            "params": [
+              {
+                "name": "deployment_name",
+                "value": "",
+                "type": "path",
+                "description": "The unique name of the deployment (e.g. \"happy-otter-123\"). This is the subdomain portion of the deployment URL at convex.cloud."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Removes a custom domain association from a Convex deployment. After deletion, traffic to the domain will no longer be routed to the deployment. DNS records should be removed separately."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
