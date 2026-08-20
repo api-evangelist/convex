@@ -144,6 +144,8 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
+  - Access Tokens
+  tags_raw:
   - AccessTokens
   properties:
   - type: OpenAPI
@@ -180,6 +182,8 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
+  - Custom Domains
+  tags_raw:
   - CustomDomains
   properties:
   - type: OpenAPI
@@ -198,6 +202,8 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
+  - Deploy Keys
+  tags_raw:
   - DeployKeys
   properties:
   - type: OpenAPI
@@ -216,6 +222,8 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
+  - Deployment
+  tags_raw:
   - Deployments
   properties:
   - type: OpenAPI
@@ -235,6 +243,8 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
+  - Environment Variables
+  tags_raw:
   - EnvironmentVariables
   properties:
   - type: OpenAPI
@@ -289,6 +299,8 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -307,6 +319,8 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
+  - Query
+  tags_raw:
   - Queries
   properties:
   - type: OpenAPI
@@ -325,6 +339,8 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
+  - Team
+  tags_raw:
   - Teams
   properties:
   - type: OpenAPI
