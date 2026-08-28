@@ -8,6 +8,19 @@ description: >-
   transactional mutations, and integrated file storage, all accessible through a suite of HTTP, management, and
   deployment APIs alongside JavaScript and server SDKs for full-stack application development. The platform is SOC 2
   Type II, HIPAA, and GDPR compliant.
+deliveryModel:
+  model: unknown
+  open_source: unknown
+  commercial: true
+  callable_host: true
+  label: Delivery model not determined — needs a product licence on record
+  confidence: low
+  source:
+  - openapi
+  - pricing
+  - repository-unlicensed
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
