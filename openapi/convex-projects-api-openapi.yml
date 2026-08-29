@@ -1,22 +1,19 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Convex Deployment Platform AccessTokens Projects API
-  description: The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as "Convex {token}". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.
-  version: v1-beta
+  title: Convex Management Projects API
+  description: 'The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically. It enables developers and platform integrations to create projects, manage deployments across cloud regions, configure custom domains, and handle team membership without using the Convex dashboard. The API supports two token types: Team Access Tokens (for managing your own team''s resources) and OAuth Application Tokens (for third-party integrations acting on behalf of users). A JavaScript client wrapper is available via the @convex-dev/platform npm package. The API is currently in Beta.'
+  version: v1
   contact:
     name: Convex Platform Support
     email: platforms@convex.dev
     url: https://www.convex.dev/community
   termsOfService: https://www.convex.dev/terms
 servers:
-- url: https://{deploymentName}.convex.cloud/api/v1
-  description: Convex Deployment Server
-  variables:
-    deploymentName:
-      default: happy-otter-123
-      description: The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.
+- url: https://api.convex.dev/v1
+  description: Convex Management API Production Server
 security:
-- convexAuth: []
+- teamToken: []
+- oauthTeamToken: []
 tags:
 - name: Projects
   description: Create, list, retrieve, and delete Convex projects within a team. Projects group deployments and serve as the top-level organizational unit for Convex applications.
@@ -126,13 +123,6 @@ paths:
           description: Project not found
 components:
   parameters:
-    teamIdOrSlug:
-      name: team_id_or_slug
-      in: path
-      required: true
-      description: Either the integer team ID or the human-readable team slug.
-      schema:
-        type: string
     projectId:
       name: project_id
       in: path
@@ -141,6 +131,13 @@ components:
       schema:
         type: integer
         format: int64
+    teamIdOrSlug:
+      name: team_id_or_slug
+      in: path
+      required: true
+      description: Either the integer team ID or the human-readable team slug.
+      schema:
+        type: string
     projectSlug:
       name: project_slug
       in: path
@@ -157,6 +154,28 @@ components:
         type: integer
         format: int64
   schemas:
+    Project:
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - team_id
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique integer identifier for the project.
+        slug:
+          type: string
+          description: Human-readable URL-safe identifier for the project within the team.
+        name:
+          type: string
+          description: Display name of the project.
+        team_id:
+          type: integer
+          format: int64
+          description: ID of the team that owns this project.
     CreateProjectRequest:
       type: object
       required:
@@ -182,34 +201,19 @@ components:
           - s16
           - s256
           - d1024
-    Project:
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      - team_id
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique integer identifier for the project.
-        slug:
-          type: string
-          description: Human-readable URL-safe identifier for the project within the team.
-        name:
-          type: string
-          description: Display name of the project.
-        team_id:
-          type: integer
-          format: int64
-          description: ID of the team that owns this project.
   securitySchemes:
-    convexAuth:
-      type: apiKey
-      in: header
-      name: Authorization
-      description: 'Authorization header using a deployment key, Team Access Token, or OAuth Application Token. The token must be prefixed with the string "Convex " (e.g. "Authorization: Convex prod:abc123..."). Deployment keys are created in the dashboard or via the Management API.'
+    teamToken:
+      type: http
+      scheme: bearer
+      description: Team Access Token created in the Convex dashboard team settings. Grants management access to all projects and deployments within the team.
+    oauthTeamToken:
+      type: http
+      scheme: bearer
+      description: OAuth Application Token issued by Convex for third-party integrations acting on behalf of a user's team. Obtained via the Convex OAuth flow.
+    oauthProjectToken:
+      type: http
+      scheme: bearer
+      description: OAuth Application Token scoped to a specific project, issued by Convex for third-party integrations.
 externalDocs:
-  description: Convex Deployment Platform API Documentation
-  url: https://docs.convex.dev/deployment-platform-api
+  description: Convex Management API Documentation
+  url: https://docs.convex.dev/management-api

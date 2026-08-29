@@ -1,22 +1,21 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Convex Deployment Platform AccessTokens Actions API
-  description: The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators and supports operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/. Authentication requires an Authorization header using deployment keys, Team Access Tokens, or OAuth Application Tokens formatted as "Convex {token}". This API is currently in Beta and is intended for platform integrations and infrastructure automation workflows.
-  version: v1-beta
+  title: Convex HTTP Actions API
+  description: The Convex HTTP API is a REST interface for executing backend functions deployed on a Convex backend. It provides endpoints for invoking query, mutation, and action functions using POST requests. Each deployment has its own base URL found in the Convex dashboard settings, typically in the format https://{deployment-name}.convex.cloud. Requests accept a function path and named argument object as JSON, and responses include the function return value along with execution log lines. User authentication is optional via a bearer token from an auth provider; admin operations require a deploy key using the Convex authorization scheme.
+  version: '1.0'
   contact:
-    name: Convex Platform Support
-    email: platforms@convex.dev
+    name: Convex Support
     url: https://www.convex.dev/community
   termsOfService: https://www.convex.dev/terms
 servers:
-- url: https://{deploymentName}.convex.cloud/api/v1
+- url: https://{deploymentName}.convex.cloud
   description: Convex Deployment Server
   variables:
     deploymentName:
       default: happy-otter-123
-      description: The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.
+      description: The deployment name from the Convex dashboard
 security:
-- convexAuth: []
+- bearerAuth: []
 tags:
 - name: Actions
   description: Execute action functions for general-purpose server-side operations, including calling external services, performing non-transactional work, and orchestrating other functions.
@@ -61,6 +60,46 @@ paths:
                 $ref: '#/components/schemas/FunctionErrorResponse'
 components:
   schemas:
+    FunctionSuccessResponse:
+      type: object
+      required:
+      - status
+      - value
+      - logLines
+      properties:
+        status:
+          type: string
+          description: Indicates the function executed without error.
+          enum:
+          - success
+        value:
+          description: The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.
+        logLines:
+          type: array
+          description: An array of strings representing console output (e.g. console.log) produced by the function during execution.
+          items:
+            type: string
+    FunctionRequest:
+      type: object
+      required:
+      - path
+      - args
+      properties:
+        path:
+          type: string
+          description: The fully-qualified function path in the format "module:functionName" (e.g. "messages:list"). The module name maps to the file path within the convex/ directory.
+          pattern: ^[a-zA-Z0-9_/]+:[a-zA-Z0-9_]+$
+          example: messages:list
+        args:
+          type: object
+          description: Named arguments to pass to the function as a JSON object. The keys and value types must match the function's declared parameter types.
+          additionalProperties: true
+        format:
+          type: string
+          description: Output format for the response value. Currently only "json" is supported and is also the default when omitted.
+          enum:
+          - json
+          default: json
     FunctionErrorResponse:
       type: object
       required:
@@ -85,52 +124,16 @@ components:
           description: An array of strings representing console output produced by the function prior to the error.
           items:
             type: string
-    FunctionRequest:
-      type: object
-      required:
-      - path
-      - args
-      properties:
-        path:
-          type: string
-          description: The fully-qualified function path in the format "module:functionName" (e.g. "messages:list"). The module name maps to the file path within the convex/ directory.
-          pattern: ^[a-zA-Z0-9_/]+:[a-zA-Z0-9_]+$
-          example: messages:list
-        args:
-          type: object
-          description: Named arguments to pass to the function as a JSON object. The keys and value types must match the function's declared parameter types.
-          additionalProperties: true
-        format:
-          type: string
-          description: Output format for the response value. Currently only "json" is supported and is also the default when omitted.
-          enum:
-          - json
-          default: json
-    FunctionSuccessResponse:
-      type: object
-      required:
-      - status
-      - value
-      - logLines
-      properties:
-        status:
-          type: string
-          description: Indicates the function executed without error.
-          enum:
-          - success
-        value:
-          description: The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.
-        logLines:
-          type: array
-          description: An array of strings representing console output (e.g. console.log) produced by the function during execution.
-          items:
-            type: string
   securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: Bearer token from the application's configured authentication provider (e.g. Auth0, Clerk). Used for user-level authorization of function calls.
     convexAuth:
       type: apiKey
       in: header
       name: Authorization
-      description: 'Authorization header using a deployment key, Team Access Token, or OAuth Application Token. The token must be prefixed with the string "Convex " (e.g. "Authorization: Convex prod:abc123..."). Deployment keys are created in the dashboard or via the Management API.'
+      description: Deploy key obtained from the Convex dashboard, formatted as "Convex {deployKey}". Required for admin-level operations and streaming endpoints.
 externalDocs:
-  description: Convex Deployment Platform API Documentation
-  url: https://docs.convex.dev/deployment-platform-api
+  description: Convex HTTP API Documentation
+  url: https://docs.convex.dev/http-api/

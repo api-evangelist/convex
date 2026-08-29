@@ -1,34 +1,43 @@
 {
   "provider": "convex",
   "sources": [
-    "convex-accesstokens-api-openapi.yml",
-    "convex-actions-api-openapi.yml",
-    "convex-customdomains-api-openapi.yml",
-    "convex-deploykeys-api-openapi.yml",
-    "convex-deployments-api-openapi.yml",
-    "convex-environmentvariables-api-openapi.yml",
-    "convex-functions-api-openapi.yml",
-    "convex-mutations-api-openapi.yml",
-    "convex-projects-api-openapi.yml",
-    "convex-queries-api-openapi.yml",
-    "convex-teams-api-openapi.yml"
+    "_original/convex-deployment-platform-api-openapi.yml",
+    "_original/convex-http-api-openapi.yml",
+    "_original/convex-management-api-openapi.yml"
   ],
   "outputs": [
-    "convex-accesstokens-api-openapi.yml",
+    "convex-environmentvariables-api-openapi.yml",
     "convex-actions-api-openapi.yml",
+    "convex-functions-api-openapi.yml",
+    "convex-mutations-api-openapi.yml",
+    "convex-queries-api-openapi.yml",
+    "convex-accesstokens-api-openapi.yml",
     "convex-customdomains-api-openapi.yml",
     "convex-deploykeys-api-openapi.yml",
     "convex-deployments-api-openapi.yml",
-    "convex-environmentvariables-api-openapi.yml",
-    "convex-functions-api-openapi.yml",
-    "convex-mutations-api-openapi.yml",
     "convex-projects-api-openapi.yml",
-    "convex-queries-api-openapi.yml",
     "convex-teams-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "convex-deployment-platform-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "convex-http-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "convex-management-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0"
+  ],
+  "skipped": [
+    "convex-accesstokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-actions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-customdomains-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-deploykeys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-deployments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-environmentvariables-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-functions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-mutations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-queries-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-teams-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
