@@ -157,7 +157,7 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
-  - Access Tokens
+  - AccessTokens
   tags_raw:
   - AccessTokens
   properties:
@@ -195,7 +195,7 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
-  - Custom Domains
+  - CustomDomains
   tags_raw:
   - CustomDomains
   properties:
@@ -215,7 +215,7 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
-  - Deploy Keys
+  - DeployKeys
   tags_raw:
   - DeployKeys
   properties:
@@ -256,7 +256,7 @@ apis:
   humanURL: https://docs.convex.dev/http-api/
   baseURL: https://{deployment-name}.convex.cloud
   tags:
-  - Environment Variables
+  - EnvironmentVariables
   tags_raw:
   - EnvironmentVariables
   properties:
