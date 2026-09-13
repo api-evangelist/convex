@@ -1,0 +1,27 @@
+generated: '2026-09-11'
+method: probed
+source: https://stack.convex.dev/convex-mcp-server
+status: published
+server:
+  name: convex
+  transport: http
+  url: https://mcp.convex.dev/mcp
+deployment:
+  mode: remote
+  endpoint: https://mcp.convex.dev/mcp
+  verified: probed
+  probe: live
+  checked: '2026-09-11'
+  source: ptr_only reconciliation 2026-09-11 (apis.yml pointed here, no manifest existed)
+tools_count: 4
+tools:
+- name: start_convex_app
+  description: ''
+- name: add_convex_to_existing_project
+  description: ''
+- name: get_convex_scaling_guidance
+  description: ''
+- name: get_runbook
+  description: ''
+tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
+authorship: provider
