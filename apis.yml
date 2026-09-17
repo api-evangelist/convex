@@ -150,26 +150,6 @@ apis:
   - Implementing AI workflows with vector search
   - Scheduling recurring background work with cron jobs
   - Building HTTP webhook handlers inside Convex deployments
-- aid: convex:convex-accesstokens-api
-  name: Convex AccessTokens API
-  description: >-
-    Create and manage Team Access Tokens used for authenticating Management API requests on behalf of
-    a team.
-  humanURL: https://docs.convex.dev/http-api/
-  baseURL: https://{deployment-name}.convex.cloud
-  tags:
-  - Access Tokens
-  tags_raw:
-  - AccessTokens
-  properties:
-  - type: OpenAPI
-    url: openapi/convex-accesstokens-api-openapi.yml
-  - type: Documentation
-    url: https://docs.convex.dev/http-api/
-  - type: Documentation
-    url: https://docs.convex.dev/management-api
-  - type: Documentation
-    url: https://docs.convex.dev/deployment-platform-api
 - aid: convex:convex-actions-api
   name: Convex Actions API
   description: >-
@@ -182,26 +162,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/convex-actions-api-openapi.yml
-  - type: Documentation
-    url: https://docs.convex.dev/http-api/
-  - type: Documentation
-    url: https://docs.convex.dev/management-api
-  - type: Documentation
-    url: https://docs.convex.dev/deployment-platform-api
-- aid: convex:convex-customdomains-api
-  name: Convex CustomDomains API
-  description: >-
-    Configure custom domain names for Convex deployments. Supports both convexCloud (function API) and
-    convexSite (HTTP actions) request destinations.
-  humanURL: https://docs.convex.dev/http-api/
-  baseURL: https://{deployment-name}.convex.cloud
-  tags:
-  - Custom Domains
-  tags_raw:
-  - CustomDomains
-  properties:
-  - type: OpenAPI
-    url: openapi/convex-customdomains-api-openapi.yml
   - type: Documentation
     url: https://docs.convex.dev/http-api/
   - type: Documentation
@@ -242,27 +202,6 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/convex-deployments-api-openapi.yml
-  - type: Documentation
-    url: https://docs.convex.dev/http-api/
-  - type: Documentation
-    url: https://docs.convex.dev/management-api
-  - type: Documentation
-    url: https://docs.convex.dev/deployment-platform-api
-- aid: convex:convex-environmentvariables-api
-  name: Convex EnvironmentVariables API
-  description: >-
-    Manage environment variables for a Convex deployment. Environment variables are key-value pairs accessible
-    to backend functions at runtime via process.env. Changes to environment variables take effect after
-    the next deployment push.
-  humanURL: https://docs.convex.dev/http-api/
-  baseURL: https://{deployment-name}.convex.cloud
-  tags:
-  - Environment Variables
-  tags_raw:
-  - EnvironmentVariables
-  properties:
-  - type: OpenAPI
-    url: openapi/convex-environmentvariables-api-openapi.yml
   - type: Documentation
     url: https://docs.convex.dev/http-api/
   - type: Documentation
@@ -359,6 +298,61 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/convex-teams-api-openapi.yml
+  - type: Documentation
+    url: https://docs.convex.dev/http-api/
+  - type: Documentation
+    url: https://docs.convex.dev/management-api
+  - type: Documentation
+    url: https://docs.convex.dev/deployment-platform-api
+- aid: convex:convex-access-tokens-api
+  name: Convex Access Tokens API
+  description: >-
+    Create and manage Team Access Tokens used for authenticating Management API requests on behalf of
+    a team.
+  humanURL: https://docs.convex.dev/understanding/
+  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
+  tags:
+  - Access Tokens
+  properties:
+  - type: OpenAPI
+    url: openapi/convex-access-tokens-api-openapi.yml
+  - type: Documentation
+    url: https://docs.convex.dev/http-api/
+  - type: Documentation
+    url: https://docs.convex.dev/management-api
+  - type: Documentation
+    url: https://docs.convex.dev/deployment-platform-api
+- aid: convex:convex-custom-domains-api
+  name: Convex Custom Domains API
+  description: >-
+    Configure custom domain names for Convex deployments. Supports both convexCloud (function API) and
+    convexSite (HTTP actions) request destinations.
+  humanURL: https://docs.convex.dev/understanding/
+  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
+  tags:
+  - Custom Domains
+  properties:
+  - type: OpenAPI
+    url: openapi/convex-custom-domains-api-openapi.yml
+  - type: Documentation
+    url: https://docs.convex.dev/http-api/
+  - type: Documentation
+    url: https://docs.convex.dev/management-api
+  - type: Documentation
+    url: https://docs.convex.dev/deployment-platform-api
+- aid: convex:convex-environment-variables-api
+  name: Convex Environment Variables API
+  description: >-
+    Manage environment variables for a Convex deployment. Environment variables are key-value pairs accessible
+    to backend functions at runtime via process.env. Changes to environment variables take effect after
+    the next deployment push.
+  humanURL: https://docs.convex.dev/understanding/
+  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
+  tags:
+  - Environment Variables
+  properties:
+  - type: OpenAPI
+    url: openapi/convex-environment-variables-api-openapi.yml
   - type: Documentation
     url: https://docs.convex.dev/http-api/
   - type: Documentation
