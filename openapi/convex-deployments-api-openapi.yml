@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Convex Management Deployments API
-  description: 'The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically. It enables developers and platform integrations to create projects, manage deployments across cloud regions, configure custom domains, and handle team membership without using the Convex dashboard. The API supports two token types: Team Access Tokens (for managing your own team''s resources) and OAuth Application Tokens (for third-party integrations acting on behalf of users). A JavaScript client wrapper is available via the @convex-dev/platform npm package. The API is currently in Beta.'
+  description: The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically.
   version: v1
   contact:
     name: Convex Platform Support

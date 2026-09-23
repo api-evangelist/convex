@@ -18,22 +18,26 @@
     "convex-projects-api-openapi.yml",
     "convex-teams-api-openapi.yml"
   ],
-  "archived": [],
+  "archived": [
+    "deleted 3 superseded output(s) from the previous generation"
+  ],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
     "convex-deployment-platform-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "convex-http-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "convex-management-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0"
+    "convex-management-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "superseded outputs removed: convex-access-tokens-api-openapi.yml, convex-custom-domains-api-openapi.yml, convex-environment-variables-api-openapi.yml",
+    "apis.yml register: written (+3 apis, 14 total)"
   ],
   "skipped": [
-    "convex-accesstokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-access-tokens-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "convex-actions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "convex-customdomains-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-custom-domains-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "convex-deploykeys-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "convex-deployments-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "convex-environmentvariables-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "convex-environment-variables-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "convex-functions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "convex-mutations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "convex-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",

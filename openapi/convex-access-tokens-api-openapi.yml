@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Convex Management Access Tokens API
-  description: 'The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically. It enables developers and platform integrations to create projects, manage deployments across cloud regions, configure custom domains, and handle team membership without using the Convex dashboard. The API supports two token types: Team Access Tokens (for managing your own team''s resources) and OAuth Application Tokens (for third-party integrations acting on behalf of users). A JavaScript client wrapper is available via the @convex-dev/platform npm package. The API is currently in Beta.'
+  description: The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically.
   version: v1
   contact:
     name: Convex Platform Support
@@ -15,7 +15,7 @@ security:
 - teamToken: []
 - oauthTeamToken: []
 tags:
-- name: AccessTokens
+- name: Access Tokens
   description: Create and manage Team Access Tokens used for authenticating Management API requests on behalf of a team.
 paths:
   /teams/{team_id}/create_access_token:
@@ -24,7 +24,7 @@ paths:
       summary: Create a team access token
       description: Creates a new Team Access Token for the specified team. Team Access Tokens are used to authenticate Management API requests and grant access to all projects and deployments within the team. The token value is only returned at creation time and should be stored securely.
       tags:
-      - AccessTokens
+      - Access Tokens
       parameters:
       - $ref: '#/components/parameters/teamId'
       requestBody:

@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Convex Management Custom Domains API
-  description: 'The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically. It enables developers and platform integrations to create projects, manage deployments across cloud regions, configure custom domains, and handle team membership without using the Convex dashboard. The API supports two token types: Team Access Tokens (for managing your own team''s resources) and OAuth Application Tokens (for third-party integrations acting on behalf of users). A JavaScript client wrapper is available via the @convex-dev/platform npm package. The API is currently in Beta.'
+  description: The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically.
   version: v1
   contact:
     name: Convex Platform Support
@@ -15,7 +15,7 @@ security:
 - teamToken: []
 - oauthTeamToken: []
 tags:
-- name: CustomDomains
+- name: Custom Domains
   description: Configure custom domain names for Convex deployments. Supports both convexCloud (function API) and convexSite (HTTP actions) request destinations.
 paths:
   /deployments/{deployment_name}/custom_domains/create:
@@ -24,7 +24,7 @@ paths:
       summary: Create a custom domain
       description: 'Associates a custom domain with a Convex deployment. Supports two request destination types: convexCloud for routing to the function API (queries, mutations, actions), and convexSite for routing to HTTP action endpoints. Domain verification and DNS configuration is handled separately.'
       tags:
-      - CustomDomains
+      - Custom Domains
       parameters:
       - $ref: '#/components/parameters/deploymentName'
       requestBody:
@@ -50,7 +50,7 @@ paths:
       summary: List custom domains for a deployment
       description: Returns all custom domains configured for a deployment. Each entry includes the domain name, request destination type, and verification status.
       tags:
-      - CustomDomains
+      - Custom Domains
       parameters:
       - $ref: '#/components/parameters/deploymentName'
       responses:
@@ -70,7 +70,7 @@ paths:
       summary: Delete a custom domain
       description: Removes a custom domain association from a Convex deployment. After deletion, traffic to the domain will no longer be routed to the deployment. DNS records should be removed separately.
       tags:
-      - CustomDomains
+      - Custom Domains
       parameters:
       - $ref: '#/components/parameters/deploymentName'
       requestBody:
@@ -94,21 +94,6 @@ paths:
           description: Custom domain not found
 components:
   schemas:
-    CreateCustomDomainRequest:
-      type: object
-      required:
-      - domain
-      - request_destination
-      properties:
-        domain:
-          type: string
-          description: The custom domain name to associate with the deployment.
-        request_destination:
-          type: string
-          description: The routing destination for requests to this domain.
-          enum:
-          - convexCloud
-          - convexSite
     CustomDomain:
       type: object
       required:
@@ -121,6 +106,21 @@ components:
         request_destination:
           type: string
           description: The routing destination for requests to this domain. convexCloud routes to the function API; convexSite routes to HTTP action endpoints.
+          enum:
+          - convexCloud
+          - convexSite
+    CreateCustomDomainRequest:
+      type: object
+      required:
+      - domain
+      - request_destination
+      properties:
+        domain:
+          type: string
+          description: The custom domain name to associate with the deployment.
+        request_destination:
+          type: string
+          description: The routing destination for requests to this domain.
           enum:
           - convexCloud
           - convexSite

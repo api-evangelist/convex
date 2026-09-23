@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Convex HTTP Mutations API
-  description: The Convex HTTP API is a REST interface for executing backend functions deployed on a Convex backend. It provides endpoints for invoking query, mutation, and action functions using POST requests. Each deployment has its own base URL found in the Convex dashboard settings, typically in the format https://{deployment-name}.convex.cloud. Requests accept a function path and named argument object as JSON, and responses include the function return value along with execution log lines. User authentication is optional via a bearer token from an auth provider; admin operations require a deploy key using the Convex authorization scheme.
+  description: The Convex HTTP API is a REST interface for executing backend functions deployed on a Convex backend.
   version: '1.0'
   contact:
     name: Convex Support
@@ -60,23 +60,28 @@ paths:
                 $ref: '#/components/schemas/FunctionErrorResponse'
 components:
   schemas:
-    FunctionSuccessResponse:
+    FunctionErrorResponse:
       type: object
       required:
       - status
-      - value
+      - errorMessage
       - logLines
       properties:
         status:
           type: string
-          description: Indicates the function executed without error.
+          description: Indicates the function encountered an error during execution.
           enum:
-          - success
-        value:
-          description: The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.
+          - error
+        errorMessage:
+          type: string
+          description: A human-readable description of the error that occurred during function execution.
+        errorData:
+          type: object
+          description: Additional structured data about the error, present when the function throws a ConvexError with associated data. The shape depends on the application-specific error definition.
+          additionalProperties: true
         logLines:
           type: array
-          description: An array of strings representing console output (e.g. console.log) produced by the function during execution.
+          description: An array of strings representing console output produced by the function prior to the error.
           items:
             type: string
     FunctionRequest:
@@ -100,28 +105,23 @@ components:
           enum:
           - json
           default: json
-    FunctionErrorResponse:
+    FunctionSuccessResponse:
       type: object
       required:
       - status
-      - errorMessage
+      - value
       - logLines
       properties:
         status:
           type: string
-          description: Indicates the function encountered an error during execution.
+          description: Indicates the function executed without error.
           enum:
-          - error
-        errorMessage:
-          type: string
-          description: A human-readable description of the error that occurred during function execution.
-        errorData:
-          type: object
-          description: Additional structured data about the error, present when the function throws a ConvexError with associated data. The shape depends on the application-specific error definition.
-          additionalProperties: true
+          - success
+        value:
+          description: The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.
         logLines:
           type: array
-          description: An array of strings representing console output produced by the function prior to the error.
+          description: An array of strings representing console output (e.g. console.log) produced by the function during execution.
           items:
             type: string
   securitySchemes:
