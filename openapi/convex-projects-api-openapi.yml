@@ -123,6 +123,21 @@ paths:
           description: Project not found
 components:
   parameters:
+    projectSlug:
+      name: project_slug
+      in: path
+      required: true
+      description: The human-readable slug of the project within the team.
+      schema:
+        type: string
+    teamId:
+      name: team_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
+      schema:
+        type: integer
+        format: int64
     projectId:
       name: project_id
       in: path
@@ -136,21 +151,6 @@ components:
       in: path
       required: true
       description: Either the integer team ID or the human-readable team slug.
-      schema:
-        type: string
-    teamId:
-      name: team_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
-      schema:
-        type: integer
-        format: int64
-    projectSlug:
-      name: project_slug
-      in: path
-      required: true
-      description: The human-readable slug of the project within the team.
       schema:
         type: string
   schemas:

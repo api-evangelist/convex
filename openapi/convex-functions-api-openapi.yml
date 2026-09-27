@@ -61,16 +61,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/FunctionErrorResponse'
 components:
-  parameters:
-    functionIdentifier:
-      name: functionIdentifier
-      in: path
-      required: true
-      description: The fully-qualified function identifier in the format "module:exportName" (e.g. "messages:list", "users:createUser"). The module name corresponds to the file path within the convex/ directory, and the export name corresponds to the exported function name.
-      schema:
-        type: string
-        pattern: ^[a-zA-Z0-9_/]+:[a-zA-Z0-9_]+$
-        example: messages:list
   schemas:
     FunctionErrorResponse:
       type: object
@@ -96,21 +86,6 @@ components:
           description: An array of strings representing console output produced by the function prior to the error.
           items:
             type: string
-    RunFunctionRequest:
-      type: object
-      required:
-      - args
-      properties:
-        args:
-          type: object
-          description: Named arguments to pass to the function as a JSON object. The keys and value types must match the function's declared parameter types.
-          additionalProperties: true
-        format:
-          type: string
-          description: Output format for the response value. Currently only "json" is supported and is also the default when omitted.
-          enum:
-          - json
-          default: json
     FunctionSuccessResponse:
       type: object
       required:
@@ -130,6 +105,31 @@ components:
           description: An array of strings representing console output (e.g. console.log) produced by the function during execution.
           items:
             type: string
+    RunFunctionRequest:
+      type: object
+      required:
+      - args
+      properties:
+        args:
+          type: object
+          description: Named arguments to pass to the function as a JSON object. The keys and value types must match the function's declared parameter types.
+          additionalProperties: true
+        format:
+          type: string
+          description: Output format for the response value. Currently only "json" is supported and is also the default when omitted.
+          enum:
+          - json
+          default: json
+  parameters:
+    functionIdentifier:
+      name: functionIdentifier
+      in: path
+      required: true
+      description: The fully-qualified function identifier in the format "module:exportName" (e.g. "messages:list", "users:createUser"). The module name corresponds to the file path within the convex/ directory, and the export name corresponds to the exported function name.
+      schema:
+        type: string
+        pattern: ^[a-zA-Z0-9_/]+:[a-zA-Z0-9_]+$
+        example: messages:list
   securitySchemes:
     bearerAuth:
       type: http

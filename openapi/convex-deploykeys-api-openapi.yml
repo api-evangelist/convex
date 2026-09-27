@@ -64,6 +64,17 @@ paths:
           description: Unauthorized — missing or invalid token
 components:
   schemas:
+    CreateDeployKeyRequest:
+      type: object
+      required:
+      - deployment_name
+      properties:
+        deployment_name:
+          type: string
+          description: The name of the deployment this key should be scoped to.
+        key_name:
+          type: string
+          description: Optional human-readable name for the deploy key.
     DeployKey:
       type: object
       required:
@@ -83,17 +94,6 @@ components:
           type: string
           format: date-time
           description: ISO 8601 timestamp when the key was created.
-    CreateDeployKeyRequest:
-      type: object
-      required:
-      - deployment_name
-      properties:
-        deployment_name:
-          type: string
-          description: The name of the deployment this key should be scoped to.
-        key_name:
-          type: string
-          description: Optional human-readable name for the deploy key.
   parameters:
     projectId:
       name: project_id
