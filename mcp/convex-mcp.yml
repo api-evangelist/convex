@@ -16,12 +16,22 @@ deployment:
 tools_count: 4
 tools:
 - name: start_convex_app
-  description: ''
+  description: CALL THIS FIRST — before writing any files — whenever the user asks to build, scaffold,
+    create, or start a new app, prototype, or backend and Convex is in play (they mentioned Convex, invoked
+    the Convex tool/app, or want a reactive/full-sta
 - name: add_convex_to_existing_project
-  description: ''
+  description: 'CALL THIS FIRST when adding Convex (or any backend: database, server functions, auth,
+    realtime, file storage, scheduled jobs) to an EXISTING JavaScript or TypeScript project, before editing
+    files. Returns concrete install/init commands, fra'
 - name: get_convex_scaling_guidance
-  description: ''
+  description: Return Convex scaling guidance for indexes, pagination, large tables, realtime queries,
+    actions, workflows, storage, and multi-tenant apps. Use when the user asks how to scale a Convex app,
+    avoid performance pitfalls, or review a Convex arc
 - name: get_runbook
-  description: ''
+  description: Fetch the full Convex quickstart runbook — the authoritative, end-to-end playbook for building
+    a Convex app (scaffold → install → start the backend → schema → functions → client wiring → run →
+    verify). `start_convex_app` tells you to call t
 tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
 authorship: provider
+descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
+  --descriptions, 2026-09-28
