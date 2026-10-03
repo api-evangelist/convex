@@ -39,15 +39,6 @@ paths:
         '401':
           description: Unauthorized — missing or invalid token
 components:
-  parameters:
-    teamId:
-      name: team_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
-      schema:
-        type: integer
-        format: int64
   schemas:
     TeamMember:
       type: object
@@ -69,6 +60,15 @@ components:
           enum:
           - admin
           - developer
+  parameters:
+    teamId:
+      name: team_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
+      schema:
+        type: integer
+        format: int64
   securitySchemes:
     teamToken:
       type: http

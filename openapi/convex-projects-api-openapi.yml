@@ -122,37 +122,6 @@ paths:
         '404':
           description: Project not found
 components:
-  parameters:
-    projectSlug:
-      name: project_slug
-      in: path
-      required: true
-      description: The human-readable slug of the project within the team.
-      schema:
-        type: string
-    teamId:
-      name: team_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
-      schema:
-        type: integer
-        format: int64
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
-      schema:
-        type: integer
-        format: int64
-    teamIdOrSlug:
-      name: team_id_or_slug
-      in: path
-      required: true
-      description: Either the integer team ID or the human-readable team slug.
-      schema:
-        type: string
   schemas:
     Project:
       type: object
@@ -201,6 +170,37 @@ components:
           - s16
           - s256
           - d1024
+  parameters:
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
+      schema:
+        type: integer
+        format: int64
+    teamIdOrSlug:
+      name: team_id_or_slug
+      in: path
+      required: true
+      description: Either the integer team ID or the human-readable team slug.
+      schema:
+        type: string
+    projectSlug:
+      name: project_slug
+      in: path
+      required: true
+      description: The human-readable slug of the project within the team.
+      schema:
+        type: string
+    teamId:
+      name: team_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
+      schema:
+        type: integer
+        format: int64
   securitySchemes:
     teamToken:
       type: http

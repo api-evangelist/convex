@@ -193,13 +193,6 @@ components:
           - s256
           - d1024
   parameters:
-    deploymentName:
-      name: deployment_name
-      in: path
-      required: true
-      description: The unique name of the deployment (e.g. "happy-otter-123"). This is the subdomain portion of the deployment URL at convex.cloud.
-      schema:
-        type: string
     projectId:
       name: project_id
       in: path
@@ -208,6 +201,13 @@ components:
       schema:
         type: integer
         format: int64
+    deploymentName:
+      name: deployment_name
+      in: path
+      required: true
+      description: The unique name of the deployment (e.g. "happy-otter-123"). This is the subdomain portion of the deployment URL at convex.cloud.
+      schema:
+        type: string
   securitySchemes:
     teamToken:
       type: http
