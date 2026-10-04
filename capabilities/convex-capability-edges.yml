@@ -1,0 +1,26 @@
+slug: convex
+provider: Convex
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Environment Variables
+  spec_file: convex-environment-variables-api-openapi.yml
+  capability_id: BC-4210.60
+  capability_id_l1: BC-4210
+  capability_name: Configuration & Secrets Management
+  confidence: 0.75
+  evidence: '"List environment variables" / "Update environment variables" on a "deployment-scoped administrative
+    REST API for configuring individual Convex deployments"; schema EnvironmentVariable'
+  reason: Operations manage runtime configuration values (env vars) consumed by deployed services, which
+    is Configuration & Secrets Management within release/deployment management. Not a business-domain
+    capability beyond that.
