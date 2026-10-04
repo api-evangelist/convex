@@ -122,29 +122,38 @@ paths:
         '404':
           description: Project not found
 components:
+  parameters:
+    projectSlug:
+      name: project_slug
+      in: path
+      required: true
+      description: The human-readable slug of the project within the team.
+      schema:
+        type: string
+    teamIdOrSlug:
+      name: team_id_or_slug
+      in: path
+      required: true
+      description: Either the integer team ID or the human-readable team slug.
+      schema:
+        type: string
+    teamId:
+      name: team_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
+      schema:
+        type: integer
+        format: int64
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
+      schema:
+        type: integer
+        format: int64
   schemas:
-    Project:
-      type: object
-      required:
-      - id
-      - slug
-      - name
-      - team_id
-      properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique integer identifier for the project.
-        slug:
-          type: string
-          description: Human-readable URL-safe identifier for the project within the team.
-        name:
-          type: string
-          description: Display name of the project.
-        team_id:
-          type: integer
-          format: int64
-          description: ID of the team that owns this project.
     CreateProjectRequest:
       type: object
       required:
@@ -170,37 +179,28 @@ components:
           - s16
           - s256
           - d1024
-  parameters:
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
-      schema:
-        type: integer
-        format: int64
-    teamIdOrSlug:
-      name: team_id_or_slug
-      in: path
-      required: true
-      description: Either the integer team ID or the human-readable team slug.
-      schema:
-        type: string
-    projectSlug:
-      name: project_slug
-      in: path
-      required: true
-      description: The human-readable slug of the project within the team.
-      schema:
-        type: string
-    teamId:
-      name: team_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
-      schema:
-        type: integer
-        format: int64
+    Project:
+      type: object
+      required:
+      - id
+      - slug
+      - name
+      - team_id
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique integer identifier for the project.
+        slug:
+          type: string
+          description: Human-readable URL-safe identifier for the project within the team.
+        name:
+          type: string
+          description: Display name of the project.
+        team_id:
+          type: integer
+          format: int64
+          description: ID of the team that owns this project.
   securitySchemes:
     teamToken:
       type: http

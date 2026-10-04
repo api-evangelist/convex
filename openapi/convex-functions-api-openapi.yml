@@ -62,25 +62,21 @@ paths:
                 $ref: '#/components/schemas/FunctionErrorResponse'
 components:
   schemas:
-    FunctionSuccessResponse:
+    RunFunctionRequest:
       type: object
       required:
-      - status
-      - value
-      - logLines
+      - args
       properties:
-        status:
+        args:
+          type: object
+          description: Named arguments to pass to the function as a JSON object. The keys and value types must match the function's declared parameter types.
+          additionalProperties: true
+        format:
           type: string
-          description: Indicates the function executed without error.
+          description: Output format for the response value. Currently only "json" is supported and is also the default when omitted.
           enum:
-          - success
-        value:
-          description: The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.
-        logLines:
-          type: array
-          description: An array of strings representing console output (e.g. console.log) produced by the function during execution.
-          items:
-            type: string
+          - json
+          default: json
     FunctionErrorResponse:
       type: object
       required:
@@ -105,21 +101,25 @@ components:
           description: An array of strings representing console output produced by the function prior to the error.
           items:
             type: string
-    RunFunctionRequest:
+    FunctionSuccessResponse:
       type: object
       required:
-      - args
+      - status
+      - value
+      - logLines
       properties:
-        args:
-          type: object
-          description: Named arguments to pass to the function as a JSON object. The keys and value types must match the function's declared parameter types.
-          additionalProperties: true
-        format:
+        status:
           type: string
-          description: Output format for the response value. Currently only "json" is supported and is also the default when omitted.
+          description: Indicates the function executed without error.
           enum:
-          - json
-          default: json
+          - success
+        value:
+          description: The return value of the function. The type depends on the function's return type definition and may be any valid JSON value including objects, arrays, strings, numbers, booleans, or null.
+        logLines:
+          type: array
+          description: An array of strings representing console output (e.g. console.log) produced by the function during execution.
+          items:
+            type: string
   parameters:
     functionIdentifier:
       name: functionIdentifier

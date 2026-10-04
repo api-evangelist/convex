@@ -121,6 +121,22 @@ paths:
         '404':
           description: No default production deployment found
 components:
+  parameters:
+    deploymentName:
+      name: deployment_name
+      in: path
+      required: true
+      description: The unique name of the deployment (e.g. "happy-otter-123"). This is the subdomain portion of the deployment URL at convex.cloud.
+      schema:
+        type: string
+    projectId:
+      name: project_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
+      schema:
+        type: integer
+        format: int64
   schemas:
     Deployment:
       type: object
@@ -192,22 +208,6 @@ components:
           - s16
           - s256
           - d1024
-  parameters:
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
-      schema:
-        type: integer
-        format: int64
-    deploymentName:
-      name: deployment_name
-      in: path
-      required: true
-      description: The unique name of the deployment (e.g. "happy-otter-123"). This is the subdomain portion of the deployment URL at convex.cloud.
-      schema:
-        type: string
   securitySchemes:
     teamToken:
       type: http
