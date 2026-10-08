@@ -317,7 +317,7 @@ apis:
     Create and manage Team Access Tokens used for authenticating Management API requests on behalf of
     a team.
   humanURL: https://docs.convex.dev/understanding/
-  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
+  baseURL: https://api.convex.dev/v1
   tags:
   - Access Tokens
   properties:
@@ -335,7 +335,7 @@ apis:
     Configure custom domain names for Convex deployments. Supports both convexCloud (function API) and
     convexSite (HTTP actions) request destinations.
   humanURL: https://docs.convex.dev/understanding/
-  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
+  baseURL: https://api.convex.dev/v1
   tags:
   - Custom Domains
   properties:
@@ -354,7 +354,7 @@ apis:
     to backend functions at runtime via process.env. Changes to environment variables take effect after
     the next deployment push.
   humanURL: https://docs.convex.dev/understanding/
-  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
+  baseURL: https://{deploymentName}.convex.cloud/api/v1
   tags:
   - Environment Variables
   properties:
@@ -367,6 +367,12 @@ apis:
   - type: Documentation
     url: https://docs.convex.dev/deployment-platform-api
 common:
+  - type: Plans
+    url: plans/convex-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/convex-rate-limits.yml
+  - type: FinOps
+    url: finops/convex-finops.yml
   - type: CapabilityMap
     url: capabilities/convex-capability-edges.yml
     name: Convex Business Capability Map
