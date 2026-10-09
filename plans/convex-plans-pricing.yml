@@ -286,3 +286,44 @@ plans:
 maintainers:
   - FN: API Evangelist
     email: info@apievangelist.com
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  - subscription
+  units:
+  - data
+  - negotiated
+  - period
+  - request
+  - seat
+  plans:
+  - name: Starter
+    access: freemium
+    model: metered
+    model_how: derived
+    units:
+    - data
+    - request
+    periods:
+    - month
+  - name: Professional
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - data
+    - request
+    - seat
+    periods:
+    - month
+  - name: Business & Enterprise
+    access: enterprise
+    model: subscription
+    model_how: derived
+    units:
+    - negotiated
+    - period
+    periods:
+    - month
