@@ -138,6 +138,33 @@ components:
         type: integer
         format: int64
   schemas:
+    CreateCloudDeploymentRequest:
+      type: object
+      required:
+      - deployment_type
+      - region
+      properties:
+        deployment_type:
+          type: string
+          description: The type of deployment environment to create.
+          enum:
+          - dev
+          - prod
+          - preview
+          - custom
+        region:
+          type: string
+          description: The cloud region where the deployment should run.
+          enum:
+          - aws-us-east-1
+          - aws-eu-west-1
+        deployment_class:
+          type: string
+          description: Compute class for the deployment.
+          enum:
+          - s16
+          - s256
+          - d1024
     Deployment:
       type: object
       required:
@@ -181,33 +208,6 @@ components:
           type: string
           format: uri
           description: The base URL of the deployment in the format https://{name}.convex.cloud.
-    CreateCloudDeploymentRequest:
-      type: object
-      required:
-      - deployment_type
-      - region
-      properties:
-        deployment_type:
-          type: string
-          description: The type of deployment environment to create.
-          enum:
-          - dev
-          - prod
-          - preview
-          - custom
-        region:
-          type: string
-          description: The cloud region where the deployment should run.
-          enum:
-          - aws-us-east-1
-          - aws-eu-west-1
-        deployment_class:
-          type: string
-          description: Compute class for the deployment.
-          enum:
-          - s16
-          - s256
-          - d1024
   securitySchemes:
     teamToken:
       type: http

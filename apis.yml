@@ -317,7 +317,7 @@ apis:
     Create and manage Team Access Tokens used for authenticating Management API requests on behalf of
     a team.
   humanURL: https://docs.convex.dev/understanding/
-  baseURL: https://api.convex.dev/v1
+  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
   tags:
   - Access Tokens
   properties:
@@ -335,7 +335,7 @@ apis:
     Configure custom domain names for Convex deployments. Supports both convexCloud (function API) and
     convexSite (HTTP actions) request destinations.
   humanURL: https://docs.convex.dev/understanding/
-  baseURL: https://api.convex.dev/v1
+  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
   tags:
   - Custom Domains
   properties:
@@ -354,7 +354,7 @@ apis:
     to backend functions at runtime via process.env. Changes to environment variables take effect after
     the next deployment push.
   humanURL: https://docs.convex.dev/understanding/
-  baseURL: https://{deploymentName}.convex.cloud/api/v1
+  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
   tags:
   - Environment Variables
   properties:

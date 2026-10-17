@@ -137,19 +137,19 @@ components:
       description: Either the integer team ID or the human-readable team slug.
       schema:
         type: string
-    teamId:
-      name: team_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
-      schema:
-        type: integer
-        format: int64
     projectId:
       name: project_id
       in: path
       required: true
       description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
+      schema:
+        type: integer
+        format: int64
+    teamId:
+      name: team_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
       schema:
         type: integer
         format: int64
