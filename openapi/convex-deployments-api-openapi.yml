@@ -1,226 +1,1057 @@
 openapi: 3.2.0
 info:
   title: Convex Management Deployments API
-  description: The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically.
-  version: v1
-  contact:
-    name: Convex Platform Support
-    email: platforms@convex.dev
-    url: https://www.convex.dev/community
-  termsOfService: https://www.convex.dev/terms
+  description: Management API for provisioning and managing Convex projects and deployments.
+  license:
+    name: LicenseRef-Convex
+    identifier: LicenseRef-Convex
+  version: 1.0.0
 servers:
 - url: https://api.convex.dev/v1
-  description: Convex Management API Production Server
-security:
-- teamToken: []
-- oauthTeamToken: []
+  description: Platform API
 tags:
 - name: Deployments
-  description: Create, list, retrieve, update, and delete Convex cloud and local deployments. Deployments are the runtime environments where Convex backend functions execute.
+  description: Create, list, and manage deployments
 paths:
-  /projects/{project_id}/deployments/create_cloud:
-    post:
-      operationId: createCloudDeployment
-      summary: Create a cloud deployment
-      description: Creates a new cloud deployment within a project in the specified region and deployment class. Cloud deployments run on Convex-managed infrastructure and are accessible via a public URL. Supports dev, prod, preview, and custom deployment types.
-      tags:
-      - Deployments
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateCloudDeploymentRequest'
-      responses:
-        '200':
-          description: Deployment created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Deployment'
-        '400':
-          description: Bad request — invalid region or deployment class
-        '401':
-          description: Unauthorized — missing or invalid token
-  /projects/{project_id}/deployments/list:
+  /projects/{project_id}/list_deployments:
     get:
-      operationId: listDeployments
-      summary: List deployments in a project
-      description: Returns all deployments associated with a Convex project. Each deployment entry includes its ID, name, deployment URL, type (dev, prod, preview, custom), status, region, and class.
       tags:
       - Deployments
+      summary: List deployments
+      description: List deployments for a projects.
+      operationId: listDeployments
       parameters:
-      - $ref: '#/components/parameters/projectId'
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      - name: includeLocal
+        in: query
+        description: 'If true, include local deployments in the response (filtered to only
+
+          show local deployments created by the requesting team member).'
+        required: false
+        schema:
+          type: boolean
+      - name: isDefault
+        in: query
+        description: 'If true, only include default deployments. If false, only include
+
+          non-default deployments.'
+        required: false
+        schema:
+          type:
+          - boolean
+          - 'null'
+      - name: deploymentType
+        in: query
+        description: Only include deployments of the given deployment type.
+        required: false
+        schema:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/DeploymentType'
       responses:
         '200':
-          description: Deployments listed successfully
+          description: ''
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Deployment'
-        '401':
-          description: Unauthorized — missing or invalid token
-  /deployments/{deployment_name}:
+                  $ref: '#/components/schemas/PlatformDeploymentResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list deployments
+  /projects/{project_id}/deployment:
     get:
-      operationId: getDeployment
-      summary: Get a deployment by name
-      description: Retrieves details for a specific deployment identified by its name (e.g. "happy-otter-123"). Returns the deployment URL, type, status, region, class, and associated project information.
       tags:
       - Deployments
+      summary: Get deployment in project by id
+      description: 'Get a deployment within a project by reference, default production
+
+        deployment, or default dev deployment for the calling user.'
+      operationId: getDeploymentInProjectByProjectId
       parameters:
-      - $ref: '#/components/parameters/deploymentName'
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      - name: reference
+        in: query
+        description: The reference of the deployment to retrieve.
+        required: false
+        schema:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/DeploymentReference'
+      - name: defaultProd
+        in: query
+        description: If true, retrieve the default production deployment.
+        required: false
+        schema:
+          type:
+          - boolean
+          - 'null'
+      - name: defaultDev
+        in: query
+        description: If true, retrieve the default dev deployment for the calling user.
+        required: false
+        schema:
+          type:
+          - boolean
+          - 'null'
       responses:
         '200':
-          description: Deployment retrieved successfully
+          description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deployment'
-        '401':
-          description: Unauthorized — missing or invalid token
-        '404':
-          description: Deployment not found
+                $ref: '#/components/schemas/PlatformDeploymentResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: get deployment in project by project id
+  /teams/{team_id_or_slug}/projects/{project_slug}/deployment:
+    get:
+      tags:
+      - Deployments
+      summary: Get deployment in project by slug
+      description: 'Get a deployment within a project identified by team and project slug,
+
+        by reference, default production deployment, or default dev deployment
+
+        for the calling user.'
+      operationId: getDeploymentInProjectByProjectSlug
+      parameters:
+      - name: team_id_or_slug
+        in: path
+        description: Team ID or slug
+        required: true
+        schema:
+          type: string
+      - name: project_slug
+        in: path
+        description: Project slug
+        required: true
+        schema:
+          type: string
+      - name: reference
+        in: query
+        description: The reference of the deployment to retrieve.
+        required: false
+        schema:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/DeploymentReference'
+      - name: defaultProd
+        in: query
+        description: If true, retrieve the default production deployment.
+        required: false
+        schema:
+          type:
+          - boolean
+          - 'null'
+      - name: defaultDev
+        in: query
+        description: If true, retrieve the default dev deployment for the calling user.
+        required: false
+        schema:
+          type:
+          - boolean
+          - 'null'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformDeploymentResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: get deployment in project by project slug
+  /projects/{project_id}/create_deployment:
+    post:
+      tags:
+      - Deployments
+      summary: Create deployment
+      description: Create a new deployment for a project.
+      operationId: createDeployment
+      parameters:
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformCreateDeploymentArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformDeploymentResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      - Preview Deploy Key: []
+      x-operation-id-source: normalized
+      x-operation-id-original: create deployment
   /deployments/{deployment_name}/delete:
     post:
+      tags:
+      - Deployments
+      summary: Delete deployment
+      description: 'Delete a deployment. This will delete all data and files in the deployment,
+
+        so we recommend creating and downloading a backup before calling this
+
+        endpoint. This does not delete the project itself.'
       operationId: deleteDeployment
-      summary: Delete a deployment
-      description: Permanently deletes a Convex deployment. All deployed functions, database data, and file storage associated with the deployment are permanently removed. This operation is irreversible.
-      tags:
-      - Deployments
       parameters:
-      - $ref: '#/components/parameters/deploymentName'
+      - name: deployment_name
+        in: path
+        description: Deployment Name
+        required: true
       responses:
         '200':
-          description: Deployment deleted successfully
-        '401':
-          description: Unauthorized — missing or invalid token
-        '404':
-          description: Deployment not found
-  /projects/{project_id}/deployment/default_prod:
+          description: ''
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      - Preview Deploy Key: []
+      x-operation-id-source: normalized
+      x-operation-id-original: delete deployment
+  /deployments/{deployment_name}:
     get:
-      operationId: getDefaultProdDeployment
-      summary: Get default production deployment
-      description: Retrieves the default production deployment for a project. Most projects have a single production deployment designated as the default. Returns full deployment details including URL, region, class, and status.
       tags:
       - Deployments
+      summary: Get deployment
+      description: Get details about a cloud deployment.
+      operationId: platform_get_deployment
       parameters:
-      - $ref: '#/components/parameters/projectId'
+      - name: deployment_name
+        in: path
+        description: Deployment Name
+        required: true
+        schema:
+          type: string
       responses:
         '200':
-          description: Default production deployment retrieved
+          description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Deployment'
-        '401':
-          description: Unauthorized — missing or invalid token
-        '404':
-          description: No default production deployment found
+                $ref: '#/components/schemas/PlatformDeploymentResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      - Preview Deploy Key: []
+    patch:
+      tags:
+      - Deployments
+      summary: Update deployment
+      description: 'Updates properties of an existing deployment. Only the fields provided in
+
+        the request body are modified; omitted fields are left unchanged.'
+      operationId: updateDeployment
+      parameters:
+      - name: deployment_name
+        in: path
+        description: Deployment Name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformUpdateDeploymentArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      - Preview Deploy Key: []
+      x-operation-id-source: normalized
+      x-operation-id-original: update deployment
+  /deployments/{deployment_name}/transfer:
+    post:
+      tags:
+      - Deployments
+      summary: Transfer deployment
+      description: 'Transfer a deployment from its current project to another project within the
+
+        same team. For production deployments, the caller must be a project admin on
+
+        both the source and destination projects. For other deployment types, any
+
+        team member can transfer deployments they created, or project admins can
+
+        transfer any deployment.'
+      operationId: transferDeployment
+      parameters:
+      - name: deployment_name
+        in: path
+        description: Deployment Name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformTransferDeploymentArgs'
+        required: true
+      responses:
+        '204':
+          description: ''
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: transfer deployment
+  /teams/{team_id}/list_deployment_classes:
+    get:
+      tags:
+      - Deployments
+      summary: List deployment classes
+      description: Lists the available deployment classes for a team.
+      operationId: listDeploymentClasses
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListDeploymentClassesResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list deployment classes
+  /teams/{team_id}/list_deployment_regions:
+    get:
+      tags:
+      - Deployments
+      summary: List deployment regions
+      description: Lists the available deployment regions for a team.
+      operationId: listDeploymentRegions
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListDeploymentRegionsResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list deployment regions
+  /teams/{team_id}/list_deployments:
+    get:
+      tags:
+      - Deployments
+      summary: List deployments for team
+      description: Lists deployments for a team with pagination, sorting, and filtering.
+      operationId: listDeploymentsForTeam
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      - name: cursor
+        in: query
+        description: Cursor for pagination
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: 'Max results per page (default: 100, max: 100)'
+        required: false
+        schema:
+          type: integer
+          format: int64
+      - name: sortBy
+        in: query
+        description: 'Sort field: createTime, lastDeployTime, reference'
+        required: false
+        schema:
+          type: string
+      - name: sortOrder
+        in: query
+        description: 'Sort order: asc, desc'
+        required: false
+        schema:
+          type: string
+      - name: deploymentType
+        in: query
+        description: 'Filter by type: dev, prod, preview, custom'
+        required: false
+        schema:
+          type: string
+      - name: q
+        in: query
+        description: Search by deployment name or reference
+        required: false
+        schema:
+          type: string
+      - name: projectId
+        in: query
+        description: Filter by project ID
+        required: false
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      - name: creator
+        in: query
+        description: Filter by creator member ID
+        required: false
+        schema:
+          $ref: '#/components/schemas/MemberId'
+      - name: isDefault
+        in: query
+        description: Filter by default deployment status
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDeploymentsResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list deployments for team
+  /teams/{team_id}/list_local_deployments:
+    get:
+      tags:
+      - Deployments
+      summary: List local deployments
+      description: Lists the local deployments for a team.
+      operationId: listLocalDeploymentsForTeam
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListLocalDeploymentsResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list local deployments for team
+  /deployments/{deployment_name}/mint_ai_gateway_jwt:
+    post:
+      tags:
+      - Deployments
+      summary: Mint an AI gateway JWT
+      description: Mints a short-lived AI gateway JWT for a local deployment.
+      operationId: mintAiGatewayJwt
+      parameters:
+      - name: deployment_name
+        in: path
+        description: Local deployment name
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MintLocalAiGatewayJwtArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MintLocalAiGatewayJwtResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: mint ai gateway jwt
 components:
-  parameters:
-    deploymentName:
-      name: deployment_name
-      in: path
-      required: true
-      description: The unique name of the deployment (e.g. "happy-otter-123"). This is the subdomain portion of the deployment URL at convex.cloud.
-      schema:
-        type: string
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
-      schema:
-        type: integer
-        format: int64
   schemas:
-    CreateCloudDeploymentRequest:
+    MintLocalAiGatewayJwtArgs:
       type: object
       required:
-      - deployment_type
-      - region
+      - attribution
       properties:
-        deployment_type:
-          type: string
-          description: The type of deployment environment to create.
-          enum:
-          - dev
-          - prod
-          - preview
-          - custom
-        region:
-          type: string
-          description: The cloud region where the deployment should run.
-          enum:
-          - aws-us-east-1
-          - aws-eu-west-1
-        deployment_class:
-          type: string
-          description: Compute class for the deployment.
-          enum:
-          - s16
-          - s256
-          - d1024
-    Deployment:
+        attribution:
+          $ref: '#/components/schemas/AttributionClaims'
+      additionalProperties: false
+    DeploymentRegionMetadata:
       type: object
       required:
-      - id
       - name
-      - deployment_type
+      - displayName
+      - available
       properties:
-        id:
-          type: integer
-          format: int64
-          description: Unique integer identifier for the deployment.
         name:
+          $ref: '#/components/schemas/RegionName'
+        displayName:
           type: string
-          description: Unique name of the deployment used as the subdomain of the deployment URL (e.g. "happy-otter-123").
-        deployment_type:
+        available:
+          type: boolean
+    PlatformDeploymentResponse:
+      oneOf:
+      - type: object
+        required:
+        - id
+        - name
+        - createTime
+        - deploymentType
+        - projectId
+        - region
+        - isDefault
+        - reference
+        - deploymentUrl
+        - class
+        - kind
+        properties:
+          id:
+            $ref: '#/components/schemas/DeploymentId'
+          name:
+            type: string
+            description: 'The readable identifier for this deployment, something like
+
+              playful-otter-123.'
+          createTime:
+            type: integer
+            format: int64
+            description: Timestamp in milliseconds when this deployment was created.
+          lastDeployTime:
+            type:
+            - integer
+            - 'null'
+            format: int64
+            description: 'Timestamp in milliseconds of the last deploy to this deployment, if
+
+              any.'
+          deploymentType:
+            $ref: '#/components/schemas/DeploymentType'
+            description: The type of this deployment.
+          projectId:
+            $ref: '#/components/schemas/ProjectId'
+            description: The project this deployment belongs to.
+          creator:
+            oneOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/MemberId'
+              description: The member who created this deployment.
+          previewIdentifier:
+            oneOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/PreviewDeploymentIdentifier'
+              description: Preview deployment identifier, if this is a preview deployment.
+          region:
+            $ref: '#/components/schemas/RegionName'
+            description: The region where this deployment is hosted.
+          isDefault:
+            $ref: '#/components/schemas/IsDefaultDeployment'
+            description: 'For prod deployments, whether they are the default prod deployment
+
+              of the project. For dev deployments, whether they are the default
+
+              dev deployment for the member that created it.
+
+              For other deployments, set to false.'
+          reference:
+            $ref: '#/components/schemas/DeploymentReference'
+            description: 'An identifier that uniquely identifies this deployment within the
+
+              project.'
+          dashboardEditConfirmation:
+            type:
+            - boolean
+            - 'null'
+            description: 'Controls whether the dashboard requires a confirmation before
+
+              allowing edits during a browser session for this deployment.
+
+              If not set, defaults to true for prod deployments and false
+
+              for dev and preview deployments.'
+          deploymentUrl:
+            type: string
+            description: The full backend URL for this deployment (e.g. "https://joyful-capybara-123.convex.cloud" or "https://calm-cow-456.eu-west-1.convex.cloud"). This is always a `.convex.cloud` URL, even when the deployment is using custom domains. To get the canonical URL, use [`/get_canonical_urls`](https://docs.convex.dev/deployment-api/get-canonical-urls).
+          expiresAt:
+            type:
+            - integer
+            - 'null'
+            format: int64
+            description: 'Timestamp in milliseconds when this deployment will be
+
+              deleted. Preview deployments have this set by default unless
+
+              overridden.'
+          class:
+            type: string
+            description: The deployment class for this deployment.
+          sendLogsToClient:
+            type:
+            - boolean
+            - 'null'
+            description: 'Whether to send function logs to the client. If `null`, the
+
+              deployment-type default is used (true for dev/preview, false for
+
+              prod).'
+          kind:
+            type: string
+            enum:
+            - cloud
+      - type: object
+        required:
+        - name
+        - createTime
+        - deploymentType
+        - projectId
+        - creator
+        - port
+        - deviceName
+        - isActive
+        - kind
+        properties:
+          name:
+            type: string
+            description: The readable identifier for this deployment.
+          createTime:
+            type: integer
+            format: int64
+            description: Timestamp in milliseconds when this deployment was created.
+          deploymentType:
+            $ref: '#/components/schemas/DeploymentType'
+            description: 'Whether this is a "dev" development deployment or "prod" production
+
+              deployment. Note that this will always be "dev" for local
+
+              deployments.'
+          projectId:
+            $ref: '#/components/schemas/ProjectId'
+            description: The project this deployment belongs to.
+          creator:
+            $ref: '#/components/schemas/MemberId'
+            description: The member who created this deployment.
+          previewIdentifier:
+            oneOf:
+            - type: 'null'
+            - $ref: '#/components/schemas/PreviewDeploymentIdentifier'
+              description: 'Preview deployment identifier. Note that this will always be None
+
+                for local deployments.'
+          port:
+            type: integer
+            format: int32
+            description: The port where this local deployment is running.
+            minimum: 0
+          deviceName:
+            $ref: '#/components/schemas/DeviceName'
+            description: The device name where this local deployment is running.
+          isActive:
+            type: boolean
+            description: Whether this local deployment is currently active.
+          kind:
+            type: string
+            enum:
+            - local
+    ListDeploymentRegionsResponse:
+      type: object
+      required:
+      - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentRegionMetadata'
+    MintLocalAiGatewayJwtResponse:
+      type: object
+      required:
+      - token
+      properties:
+        token:
           type: string
-          description: The type of deployment environment.
-          enum:
-          - dev
-          - prod
-          - preview
-          - custom
-        deployment_class:
-          type: string
-          description: The compute class of the deployment, determining resource limits and pricing tier.
-          enum:
-          - s16
-          - s256
-          - d1024
+    DeviceName:
+      type: string
+    DeploymentType:
+      type: string
+      enum:
+      - dev
+      - prod
+      - preview
+      - custom
+    DeploymentClass:
+      type: string
+      enum:
+      - s16
+      - s256
+      - d1024
+      - d2048
+    RegionName:
+      type: string
+      enum:
+      - aws-us-east-1
+      - aws-eu-west-1
+      - aws-ca-central-1
+      - aws-ap-southeast-2
+    DeploymentId:
+      type: integer
+      format: int64
+      minimum: 0
+    ListDeploymentClassesResponse:
+      type: object
+      required:
+      - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentClassMetadata'
+    PaginatedDeploymentsResponse:
+      type: object
+      required:
+      - items
+      - pagination
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlatformDeploymentResponse'
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
+    PlatformCreateDeploymentArgs:
+      type: object
+      required:
+      - type
+      properties:
+        type:
+          $ref: '#/components/schemas/CreateDeploymentType'
+        class:
+          type:
+          - string
+          - 'null'
+          description: 'The class to use for this deployment. If not provided, the default
+
+            deployment class for your team will be used.'
         region:
-          type: string
-          description: The cloud region where the deployment runs.
-          enum:
-          - aws-us-east-1
-          - aws-eu-west-1
-        project_id:
-          type: integer
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/RegionName'
+            description: 'The hosting region to use for this deployment. If not provided, the
+
+              default deployment region for your team will be used.'
+        reference:
+          type:
+          - string
+          - 'null'
+          description: 'An identifier that uniquely identifies this deployment within the
+
+            project. By providing a reference, you can create multiple dev and prod
+
+            deployments in the project. If you don’t provide a reference, the
+
+            endpoint will create the default production deployment for the project,
+
+            or the default development deployment for the member that creates it
+
+            (i.e. the deployment used by default when running `npx convex deploy`
+
+            or `npx convex dev` respectively). When not providing a reference,
+
+            a reference will be automatically generated.'
+        isDefault:
+          type:
+          - boolean
+          - 'null'
+          description: 'When creating a prod deployment, whether the deployment is the default
+
+            production deployment for the project (i.e. the one used by default
+
+            when running `npx convex deploy`).
+
+            When creating a dev deployment, whether the deployment is the default
+
+            development deployment for the member that creates it (i.e. the one used
+
+            by default when running `npx convex dev`).
+
+            This option can’t be set on other types of deployments.
+
+            If not provided, defaults to `true` when creating a dev or prod
+
+            deployment without providing a reference (and defaults to `false`
+
+            otherwise).'
+        expiresAt:
+          type:
+          - integer
+          - 'null'
           format: int64
-          description: ID of the project that owns this deployment.
-        url:
-          type: string
-          format: uri
-          description: The base URL of the deployment in the format https://{name}.convex.cloud.
+          description: 'Timestamp in milliseconds when this deployment will be deleted.
+
+            Preview deployments have this set by default unless overridden.
+
+            Must be at least 30 minutes in the future and cannot exceed the
+
+            team’s preview deployment retention days entitlement from now.
+
+            Set to `null` to clear the expiration.'
+      additionalProperties: false
+    ProjectId:
+      type: integer
+      format: int64
+      minimum: 0
+    ListLocalDeploymentsResponse:
+      type: object
+      required:
+      - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlatformDeploymentResponse'
+    CreateDeploymentType:
+      type: string
+      enum:
+      - dev
+      - prod
+      - preview
+      - custom
+    PlatformUpdateDeploymentArgs:
+      type: object
+      properties:
+        reference:
+          type:
+          - string
+          - 'null'
+          description: "The reference of the deployment. When provided, must match the following\nrules:\n  - be unique across deployment references in the project\n  - 3 to 100 characters (included)\n  - only lowercase letters, numbers, \"-\"\" and \"/\"\n  - not follow the deployment name format [a-z]+-[a-z]+-[0-9]+ (e.g.\n    \"happy-capybara-123\")\n  - not start with \"local-\"\"\n  - not be one of the following reserved keywords: \"prod\", \"dev\",\n    \"cloud\", \"local\", \"default\", \"name\", \"new\", \"existing\",\n    \"deployment\", \"preview\""
+        dashboardEditConfirmation:
+          type:
+          - boolean
+          - 'null'
+          description: 'Controls whether the dashboard requires a confirmation before allowing
+
+            edits during a browser session for this deployment. If set to `null`,
+
+            the setting is reset to the default behavior (true for prod deployments,
+
+            false for dev and preview deployments). If set to `true` or `false`, the
+
+            setting is explicitly overridden.'
+        expiresAt:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: 'Timestamp in milliseconds when this deployment will be deleted.
+
+            Preview deployments have this set by default unless overridden.
+
+            Must be at least 30 minutes in the future and cannot exceed the
+
+            team''s preview deployment retention days entitlement from now.
+
+            Set to `null` to clear the expiration.'
+        sendLogsToClient:
+          type:
+          - boolean
+          - 'null'
+          description: 'Whether to send function logs to the client. If set to `null`, the
+
+            setting is reset to the deployment-type default (true for dev/preview,
+
+            false for prod). If set to `true` or `false`, the setting is explicitly
+
+            overridden.'
+        class:
+          type:
+          - string
+          - 'null'
+          description: 'The deployment class to move this deployment to (e.g. "s16", "s256").
+
+            Requires the deployment class selection entitlement.'
+        isDefault:
+          type:
+          - boolean
+          - 'null'
+          description: 'For a prod deployment, whether the deployment is the default
+
+            production deployment for the project (i.e. the one used by default
+
+            when running `npx convex deploy`).
+
+            For a dev deployment, whether the deployment is the default
+
+            development deployment for the member that created it (i.e. the one
+
+            used by default when running `npx convex dev`).
+
+            Setting this to `true` will fail on preview or custom deployments,
+
+            or if there is already a matching default deployment in the project.'
+        deploymentType:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/DeploymentType'
+            description: 'Set this field to change the deployment type of this deployment.
+
+              If the deployment is a default deployment, you will need to set
+
+              `isDefault` explicitly.'
+      additionalProperties: false
+    DeploymentClassMetadata:
+      type: object
+      required:
+      - type
+      - available
+      properties:
+        type:
+          $ref: '#/components/schemas/DeploymentClass'
+        available:
+          type: boolean
+    PaginationMetadata:
+      type: object
+      required:
+      - hasMore
+      properties:
+        hasMore:
+          type: boolean
+        nextCursor:
+          type:
+          - string
+          - 'null'
+    PreviewDeploymentIdentifier:
+      type: string
+    TeamId:
+      type: integer
+      format: int64
+      minimum: 0
+    PlatformTransferDeploymentArgs:
+      type: object
+      required:
+      - destinationProjectId
+      properties:
+        destinationProjectId:
+          $ref: '#/components/schemas/ProjectId'
+      additionalProperties: false
+    IsDefaultDeployment:
+      type: boolean
+      description: 'Indicates whether the deployment is the default prod deployment for the
+
+        project, or the default cloud dev deployment for the member in the project.'
+    MemberId:
+      type: integer
+      format: int64
+      minimum: 0
+    DeploymentReference:
+      type: string
+      description: An identifier that uniquely identifies this deployment within the project.
+    AttributionClaims:
+      type: object
+      description: 'The wire format of the claims sent to the gateway.
+
+
+        All three are absent when we cannot identify the caller. A caller in the
+
+        root component has a `function_name` but no `component_path`.'
+      properties:
+        componentPath:
+          type:
+          - string
+          - 'null'
+        functionName:
+          type:
+          - string
+          - 'null'
+        functionType:
+          type:
+          - string
+          - 'null'
+      additionalProperties: false
   securitySchemes:
-    teamToken:
+    OAuth_Project_Token:
       type: http
       scheme: bearer
-      description: Team Access Token created in the Convex dashboard team settings. Grants management access to all projects and deployments within the team.
-    oauthTeamToken:
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    OAuth_Team_Token:
       type: http
       scheme: bearer
-      description: OAuth Application Token issued by Convex for third-party integrations acting on behalf of a user's team. Obtained via the Convex OAuth flow.
-    oauthProjectToken:
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    PAT:
       type: http
       scheme: bearer
-      description: OAuth Application Token scoped to a specific project, issued by Convex for third-party integrations.
-externalDocs:
-  description: Convex Management API Documentation
-  url: https://docs.convex.dev/management-api
+      bearerFormat: PAT
+      description: Personal access token created in the Convex dashboard under user settings.
+    Preview_Deploy_Key:
+      type: http
+      scheme: bearer
+      description: Preview deploy key scoped to a project. Allowed only when operating on preview deployments in the key's project.
+    Team_Token:
+      type: http
+      scheme: bearer
+      description: Created in the dashboard under team settings for any team you can manage.

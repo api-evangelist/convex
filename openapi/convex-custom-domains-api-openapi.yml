@@ -1,150 +1,176 @@
 openapi: 3.2.0
 info:
   title: Convex Management Custom Domains API
-  description: The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically.
-  version: v1
-  contact:
-    name: Convex Platform Support
-    email: platforms@convex.dev
-    url: https://www.convex.dev/community
-  termsOfService: https://www.convex.dev/terms
+  description: Management API for provisioning and managing Convex projects and deployments.
+  license:
+    name: LicenseRef-Convex
+    identifier: LicenseRef-Convex
+  version: 1.0.0
 servers:
 - url: https://api.convex.dev/v1
-  description: Convex Management API Production Server
-security:
-- teamToken: []
-- oauthTeamToken: []
+  description: Platform API
 tags:
 - name: Custom Domains
-  description: Configure custom domain names for Convex deployments. Supports both convexCloud (function API) and convexSite (HTTP actions) request destinations.
+  description: Create, list, and delete custom domains
 paths:
-  /deployments/{deployment_name}/custom_domains/create:
+  /deployments/{deployment_name}/create_custom_domain:
     post:
+      tags:
+      - Custom Domains
+      summary: Create custom domain
       operationId: createCustomDomain
-      summary: Create a custom domain
-      description: 'Associates a custom domain with a Convex deployment. Supports two request destination types: convexCloud for routing to the function API (queries, mutations, actions), and convexSite for routing to HTTP action endpoints. Domain verification and DNS configuration is handled separately.'
-      tags:
-      - Custom Domains
       parameters:
-      - $ref: '#/components/parameters/deploymentName'
-      requestBody:
+      - name: deployment_name
+        in: path
+        description: Deployment name
         required: true
+      requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateCustomDomainRequest'
+              $ref: '#/components/schemas/PlatformDeleteCustomDomainArgs'
+        required: true
       responses:
         '200':
-          description: Custom domain created successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CustomDomain'
-        '400':
-          description: Bad request — invalid domain or destination type
-        '401':
-          description: Unauthorized — missing or invalid token
-  /deployments/{deployment_name}/custom_domains/list:
-    get:
-      operationId: listCustomDomains
-      summary: List custom domains for a deployment
-      description: Returns all custom domains configured for a deployment. Each entry includes the domain name, request destination type, and verification status.
-      tags:
-      - Custom Domains
-      parameters:
-      - $ref: '#/components/parameters/deploymentName'
-      responses:
-        '200':
-          description: Custom domains listed successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/CustomDomain'
-        '401':
-          description: Unauthorized — missing or invalid token
-  /deployments/{deployment_name}/custom_domains/delete:
+          description: ''
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: create custom domain
+  /deployments/{deployment_name}/delete_custom_domain:
     post:
-      operationId: deleteCustomDomain
-      summary: Delete a custom domain
-      description: Removes a custom domain association from a Convex deployment. After deletion, traffic to the domain will no longer be routed to the deployment. DNS records should be removed separately.
       tags:
       - Custom Domains
+      summary: Delete custom domain
+      description: Remove a custom domain from a deployment.
+      operationId: deleteCustomDomain
       parameters:
-      - $ref: '#/components/parameters/deploymentName'
-      requestBody:
+      - name: deployment_name
+        in: path
+        description: Deployment name
         required: true
+      requestBody:
         content:
           application/json:
             schema:
-              type: object
-              required:
-              - domain
-              properties:
-                domain:
-                  type: string
-                  description: The custom domain name to remove.
+              $ref: '#/components/schemas/PlatformDeleteCustomDomainArgs'
+        required: true
       responses:
         '200':
-          description: Custom domain deleted successfully
-        '401':
-          description: Unauthorized — missing or invalid token
-        '404':
-          description: Custom domain not found
+          description: ''
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: delete custom domain
+  /deployments/{deployment_name}/custom_domains:
+    get:
+      tags:
+      - Custom Domains
+      summary: List custom domains
+      description: Get all custom domains configured for a deployment.
+      operationId: listCustomDomains
+      parameters:
+      - name: deployment_name
+        in: path
+        description: Deployment name
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformListCustomDomainsResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list custom domains
 components:
   schemas:
-    CreateCustomDomainRequest:
+    PlatformListCustomDomainsResponse:
       type: object
       required:
-      - domain
-      - request_destination
+      - domains
       properties:
-        domain:
-          type: string
-          description: The custom domain name to associate with the deployment.
-        request_destination:
-          type: string
-          description: The routing destination for requests to this domain.
-          enum:
-          - convexCloud
-          - convexSite
-    CustomDomain:
+        domains:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlatformCustomDomainResponse'
+          description: List of custom domains configured for this deployment.
+    RequestDestination:
+      type: string
+      enum:
+      - convexCloud
+      - convexSite
+    PlatformCustomDomainResponse:
       type: object
       required:
+      - creationTime
+      - deploymentName
+      - requestDestination
       - domain
-      - request_destination
       properties:
+        creationTime:
+          type: integer
+          format: int64
+          description: Timestamp in milliseconds when this domain was created.
+        deploymentName:
+          type: string
+          description: The deployment name this domain is configured for.
+        requestDestination:
+          $ref: '#/components/schemas/RequestDestination'
+          description: The destination for this custom domain (convexCloud or convexSite).
         domain:
           type: string
-          description: The custom domain name (e.g. "api.example.com").
-        request_destination:
+          description: The custom domain name.
+        verificationTime:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: 'Timestamp in milliseconds when this domain was verified, or null if not
+
+            yet verified.'
+    PlatformDeleteCustomDomainArgs:
+      type: object
+      required:
+      - requestDestination
+      - domain
+      properties:
+        requestDestination:
+          $ref: '#/components/schemas/RequestDestination'
+          description: The destination for this custom domain (convexCloud or convexSite).
+        domain:
           type: string
-          description: The routing destination for requests to this domain. convexCloud routes to the function API; convexSite routes to HTTP action endpoints.
-          enum:
-          - convexCloud
-          - convexSite
-  parameters:
-    deploymentName:
-      name: deployment_name
-      in: path
-      required: true
-      description: The unique name of the deployment (e.g. "happy-otter-123"). This is the subdomain portion of the deployment URL at convex.cloud.
-      schema:
-        type: string
+          description: The custom domain name to delete.
   securitySchemes:
-    teamToken:
+    OAuth_Project_Token:
       type: http
       scheme: bearer
-      description: Team Access Token created in the Convex dashboard team settings. Grants management access to all projects and deployments within the team.
-    oauthTeamToken:
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    OAuth_Team_Token:
       type: http
       scheme: bearer
-      description: OAuth Application Token issued by Convex for third-party integrations acting on behalf of a user's team. Obtained via the Convex OAuth flow.
-    oauthProjectToken:
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    PAT:
       type: http
       scheme: bearer
-      description: OAuth Application Token scoped to a specific project, issued by Convex for third-party integrations.
-externalDocs:
-  description: Convex Management API Documentation
-  url: https://docs.convex.dev/management-api
+      bearerFormat: PAT
+      description: Personal access token created in the Convex dashboard under user settings.
+    Preview_Deploy_Key:
+      type: http
+      scheme: bearer
+      description: Preview deploy key scoped to a project. Allowed only when operating on preview deployments in the key's project.
+    Team_Token:
+      type: http
+      scheme: bearer
+      description: Created in the dashboard under team settings for any team you can manage.

@@ -1,0 +1,87 @@
+openapi: 3.2.0
+info:
+  title: Convex Management Teams API
+  description: The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically.
+  version: v1
+  contact:
+    name: Convex Platform Support
+    email: platforms@convex.dev
+    url: https://www.convex.dev/community
+  termsOfService: https://www.convex.dev/terms
+servers:
+- url: https://api.convex.dev/v1
+  description: Convex Management API Production Server
+security:
+- teamToken: []
+- oauthTeamToken: []
+tags:
+- name: Teams
+  description: Manage Convex teams, team members, and team-level access tokens. Teams are the billing and administrative unit that owns projects.
+paths:
+  /teams/{team_id}/members:
+    get:
+      operationId: listTeamMembers
+      summary: List team members
+      description: Returns all members of the specified team along with their roles. Roles include admin (full management access) and developer (standard access). Useful for auditing team membership and access levels.
+      tags:
+      - Teams
+      parameters:
+      - $ref: '#/components/parameters/teamId'
+      responses:
+        '200':
+          description: Team members listed successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TeamMember'
+        '401':
+          description: Unauthorized — missing or invalid token
+components:
+  schemas:
+    TeamMember:
+      type: object
+      required:
+      - id
+      - role
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier of the team member.
+        email:
+          type: string
+          format: email
+          description: Email address of the team member.
+        role:
+          type: string
+          description: The member's role within the team.
+          enum:
+          - admin
+          - developer
+  parameters:
+    teamId:
+      name: team_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    teamToken:
+      type: http
+      scheme: bearer
+      description: Team Access Token created in the Convex dashboard team settings. Grants management access to all projects and deployments within the team.
+    oauthTeamToken:
+      type: http
+      scheme: bearer
+      description: OAuth Application Token issued by Convex for third-party integrations acting on behalf of a user's team. Obtained via the Convex OAuth flow.
+    oauthProjectToken:
+      type: http
+      scheme: bearer
+      description: OAuth Application Token scoped to a specific project, issued by Convex for third-party integrations.
+externalDocs:
+  description: Convex Management API Documentation
+  url: https://docs.convex.dev/management-api

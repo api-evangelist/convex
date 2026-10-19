@@ -1,0 +1,95 @@
+openapi: 3.2.0
+info:
+  title: Convex Management Access Tokens API
+  description: The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically.
+  version: v1
+  contact:
+    name: Convex Platform Support
+    email: platforms@convex.dev
+    url: https://www.convex.dev/community
+  termsOfService: https://www.convex.dev/terms
+servers:
+- url: https://api.convex.dev/v1
+  description: Convex Management API Production Server
+security:
+- teamToken: []
+- oauthTeamToken: []
+tags:
+- name: Access Tokens
+  description: Create and manage Team Access Tokens used for authenticating Management API requests on behalf of a team.
+paths:
+  /teams/{team_id}/create_access_token:
+    post:
+      operationId: createAccessToken
+      summary: Create a team access token
+      description: Creates a new Team Access Token for the specified team. Team Access Tokens are used to authenticate Management API requests and grant access to all projects and deployments within the team. The token value is only returned at creation time and should be stored securely.
+      tags:
+      - Access Tokens
+      parameters:
+      - $ref: '#/components/parameters/teamId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccessTokenRequest'
+      responses:
+        '200':
+          description: Access token created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessToken'
+        '401':
+          description: Unauthorized — missing or invalid token
+components:
+  schemas:
+    AccessToken:
+      type: object
+      required:
+      - name
+      - token
+      properties:
+        name:
+          type: string
+          description: Human-readable name of the access token.
+        token:
+          type: string
+          description: The token value used for API authentication. Only returned at creation time; store it securely as it cannot be retrieved later.
+        created_at:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the token was created.
+    CreateAccessTokenRequest:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Human-readable name for the access token.
+  parameters:
+    teamId:
+      name: team_id
+      in: path
+      required: true
+      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    teamToken:
+      type: http
+      scheme: bearer
+      description: Team Access Token created in the Convex dashboard team settings. Grants management access to all projects and deployments within the team.
+    oauthTeamToken:
+      type: http
+      scheme: bearer
+      description: OAuth Application Token issued by Convex for third-party integrations acting on behalf of a user's team. Obtained via the Convex OAuth flow.
+    oauthProjectToken:
+      type: http
+      scheme: bearer
+      description: OAuth Application Token scoped to a specific project, issued by Convex for third-party integrations.
+externalDocs:
+  description: Convex Management API Documentation
+  url: https://docs.convex.dev/management-api

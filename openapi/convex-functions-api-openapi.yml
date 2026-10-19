@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: Convex HTTP Functions API
-  description: The Convex HTTP API is a REST interface for executing backend functions deployed on a Convex backend.
+  description: The Convex HTTP API is a REST interface for executing backend functions deployed on a Convex backend. It provides endpoints for invoking query, mutation, and action functions using POST requests. Each deployment has its own base URL found in the Convex dashboard settings, typically in the format https://{deployment-name}.convex.cloud. Requests accept a function path and named argument object as JSON, and responses include the function return value along with execution log lines. User authentication is optional via a bearer token from an auth provider; admin operations require a deploy key using the Convex authorization scheme.
   version: '1.0'
   contact:
     name: Convex Support
@@ -62,30 +62,6 @@ paths:
                 $ref: '#/components/schemas/FunctionErrorResponse'
 components:
   schemas:
-    FunctionErrorResponse:
-      type: object
-      required:
-      - status
-      - errorMessage
-      - logLines
-      properties:
-        status:
-          type: string
-          description: Indicates the function encountered an error during execution.
-          enum:
-          - error
-        errorMessage:
-          type: string
-          description: A human-readable description of the error that occurred during function execution.
-        errorData:
-          type: object
-          description: Additional structured data about the error, present when the function throws a ConvexError with associated data. The shape depends on the application-specific error definition.
-          additionalProperties: true
-        logLines:
-          type: array
-          description: An array of strings representing console output produced by the function prior to the error.
-          items:
-            type: string
     FunctionSuccessResponse:
       type: object
       required:
@@ -120,6 +96,30 @@ components:
           enum:
           - json
           default: json
+    FunctionErrorResponse:
+      type: object
+      required:
+      - status
+      - errorMessage
+      - logLines
+      properties:
+        status:
+          type: string
+          description: Indicates the function encountered an error during execution.
+          enum:
+          - error
+        errorMessage:
+          type: string
+          description: A human-readable description of the error that occurred during function execution.
+        errorData:
+          type: object
+          description: Additional structured data about the error, present when the function throws a ConvexError with associated data. The shape depends on the application-specific error definition.
+          additionalProperties: true
+        logLines:
+          type: array
+          description: An array of strings representing console output produced by the function prior to the error.
+          items:
+            type: string
   parameters:
     functionIdentifier:
       name: functionIdentifier

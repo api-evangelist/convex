@@ -1,219 +1,415 @@
 openapi: 3.2.0
 info:
   title: Convex Management Projects API
-  description: The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically.
-  version: v1
-  contact:
-    name: Convex Platform Support
-    email: platforms@convex.dev
-    url: https://www.convex.dev/community
-  termsOfService: https://www.convex.dev/terms
+  description: Management API for provisioning and managing Convex projects and deployments.
+  license:
+    name: LicenseRef-Convex
+    identifier: LicenseRef-Convex
+  version: 1.0.0
 servers:
 - url: https://api.convex.dev/v1
-  description: Convex Management API Production Server
-security:
-- teamToken: []
-- oauthTeamToken: []
+  description: Platform API
 tags:
 - name: Projects
-  description: Create, list, retrieve, and delete Convex projects within a team. Projects group deployments and serve as the top-level organizational unit for Convex applications.
+  description: Create, list, and manage projects
 paths:
   /teams/{team_id}/create_project:
     post:
-      operationId: createProject
-      summary: Create a new project
-      description: Provisions a new Convex project within the specified team. Optionally creates an initial production deployment in the specified cloud region and deployment class. Returns the new project's ID and slug along with details of any provisioned deployment.
       tags:
       - Projects
+      summary: Create project
+      description: 'Create a new project on a team, optionally provisioning a dev or prod
+
+        deployment.'
+      operationId: createProject
       parameters:
-      - $ref: '#/components/parameters/teamId'
-      requestBody:
+      - name: team_id
+        in: path
+        description: Team ID
         required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateProjectRequest'
+              $ref: '#/components/schemas/PlatformCreateProjectArgs'
+        required: true
       responses:
         '200':
-          description: Project created successfully
+          description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
-        '400':
-          description: Bad request — invalid parameters
-        '401':
-          description: Unauthorized — missing or invalid token
-  /teams/{team_id}/list_projects:
-    get:
-      operationId: listProjects
-      summary: List projects in a team
-      description: Returns all Convex projects belonging to the specified team. Each project entry includes its ID, slug, name, and associated deployment information. Useful for enumerating resources available to the authenticated token holder.
-      tags:
-      - Projects
-      parameters:
-      - $ref: '#/components/parameters/teamId'
-      responses:
-        '200':
-          description: Projects listed successfully
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Project'
-        '401':
-          description: Unauthorized — missing or invalid token
+                $ref: '#/components/schemas/PlatformCreateProjectResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: create project
   /projects/{project_id}:
     get:
-      operationId: getProject
-      summary: Get a project by ID
-      description: Retrieves details for a specific Convex project identified by its integer project ID. Returns the project's name, slug, team association, and deployment summary.
       tags:
       - Projects
+      summary: Get project by ID
+      description: Get a project by its ID.
+      operationId: getProjectById
       parameters:
-      - $ref: '#/components/parameters/projectId'
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
       responses:
         '200':
-          description: Project retrieved successfully
+          description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Project'
-        '401':
-          description: Unauthorized — missing or invalid token
-        '404':
-          description: Project not found
-  /teams/{team_id_or_slug}/projects/{project_slug}:
+                $ref: '#/components/schemas/ProjectResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: get project by id
+    patch:
+      tags:
+      - Projects
+      summary: Update project
+      description: Update a project's name and/or slug. Returns the updated project.
+      operationId: updateProject
+      parameters:
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformUpdateProjectArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: update project
+  /teams/{team_id}/projects:
     get:
-      operationId: getProjectBySlug
-      summary: Get a project by team and project slug
-      description: Retrieves a project by its human-readable slug within a team identified by either team ID or team slug. This is useful when project identifiers are stored as slugs rather than integer IDs.
       tags:
       - Projects
+      summary: List projects
+      description: 'List a page of projects for a team, ordered by descending project ID. Pass
+
+        `limit` to set the page size and the `nextCursor` from the previous response
+
+        as `cursor` to fetch the next page.'
+      operationId: listProjects
       parameters:
-      - $ref: '#/components/parameters/teamIdOrSlug'
-      - $ref: '#/components/parameters/projectSlug'
-      responses:
-        '200':
-          description: Project retrieved successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Project'
-        '401':
-          description: Unauthorized — missing or invalid token
-        '404':
-          description: Project not found
-  /projects/{project_id}/delete:
-    post:
-      operationId: deleteProject
-      summary: Delete a project
-      description: Permanently deletes a Convex project and all associated deployments. This operation is irreversible. All deployments within the project are also deleted, and all associated resources (functions, data, files) are permanently removed.
-      tags:
-      - Projects
-      parameters:
-      - $ref: '#/components/parameters/projectId'
-      responses:
-        '200':
-          description: Project deleted successfully
-        '401':
-          description: Unauthorized — missing or invalid token
-        '404':
-          description: Project not found
-components:
-  parameters:
-    projectSlug:
-      name: project_slug
-      in: path
-      required: true
-      description: The human-readable slug of the project within the team.
-      schema:
-        type: string
-    teamIdOrSlug:
-      name: team_id_or_slug
-      in: path
-      required: true
-      description: Either the integer team ID or the human-readable team slug.
-      schema:
-        type: string
-    projectId:
-      name: project_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex project. Obtainable via the List Projects endpoint or assigned during project creation.
-      schema:
-        type: integer
-        format: int64
-    teamId:
-      name: team_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
-      schema:
-        type: integer
-        format: int64
-  schemas:
-    CreateProjectRequest:
-      type: object
-      required:
-      - name
-      properties:
-        name:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      - name: cursor
+        in: query
+        description: Cursor for pagination
+        required: false
+        schema:
           type: string
-          description: Display name for the new project.
-        team_id:
+      - name: limit
+        in: query
+        description: Maximum number of projects to return (1-100, defaults to 100)
+        required: false
+        schema:
           type: integer
           format: int64
-          description: ID of the team to create the project in.
-        deployment_region:
+      - name: q
+        in: query
+        description: Search query to filter projects by name or slug (case-insensitive)
+        required: false
+        schema:
           type: string
-          description: Cloud region for the initial production deployment. If omitted, no initial deployment is created.
-          enum:
-          - aws-us-east-1
-          - aws-eu-west-1
-        deployment_class:
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformPaginatedProjectsResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list projects
+  /projects/{project_id}/delete:
+    post:
+      tags:
+      - Projects
+      summary: Delete project
+      description: Delete a project. Deletes all deployments in the project as well.
+      operationId: deleteProject
+      parameters:
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      responses:
+        '200':
+          description: ''
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: delete project
+  /teams/{team_id_or_slug}/projects/{project_slug}:
+    get:
+      tags:
+      - Projects
+      summary: Get project by slug
+      description: Get a project by its slug.
+      operationId: getProjectBySlug
+      parameters:
+      - name: team_id_or_slug
+        in: path
+        description: Team ID or slug
+        required: true
+        schema:
           type: string
-          description: Compute class for the initial production deployment.
-          enum:
-          - s16
-          - s256
-          - d1024
-    Project:
+      - name: project_slug
+        in: path
+        description: Project slug
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: get project by slug
+components:
+  schemas:
+    ProjectSlug:
+      type: string
+    PlatformPaginatedProjectsResponse:
+      type: object
+      required:
+      - items
+      - pagination
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProjectResponse'
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
+    PlatformCreateProjectResponse:
+      type: object
+      required:
+      - projectId
+      - id
+      - slug
+      properties:
+        projectId:
+          $ref: '#/components/schemas/ProjectId'
+          description: Deprecated alias for `id`, kept for backwards compatibility.
+        id:
+          $ref: '#/components/schemas/ProjectId'
+        slug:
+          $ref: '#/components/schemas/ProjectSlug'
+          description: The shortened version of the project name used in Convex Dashboard URLs.
+        deploymentName:
+          type:
+          - string
+          - 'null'
+          description: 'The readable identifier for this deployment, something like
+
+            playful-otter-123. Only present when a deployment was requested.'
+        deploymentUrl:
+          type:
+          - string
+          - 'null'
+          description: 'Deployment cloud URL, where this deployment lives. Only present when a
+
+            deployment was requested.'
+    ProjectId:
+      type: integer
+      format: int64
+      minimum: 0
+    PlatformCreateProjectArgs:
+      type: object
+      required:
+      - projectName
+      properties:
+        projectName:
+          $ref: '#/components/schemas/ProjectName'
+          description: 'The full name of the project as it will appear in the dashboard. Spaces
+
+            and punctuations allowed.'
+        deploymentType:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/CreateDeploymentType'
+            description: 'Optionally provision a "dev" development deployment or "prod" production
+
+              deployment alongside the project. If omitted, a project is created
+
+              without a deployment.'
+        deploymentClass:
+          type:
+          - string
+          - 'null'
+          description: 'When creating a deployment, the class to use for the deployment.
+
+            If not provided, the default deployment class for your team will be
+
+            used.'
+        deploymentRegion:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/RegionName'
+            description: 'When creating a deployment, the hosting region to use for the
+
+              deployment. If not provided, the default deployment region for your
+
+              team will be used.'
+      additionalProperties: false
+    ProjectResponse:
       type: object
       required:
       - id
-      - slug
       - name
-      - team_id
+      - slug
+      - teamId
+      - teamSlug
+      - createTime
       properties:
         id:
-          type: integer
-          format: int64
-          description: Unique integer identifier for the project.
-        slug:
-          type: string
-          description: Human-readable URL-safe identifier for the project within the team.
+          $ref: '#/components/schemas/ProjectId'
         name:
-          type: string
-          description: Display name of the project.
-        team_id:
+          $ref: '#/components/schemas/ProjectName'
+          description: The full project name, including spaces and punctuation.
+        slug:
+          $ref: '#/components/schemas/ProjectSlug'
+          description: This shortened version of the name used in Convex Dashboard URLs.
+        teamId:
+          $ref: '#/components/schemas/TeamId'
+        teamSlug:
+          $ref: '#/components/schemas/TeamSlug'
+          description: The slug of the team that owns this project.
+        createTime:
           type: integer
           format: int64
-          description: ID of the team that owns this project.
+          description: Timestamp in milliseconds.
+        prodDeploymentName:
+          type:
+          - string
+          - 'null'
+          description: 'The name of the default production deployment for this project, if one
+
+            exists (e.g. "happy-otter-123").'
+        devDeploymentName:
+          type:
+          - string
+          - 'null'
+          description: 'The name of the requesting member''s default development deployment for
+
+            this project, if one exists (an active local deployment or default
+
+            cloud dev deployment).'
+    TeamSlug:
+      type: string
+    CreateDeploymentType:
+      type: string
+      enum:
+      - dev
+      - prod
+      - preview
+      - custom
+    RegionName:
+      type: string
+      enum:
+      - aws-us-east-1
+      - aws-eu-west-1
+      - aws-ca-central-1
+      - aws-ap-southeast-2
+    PaginationMetadata:
+      type: object
+      required:
+      - hasMore
+      properties:
+        hasMore:
+          type: boolean
+        nextCursor:
+          type:
+          - string
+          - 'null'
+    TeamId:
+      type: integer
+      format: int64
+      minimum: 0
+    PlatformUpdateProjectArgs:
+      type: object
+      properties:
+        name:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/ProjectName'
+            description: New name for the project. If omitted, the name is left unchanged.
+        slug:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/ProjectSlug'
+            description: New slug for the project. If omitted, the slug is left unchanged.
+      additionalProperties: false
+    ProjectName:
+      type: string
   securitySchemes:
-    teamToken:
+    OAuth_Project_Token:
       type: http
       scheme: bearer
-      description: Team Access Token created in the Convex dashboard team settings. Grants management access to all projects and deployments within the team.
-    oauthTeamToken:
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    OAuth_Team_Token:
       type: http
       scheme: bearer
-      description: OAuth Application Token issued by Convex for third-party integrations acting on behalf of a user's team. Obtained via the Convex OAuth flow.
-    oauthProjectToken:
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    PAT:
       type: http
       scheme: bearer
-      description: OAuth Application Token scoped to a specific project, issued by Convex for third-party integrations.
-externalDocs:
-  description: Convex Management API Documentation
-  url: https://docs.convex.dev/management-api
+      bearerFormat: PAT
+      description: Personal access token created in the Convex dashboard under user settings.
+    Preview_Deploy_Key:
+      type: http
+      scheme: bearer
+      description: Preview deploy key scoped to a project. Allowed only when operating on preview deployments in the key's project.
+    Team_Token:
+      type: http
+      scheme: bearer
+      description: Created in the dashboard under team settings for any team you can manage.

@@ -175,26 +175,6 @@ apis:
     url: https://docs.convex.dev/management-api
   - type: Documentation
     url: https://docs.convex.dev/deployment-platform-api
-- aid: convex:convex-deploykeys-api
-  name: Convex DeployKeys API
-  description: >-
-    Create and manage deploy keys for CLI operations and CI/CD pipelines. Deploy keys authenticate the
-    Convex CLI when pushing function code to a deployment.
-  humanURL: https://docs.convex.dev/http-api/
-  baseURL: https://{deployment-name}.convex.cloud
-  tags:
-  - Deploy Keys
-  tags_raw:
-  - DeployKeys
-  properties:
-  - type: OpenAPI
-    url: openapi/convex-deploykeys-api-openapi.yml
-  - type: Documentation
-    url: https://docs.convex.dev/http-api/
-  - type: Documentation
-    url: https://docs.convex.dev/management-api
-  - type: Documentation
-    url: https://docs.convex.dev/deployment-platform-api
 - aid: convex:convex-deployments-api
   name: Convex Deployments API
   description: >-
@@ -360,6 +340,38 @@ apis:
   properties:
   - type: OpenAPI
     url: openapi/convex-environment-variables-api-openapi.yml
+  - type: Documentation
+    url: https://docs.convex.dev/http-api/
+  - type: Documentation
+    url: https://docs.convex.dev/management-api
+  - type: Documentation
+    url: https://docs.convex.dev/deployment-platform-api
+- aid: convex:convex-custom-roles-api
+  name: Convex Custom Roles API
+  description: The Custom Roles API from Convex — 4 operation(s) for custom roles.
+  humanURL: https://docs.convex.dev/understanding/
+  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
+  tags:
+  - Custom Roles
+  properties:
+  - type: OpenAPI
+    url: openapi/convex-custom-roles-api-openapi.yml
+  - type: Documentation
+    url: https://docs.convex.dev/http-api/
+  - type: Documentation
+    url: https://docs.convex.dev/management-api
+  - type: Documentation
+    url: https://docs.convex.dev/deployment-platform-api
+- aid: convex:convex-deploy-keys-api
+  name: Convex Deploy Keys API
+  description: Create, list, and delete deploy keys
+  humanURL: https://docs.convex.dev/understanding/
+  baseURL: wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync
+  tags:
+  - Deploy Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/convex-deploy-keys-api-openapi.yml
   - type: Documentation
     url: https://docs.convex.dev/http-api/
   - type: Documentation

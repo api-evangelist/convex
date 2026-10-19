@@ -1,0 +1,430 @@
+openapi: 3.2.0
+info:
+  title: Convex Management Custom Roles API
+  description: Management API for provisioning and managing Convex projects and deployments.
+  license:
+    name: LicenseRef-Convex
+    identifier: LicenseRef-Convex
+  version: 1.0.0
+servers:
+- url: https://api.convex.dev/v1
+  description: Platform API
+tags:
+- name: Custom Roles
+paths:
+  /teams/{team_id}/create_custom_role:
+    post:
+      tags:
+      - Custom Roles
+      summary: Create a custom role
+      description: 'Creates a new custom role for the team with the specified name,
+
+        description, and permission statements.'
+      operationId: createCustomRole
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomRoleArgs'
+        required: true
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomRoleResponse'
+      security:
+      - PAT: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: create custom role
+  /teams/{team_id}/list_custom_roles:
+    get:
+      tags:
+      - Custom Roles
+      summary: List custom roles
+      description: Lists all custom roles for the team with cursor-based pagination.
+      operationId: listCustomRoles
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      - name: cursor
+        in: query
+        description: Cursor for pagination
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: 'Max results per page (default: 100, max: 100)'
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListCustomRolesResponse'
+      security:
+      - PAT: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list custom roles
+  /teams/{team_id}/update_custom_role:
+    post:
+      tags:
+      - Custom Roles
+      summary: Update a custom role
+      description: 'Updates an existing custom role''s name, description, and permission
+
+        statements.'
+      operationId: updateCustomRole
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCustomRoleArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomRoleResponse'
+      security:
+      - PAT: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: update custom role
+  /teams/{team_id}/delete_custom_role:
+    post:
+      tags:
+      - Custom Roles
+      summary: Delete a custom role
+      description: 'Deletes a custom role from the team. Fails with `CustomRoleInUse` if
+
+        the role is still attached to any team members; reassign those members
+
+        (e.g. via `update_team_member_role`) before retrying.'
+      operationId: deleteCustomRole
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteCustomRoleArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+      security:
+      - PAT: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: delete custom role
+components:
+  schemas:
+    RoleStatementAction:
+      type: string
+      description: An action that can be allowed or denied by a custom role statement.
+      enum:
+      - team:update
+      - team:delete
+      - project:create
+      - project:transfer
+      - project:receive
+      - project:update
+      - project:delete
+      - project:view
+      - project:updateMemberRole
+      - defaultEnvironmentVariable:create
+      - defaultEnvironmentVariable:update
+      - defaultEnvironmentVariable:delete
+      - defaultEnvironmentVariable:view
+      - deployment:create
+      - deployment:transfer
+      - deployment:receive
+      - deployment:updateReference
+      - deployment:updateDashboardEditConfirmation
+      - deployment:updateExpiresAt
+      - deployment:updateSendLogsToClient
+      - deployment:updateClass
+      - deployment:updateIsDefault
+      - deployment:updateType
+      - deployment:delete
+      - deployment:view
+      - deployment:integrations:view
+      - deployment:integrations:write
+      - deployment:customDomain:create
+      - deployment:customDomain:delete
+      - deployment:customDomain:view
+      - member:invite
+      - member:cancelInvitation
+      - member:remove
+      - member:updateRole
+      - member:view
+      - billing:paymentMethod:update
+      - billing:contact:update
+      - billing:address:update
+      - billing:subscription:changePlan
+      - billing:spendingLimit:update
+      - billing:view
+      - billing:invoices:view
+      - team:auditLog:view
+      - team:domain:create
+      - team:domain:delete
+      - team:domain:view
+      - team:token:create
+      - team:token:update
+      - team:token:delete
+      - team:token:view
+      - project:token:create
+      - project:token:update
+      - project:token:delete
+      - project:token:view
+      - deployment:token:create
+      - deployment:token:update
+      - deployment:token:delete
+      - deployment:token:view
+      - oauthApplication:create
+      - oauthApplication:update
+      - oauthApplication:delete
+      - oauthApplication:view
+      - oauthApplication:generateClientSecret
+      - team:usage:view
+      - deployment:insights:view
+      - deployment:backups:create
+      - deployment:backups:import
+      - deployment:backups:configurePeriodic
+      - deployment:backups:disablePeriodic
+      - deployment:backups:delete
+      - deployment:backups:view
+      - sso:enable
+      - sso:disable
+      - sso:update
+      - sso:view
+      - directorySync:enable
+      - directorySync:disable
+      - directorySync:updateGroupMapping
+      - directorySync:deleteGroupMapping
+      - directorySync:view
+      - customRole:view
+      - integration:view
+      - integration:create
+      - integration:update
+      - integration:delete
+      - deployment:deploy
+      - deployment:env:view
+      - deployment:env:write
+      - deployment:pause
+      - deployment:unpause
+      - deployment:logs:view
+      - deployment:metrics:view
+      - deployment:data:view
+      - deployment:data:write
+      - deployment:backups:download
+      - deployment:functions:actAsUser
+      - deployment:functions:runInternalQueries
+      - deployment:functions:runInternalMutations
+      - deployment:functions:runInternalActions
+      - deployment:functions:runTestQuery
+      - deployment:auditLog:view
+      - deployment:usageLimits:view
+      - deployment:usageLimits:write
+      - deployment:usage:view
+      - deployment:aiGateway:use
+    ListCustomRolesResponse:
+      type: object
+      required:
+      - items
+      - pagination
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomRoleResponse'
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
+    RoleStatementEffect:
+      type: string
+      description: Whether a rule grants or revokes access.
+      enum:
+      - allow
+      - deny
+    MemberId:
+      type: integer
+      format: int64
+      minimum: 0
+    CreateCustomRoleArgs:
+      type: object
+      required:
+      - name
+      - statements
+      properties:
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleStatement'
+      additionalProperties: false
+    RoleStatementWildcardAction:
+      type: string
+      enum:
+      - '*'
+    RoleStatement:
+      type: object
+      description: A single permission rule within a custom role.
+      required:
+      - effect
+      - actions
+      - resource
+      properties:
+        effect:
+          $ref: '#/components/schemas/RoleStatementEffect'
+        actions:
+          $ref: '#/components/schemas/RoleStatementActions'
+        resource:
+          type: string
+          description: 'Resource path like `project:*`, `project:slug=my-app`, or
+
+            `project:*:deployment:type=prod`.'
+          example: project:*
+    PaginationMetadata:
+      type: object
+      required:
+      - hasMore
+      properties:
+        hasMore:
+          type: boolean
+        nextCursor:
+          type:
+          - string
+          - 'null'
+    CustomRoleId:
+      type: integer
+      format: int64
+      minimum: 0
+    TeamId:
+      type: integer
+      format: int64
+      minimum: 0
+    DeleteCustomRoleArgs:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          $ref: '#/components/schemas/CustomRoleId'
+      additionalProperties: false
+    CustomRoleResponse:
+      type: object
+      required:
+      - id
+      - teamId
+      - name
+      - statements
+      - createTime
+      properties:
+        id:
+          $ref: '#/components/schemas/CustomRoleId'
+        teamId:
+          $ref: '#/components/schemas/TeamId'
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleStatement'
+        creator:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/MemberId'
+        createTime:
+          type: integer
+          format: int64
+    RoleStatementActions:
+      oneOf:
+      - $ref: '#/components/schemas/RoleStatementWildcardAction'
+      - type: array
+        items:
+          $ref: '#/components/schemas/RoleStatementAction'
+    UpdateCustomRoleArgs:
+      type: object
+      required:
+      - id
+      - name
+      - statements
+      properties:
+        id:
+          $ref: '#/components/schemas/CustomRoleId'
+        name:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        statements:
+          type: array
+          items:
+            $ref: '#/components/schemas/RoleStatement'
+      additionalProperties: false
+  securitySchemes:
+    OAuth_Project_Token:
+      type: http
+      scheme: bearer
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    OAuth_Team_Token:
+      type: http
+      scheme: bearer
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    PAT:
+      type: http
+      scheme: bearer
+      bearerFormat: PAT
+      description: Personal access token created in the Convex dashboard under user settings.
+    Preview_Deploy_Key:
+      type: http
+      scheme: bearer
+      description: Preview deploy key scoped to a project. Allowed only when operating on preview deployments in the key's project.
+    Team_Token:
+      type: http
+      scheme: bearer
+      description: Created in the dashboard under team settings for any team you can manage.

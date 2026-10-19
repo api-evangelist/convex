@@ -1,26 +1,97 @@
 openapi: 3.2.0
 info:
-  title: Convex Deployment Platform Environment Variables API
-  description: The Convex Deployment Platform API is a deployment-scoped administrative REST API for configuring individual Convex deployments.
-  version: v1-beta
-  contact:
-    name: Convex Platform Support
-    email: platforms@convex.dev
-    url: https://www.convex.dev/community
-  termsOfService: https://www.convex.dev/terms
+  title: Convex Management Environment Variables API
+  description: Management API for provisioning and managing Convex projects and deployments.
+  license:
+    name: LicenseRef-Convex
+    identifier: LicenseRef-Convex
+  version: 1.0.0
 servers:
-- url: https://{deploymentName}.convex.cloud/api/v1
-  description: Convex Deployment Server
-  variables:
-    deploymentName:
-      default: happy-otter-123
-      description: The deployment name found in the Convex dashboard or via the Management API. Each deployment has a unique subdomain under convex.cloud.
-security:
-- convexAuth: []
+- url: https://api.convex.dev/v1
+  description: Platform API
 tags:
 - name: Environment Variables
-  description: Manage environment variables for a Convex deployment. Environment variables are key-value pairs accessible to backend functions at runtime via process.env. Changes to environment variables take effect after the next deployment push.
 paths:
+  /projects/{project_id}/list_default_environment_variables:
+    get:
+      tags:
+      - Environment Variables
+      summary: List default environment variables
+      description: 'Lists all default environment variables for the specified project, with
+
+        optional filtering by name and deployment type.'
+      operationId: listDefaultEnvironmentVariables
+      parameters:
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      - name: name
+        in: query
+        description: Filter by exact environment variable name.
+        required: false
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: deploymentType
+        in: query
+        description: Filter by deployment type
+        required: false
+        schema:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/DeploymentType'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDefaultEnvironmentVariablesResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list default environment variables
+  /projects/{project_id}/update_default_environment_variables:
+    post:
+      tags:
+      - Environment Variables
+      summary: Update default environment variables
+      description: 'Creates, updates, or deletes default environment variables for the specified
+
+        project. When `value` is a string, the variable is upserted. When `value` is
+
+        null, the variable is deleted.'
+      operationId: updateDefaultEnvironmentVariables
+      parameters:
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDefaultEnvironmentVariablesArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: update default environment variables
   /list_environment_variables:
     post:
       operationId: listEnvironmentVariables
@@ -104,6 +175,94 @@ paths:
           description: Forbidden — the provided token does not have administrative access to this deployment.
 components:
   schemas:
+    ProjectId:
+      type: integer
+      format: int64
+      minimum: 0
+    DefaultEnvironmentVariableChangeArgs:
+      type: object
+      required:
+      - name
+      - deploymentType
+      properties:
+        name:
+          type: string
+        deploymentType:
+          $ref: '#/components/schemas/DeploymentType'
+        value:
+          type:
+          - string
+          - 'null'
+          description: 'Set to a value to upsert the default environment variable
+
+            with the given name and type. If null, will delete the
+
+            environment variable with the given name and deployment
+
+            type if it exists (and do nothing if it doesn’t exist).'
+      additionalProperties: false
+    DeploymentType:
+      type: string
+      enum:
+      - dev
+      - prod
+      - preview
+      - custom
+    PaginationMetadata:
+      type: object
+      required:
+      - hasMore
+      properties:
+        hasMore:
+          type: boolean
+        nextCursor:
+          type:
+          - string
+          - 'null'
+    UpdateDefaultEnvironmentVariablesArgs:
+      type: object
+      required:
+      - changes
+      properties:
+        changes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultEnvironmentVariableChangeArgs'
+      additionalProperties: false
+    DefaultEnvironmentVariableResponse:
+      type: object
+      required:
+      - name
+      - value
+      - deploymentTypes
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+        deploymentTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeploymentType'
+          description: 'The deployment types that this env var name + value apply to.
+
+            Note that when filtering by a particular deployment type,
+
+            all items in the result will have a single element
+
+            in `deploymentType`.'
+    PaginatedDefaultEnvironmentVariablesResponse:
+      type: object
+      required:
+      - items
+      - pagination
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefaultEnvironmentVariableResponse'
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
     EnvironmentVariable:
       type: object
       required:
@@ -120,11 +279,29 @@ components:
           description: The environment variable value. May contain any string value including connection strings, API keys, or configuration data.
           example: https://db.example.com/mydb
   securitySchemes:
+    OAuth_Project_Token:
+      type: http
+      scheme: bearer
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    OAuth_Team_Token:
+      type: http
+      scheme: bearer
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    PAT:
+      type: http
+      scheme: bearer
+      bearerFormat: PAT
+      description: Personal access token created in the Convex dashboard under user settings.
+    Preview_Deploy_Key:
+      type: http
+      scheme: bearer
+      description: Preview deploy key scoped to a project. Allowed only when operating on preview deployments in the key's project.
+    Team_Token:
+      type: http
+      scheme: bearer
+      description: Created in the dashboard under team settings for any team you can manage.
     convexAuth:
       type: apiKey
       in: header
       name: Authorization
       description: 'Authorization header using a deployment key, Team Access Token, or OAuth Application Token. The token must be prefixed with the string "Convex " (e.g. "Authorization: Convex prod:abc123..."). Deployment keys are created in the dashboard or via the Management API.'
-externalDocs:
-  description: Convex Deployment Platform API Documentation
-  url: https://docs.convex.dev/deployment-platform-api

@@ -1,95 +1,488 @@
 openapi: 3.2.0
 info:
   title: Convex Management Access Tokens API
-  description: The Convex Management API is a REST API for provisioning and managing Convex projects, deployments, teams, and access credentials programmatically.
-  version: v1
-  contact:
-    name: Convex Platform Support
-    email: platforms@convex.dev
-    url: https://www.convex.dev/community
-  termsOfService: https://www.convex.dev/terms
+  description: Management API for provisioning and managing Convex projects and deployments.
+  license:
+    name: LicenseRef-Convex
+    identifier: LicenseRef-Convex
+  version: 1.0.0
 servers:
 - url: https://api.convex.dev/v1
-  description: Convex Management API Production Server
-security:
-- teamToken: []
-- oauthTeamToken: []
+  description: Platform API
 tags:
 - name: Access Tokens
-  description: Create and manage Team Access Tokens used for authenticating Management API requests on behalf of a team.
+  description: Inspect authentication token details
 paths:
-  /teams/{team_id}/create_access_token:
-    post:
-      operationId: createAccessToken
-      summary: Create a team access token
-      description: Creates a new Team Access Token for the specified team. Team Access Tokens are used to authenticate Management API requests and grant access to all projects and deployments within the team. The token value is only returned at creation time and should be stored securely.
+  /list_personal_access_tokens:
+    get:
       tags:
       - Access Tokens
+      summary: List personal access tokens
+      description: Lists all personal access tokens for the authenticated user.
+      operationId: listPersonalAccessTokens
       parameters:
-      - $ref: '#/components/parameters/teamId'
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateAccessTokenRequest'
+      - name: cursor
+        in: query
+        description: Cursor for pagination
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Maximum number of tokens to return (default 10, max 100)
+        required: false
+        schema:
+          type: integer
+          format: int64
       responses:
         '200':
-          description: Access token created successfully
+          description: ''
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccessToken'
-        '401':
-          description: Unauthorized — missing or invalid token
+                $ref: '#/components/schemas/PaginatedPersonalAccessTokensResponse'
+      security:
+      - PAT: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list personal access tokens
+  /create_personal_access_token:
+    post:
+      tags:
+      - Access Tokens
+      summary: Create personal access token
+      description: Creates a new personal access token for the authenticated user.
+      operationId: createPersonalAccessToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePersonalAccessTokenArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatePersonalAccessTokenResponse'
+      security:
+      - PAT: []
+      x-operation-id-source: normalized
+      x-operation-id-original: create personal access token
+  /delete_personal_access_token:
+    post:
+      tags:
+      - Access Tokens
+      summary: Delete personal access token
+      description: 'Deletes a personal access token for the authenticated user. The `id` in the
+
+        request body can be the encoded token secret or the name of the token.'
+      operationId: deletePersonalAccessToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeletePersonalAccessTokenArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+      security:
+      - PAT: []
+      x-operation-id-source: normalized
+      x-operation-id-original: delete personal access token
+  /teams/{team_id}/list_access_tokens:
+    get:
+      tags:
+      - Access Tokens
+      summary: List team access tokens
+      description: 'Lists the team access tokens created by the authenticated member for the
+
+        given team.'
+      operationId: listTeamAccessTokens
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      - name: cursor
+        in: query
+        description: Cursor for pagination
+        required: false
+        schema:
+          type: string
+      - name: limit
+        in: query
+        description: Maximum number of tokens to return (default 10, max 100)
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListTeamAccessTokensResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list team access tokens
+  /teams/{team_id}/delete_access_token:
+    post:
+      tags:
+      - Access Tokens
+      summary: Delete a team access token
+      description: Deletes a team access token, identified by its secret value or name.
+      operationId: deleteTeamAccessToken
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteTeamAccessTokenArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: delete team access token
+  /token_details:
+    get:
+      tags:
+      - Access Tokens
+      summary: Get token details
+      description: 'Returns the team ID for team tokens.
+
+        Especially useful after receiving a team token from an OAuth flow
+
+        since most endpoints require team ID.'
+      operationId: getTokenDetails
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformTokenDetailsResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: get token details
+  /teams/{team_id}/create_access_token:
+    post:
+      tags:
+      - Access Tokens
+      summary: Create a team access token
+      operationId: createTeamAccessToken
+      parameters:
+      - name: team_id
+        in: path
+        description: Team ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/TeamId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - type: 'null'
+              - $ref: '#/components/schemas/CreateTeamAccessTokenArgs'
+      responses:
+        '201':
+          description: Team access token created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTeamAccessTokenResponse'
+        '403':
+          description: Caller is not authorized to create team access tokens
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: create team access token
 components:
   schemas:
-    AccessToken:
+    AccessTokenId:
+      type: integer
+      format: int64
+      minimum: 0
+    DeviceName:
+      type: string
+    CreateTeamAccessTokenArgs:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          description: Name for the access token.
+        expiresAt:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: 'Timestamp in milliseconds when this token will expire. Must be at least
+
+            30 minutes in the future. Defaults to no expiry if omitted.'
+      additionalProperties: false
+    ProjectId:
+      type: integer
+      format: int64
+      minimum: 0
+    DeletePersonalAccessTokenArgs:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: 'The token to delete. This can be the secret value of the token or the
+
+            token''s unique name.'
+      additionalProperties: false
+    CreatePersonalAccessTokenArgs:
       type: object
       required:
       - name
-      - token
       properties:
         name:
           type: string
-          description: Human-readable name of the access token.
-        token:
-          type: string
-          description: The token value used for API authentication. Only returned at creation time; store it securely as it cannot be retrieved later.
-        created_at:
-          type: string
-          format: date-time
-          description: ISO 8601 timestamp when the token was created.
-    CreateAccessTokenRequest:
+          description: Name for the personal access token.
+        expiresAt:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: 'Timestamp in milliseconds when this personal access token will
+
+            expire. Must be at least 30 minutes in the future.'
+      additionalProperties: false
+    TeamAccessTokenResponse:
       type: object
       required:
+      - id
       - name
+      - creationTime
       properties:
+        id:
+          $ref: '#/components/schemas/AccessTokenId'
+          description: The id of this access token.
         name:
           type: string
-          description: Human-readable name for the access token.
-  parameters:
-    teamId:
-      name: team_id
-      in: path
-      required: true
-      description: The integer identifier of the Convex team. Available in the Convex dashboard when creating Team Access Tokens.
-      schema:
-        type: integer
-        format: int64
+          description: Name of the token.
+        creationTime:
+          type: integer
+          format: int64
+          description: Timestamp in milliseconds when the token was created.
+        lastUsedTime:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: Timestamp in milliseconds when the token was last used, if ever.
+        expiresAt:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: Timestamp in milliseconds when the token expires, if set.
+        creator:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/MemberId'
+            description: The member who created the token.
+    PlatformTokenDetailsResponse:
+      oneOf:
+      - type: object
+        required:
+        - id
+        - teamId
+        - name
+        - createTime
+        - type
+        properties:
+          id:
+            $ref: '#/components/schemas/AccessTokenId'
+            description: Stable identifier for this access token.
+          teamId:
+            $ref: '#/components/schemas/TeamId'
+            description: The team ID this token is associated with.
+          name:
+            $ref: '#/components/schemas/DeviceName'
+            description: The name given to the token at creation.
+          createTime:
+            type: integer
+            format: int64
+            description: Timestamp in milliseconds when this token was created.
+          type:
+            type: string
+            enum:
+            - teamToken
+      - type: object
+        required:
+        - id
+        - projectId
+        - name
+        - createTime
+        - type
+        properties:
+          id:
+            $ref: '#/components/schemas/AccessTokenId'
+            description: Stable identifier for this access token.
+          projectId:
+            $ref: '#/components/schemas/ProjectId'
+            description: The project ID this token is associated with.
+          name:
+            $ref: '#/components/schemas/DeviceName'
+            description: The name given to the token at creation.
+          createTime:
+            type: integer
+            format: int64
+            description: Timestamp in milliseconds when this token was created.
+          type:
+            type: string
+            enum:
+            - projectToken
+    ListTeamAccessTokensResponse:
+      type: object
+      required:
+      - items
+      - pagination
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/TeamAccessTokenResponse'
+          description: The team access tokens created by the authenticated member.
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
+    PaginationMetadata:
+      type: object
+      required:
+      - hasMore
+      properties:
+        hasMore:
+          type: boolean
+        nextCursor:
+          type:
+          - string
+          - 'null'
+    PersonalAccessTokenResponse:
+      type: object
+      required:
+      - id
+      - name
+      - creationTime
+      properties:
+        id:
+          $ref: '#/components/schemas/AccessTokenId'
+          description: Stable identifier for this access token.
+        name:
+          $ref: '#/components/schemas/DeviceName'
+        creationTime:
+          type: integer
+          format: int64
+        lastUsedTime:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        expiresAt:
+          type:
+          - integer
+          - 'null'
+          format: int64
+        ssoTeamId:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/TeamId'
+    MemberId:
+      type: integer
+      format: int64
+      minimum: 0
+    DeleteTeamAccessTokenArgs:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: The token to delete. This can be its secret value or its name.
+      additionalProperties: false
+    PaginatedPersonalAccessTokensResponse:
+      type: object
+      required:
+      - items
+      - pagination
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PersonalAccessTokenResponse'
+        pagination:
+          $ref: '#/components/schemas/PaginationMetadata'
+    TeamId:
+      type: integer
+      format: int64
+      minimum: 0
+    CreatePersonalAccessTokenResponse:
+      type: object
+      required:
+      - accessToken
+      properties:
+        accessToken:
+          type: string
+          description: The generated personal access token.
+    CreateTeamAccessTokenResponse:
+      type: object
+      required:
+      - accessToken
+      - tokenType
+      properties:
+        accessToken:
+          type: string
+        tokenType:
+          type: string
   securitySchemes:
-    teamToken:
+    OAuth_Project_Token:
       type: http
       scheme: bearer
-      description: Team Access Token created in the Convex dashboard team settings. Grants management access to all projects and deployments within the team.
-    oauthTeamToken:
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    OAuth_Team_Token:
       type: http
       scheme: bearer
-      description: OAuth Application Token issued by Convex for third-party integrations acting on behalf of a user's team. Obtained via the Convex OAuth flow.
-    oauthProjectToken:
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    PAT:
       type: http
       scheme: bearer
-      description: OAuth Application Token scoped to a specific project, issued by Convex for third-party integrations.
-externalDocs:
-  description: Convex Management API Documentation
-  url: https://docs.convex.dev/management-api
+      bearerFormat: PAT
+      description: Personal access token created in the Convex dashboard under user settings.
+    Preview_Deploy_Key:
+      type: http
+      scheme: bearer
+      description: Preview deploy key scoped to a project. Allowed only when operating on preview deployments in the key's project.
+    Team_Token:
+      type: http
+      scheme: bearer
+      description: Created in the dashboard under team settings for any team you can manage.

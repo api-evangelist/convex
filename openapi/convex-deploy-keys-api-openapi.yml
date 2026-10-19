@@ -1,0 +1,469 @@
+openapi: 3.2.0
+info:
+  title: Convex Management Deploy Keys API
+  description: Management API for provisioning and managing Convex projects and deployments.
+  license:
+    name: LicenseRef-Convex
+    identifier: LicenseRef-Convex
+  version: 1.0.0
+servers:
+- url: https://api.convex.dev/v1
+  description: Platform API
+tags:
+- name: Deploy Keys
+  description: Create, list, and delete deploy keys
+paths:
+  /deployments/{deployment_name}/create_deploy_key:
+    post:
+      tags:
+      - Deploy Keys
+      summary: Create deploy key
+      description: 'Create a deploy key like "dev:happy-animal-123|ey..." which can be
+
+        used with the Convex CLI to develop against or deploy code.
+
+
+        When access to the deployment is granted through an OAuth token this
+
+        deploy key will use the same OAuth-granted token.
+
+
+        When access to the deployment is granted any other way a new token will be
+
+        created which grants access only to this deployment.'
+      operationId: createDeployKey
+      parameters:
+      - name: deployment_name
+        in: path
+        description: Deployment name
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformCreateDeployKeyArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformCreateDeployKeyResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: create deploy key
+  /deployments/{deployment_name}/list_deploy_keys:
+    get:
+      tags:
+      - Deploy Keys
+      summary: List deploy keys
+      description: Lists all deploy keys for the specified deployment.
+      operationId: listDeployKeys
+      parameters:
+      - name: deployment_name
+        in: path
+        description: Deployment name
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlatformDeployKeyResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list deploy keys
+  /deployments/{deployment_name}/delete_deploy_key:
+    post:
+      tags:
+      - Deploy Keys
+      summary: Delete deploy key
+      description: 'Deletes a deploy key for the specified deployment. The `id` in the request
+
+        body can be the full deploy key (with prefix), encoded token, or the name of
+
+        the deploy key.'
+      operationId: deleteDeployKey
+      parameters:
+      - name: deployment_name
+        in: path
+        description: Deployment name
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformDeleteDeployKeyArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: delete deploy key
+  /projects/{project_id}/create_preview_deploy_key:
+    post:
+      tags:
+      - Deploy Keys
+      summary: Create preview deploy key
+      description: 'Create a preview deploy key like "preview:team-slug:project-slug|ey..."
+
+        which can be used with the Convex CLI to create and manage preview
+
+        deployments within the project.
+
+
+        When access to the project is granted through an OAuth token this preview
+
+        deploy key will use the same OAuth-granted token.
+
+
+        When access to the project is granted any other way a new token scoped to
+
+        preview deployments in this project will be created.'
+      operationId: createPreviewDeployKey
+      parameters:
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformCreatePreviewDeployKeyArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformCreatePreviewDeployKeyResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: create preview deploy key
+  /projects/{project_id}/list_preview_deploy_keys:
+    get:
+      tags:
+      - Deploy Keys
+      summary: List preview deploy keys
+      description: Lists all preview deploy keys for the specified project.
+      operationId: listPreviewDeployKeys
+      parameters:
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      - name: includeManaged
+        in: query
+        description: 'If true, include managed preview deploy keys (e.g., created by external
+
+          integrations like Vercel) in the response. Defaults to false.'
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlatformListPreviewDeployKeysResponse'
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: list preview deploy keys
+  /projects/{project_id}/delete_preview_deploy_key:
+    post:
+      tags:
+      - Deploy Keys
+      summary: Delete preview deploy key
+      description: 'Deletes a preview deploy key for the specified project. The `id` in the
+
+        request body can be the full preview deploy key (with prefix), encoded
+
+        token, or the name of the preview deploy key.'
+      operationId: deletePreviewDeployKey
+      parameters:
+      - name: project_id
+        in: path
+        description: Project ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProjectId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlatformDeletePreviewDeployKeyArgs'
+        required: true
+      responses:
+        '200':
+          description: ''
+      security:
+      - PAT: []
+      - OAuth Team Token: []
+      - Team Token: []
+      - OAuth Project Token: []
+      x-operation-id-source: normalized
+      x-operation-id-original: delete preview deploy key
+components:
+  schemas:
+    AccessTokenId:
+      type: integer
+      format: int64
+      minimum: 0
+    PlatformDeletePreviewDeployKeyArgs:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: 'The token to delete. This can be the secret value of the token or the
+
+            token''s unique name.'
+      additionalProperties: false
+    PlatformCreateDeployKeyArgs:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Name for the deploy key.
+        allowedActions:
+          type: array
+          items:
+            type: string
+            enum:
+            - deployment:deploy
+            - deployment:env:view
+            - deployment:env:write
+            - deployment:pause
+            - deployment:unpause
+            - deployment:logs:view
+            - deployment:metrics:view
+            - deployment:integrations:view
+            - deployment:integrations:write
+            - deployment:data:view
+            - deployment:data:write
+            - deployment:backups:view
+            - deployment:backups:create
+            - deployment:backups:download
+            - deployment:backups:delete
+            - deployment:backups:import
+            - deployment:functions:actAsUser
+            - deployment:functions:runInternalQueries
+            - deployment:functions:runInternalMutations
+            - deployment:functions:runInternalActions
+            - deployment:functions:runTestQuery
+            - deployment:auditLog:view
+            - deployment:usageLimits:view
+            - deployment:usageLimits:write
+            - deployment:usage:view
+            - deployment:aiGateway:use
+        expiresAt:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: 'Timestamp in milliseconds when this deploy key will expire. Must be
+
+            at least 30 minutes in the future.'
+    ProjectId:
+      type: integer
+      format: int64
+      minimum: 0
+    PlatformListPreviewDeployKeysResponse:
+      type: object
+      required:
+      - items
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlatformDeployKeyResponse'
+          description: The list of preview deploy keys.
+    MemberId:
+      type: integer
+      format: int64
+      minimum: 0
+    ManagedBy:
+      oneOf:
+      - type: string
+        enum:
+        - vercel
+      - type: object
+        required:
+        - oauthApp
+        properties:
+          oauthApp:
+            type: string
+    PlatformCreatePreviewDeployKeyArgs:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+          description: Name for the preview deploy key.
+        expiresAt:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: 'Timestamp in milliseconds when this preview deploy key will expire.
+
+            Must be at least 30 minutes in the future.'
+    AdminKey:
+      type: string
+      description: Encrypted admin key
+    PlatformCreatePreviewDeployKeyResponse:
+      type: object
+      required:
+      - previewDeployKey
+      properties:
+        previewDeployKey:
+          $ref: '#/components/schemas/AdminKey'
+          description: The generated preview deploy key.
+    PlatformDeleteDeployKeyArgs:
+      type: object
+      required:
+      - id
+      properties:
+        id:
+          type: string
+          description: 'The token to delete. This can be the secret value of the token or the
+
+            token''s unique name.'
+      additionalProperties: false
+    PlatformCreateDeployKeyResponse:
+      type: object
+      required:
+      - deployKey
+      properties:
+        deployKey:
+          $ref: '#/components/schemas/AdminKey'
+          description: The generated deploy key.
+    PlatformDeployKeyResponse:
+      type: object
+      required:
+      - id
+      - name
+      - creationTime
+      - allowedActions
+      properties:
+        id:
+          $ref: '#/components/schemas/AccessTokenId'
+          description: Stable identifier for this deploy key.
+        name:
+          type: string
+          description: The name given to the deploy key at creation.
+        creationTime:
+          type: integer
+          format: int64
+          description: Timestamp in milliseconds when this token was created.
+        lastUsedTime:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: Timestamp in milliseconds when this token was last used (if ever).
+        expiresAt:
+          type:
+          - integer
+          - 'null'
+          format: int64
+          description: Timestamp in milliseconds when this deploy key will expire.
+        creator:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/MemberId'
+            description: The member ID that created this deploy key (if available).
+        managedBy:
+          oneOf:
+          - type: 'null'
+          - $ref: '#/components/schemas/ManagedBy'
+            description: The external integration that manages this deploy key, if any.
+        allowedActions:
+          type: array
+          items:
+            type: string
+            enum:
+            - deployment:deploy
+            - deployment:env:view
+            - deployment:env:write
+            - deployment:pause
+            - deployment:unpause
+            - deployment:logs:view
+            - deployment:metrics:view
+            - deployment:integrations:view
+            - deployment:integrations:write
+            - deployment:data:view
+            - deployment:data:write
+            - deployment:backups:view
+            - deployment:backups:create
+            - deployment:backups:download
+            - deployment:backups:delete
+            - deployment:backups:import
+            - deployment:functions:actAsUser
+            - deployment:functions:runInternalQueries
+            - deployment:functions:runInternalMutations
+            - deployment:functions:runInternalActions
+            - deployment:functions:runTestQuery
+            - deployment:auditLog:view
+            - deployment:usageLimits:view
+            - deployment:usageLimits:write
+            - deployment:usage:view
+            - deployment:aiGateway:use
+  securitySchemes:
+    OAuth_Project_Token:
+      type: http
+      scheme: bearer
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    OAuth_Team_Token:
+      type: http
+      scheme: bearer
+      description: Obtained through a [Convex OAuth application](https://docs.convex.dev/management-api).
+    PAT:
+      type: http
+      scheme: bearer
+      bearerFormat: PAT
+      description: Personal access token created in the Convex dashboard under user settings.
+    Preview_Deploy_Key:
+      type: http
+      scheme: bearer
+      description: Preview deploy key scoped to a project. Allowed only when operating on preview deployments in the key's project.
+    Team_Token:
+      type: http
+      scheme: bearer
+      description: Created in the dashboard under team settings for any team you can manage.
