@@ -16,21 +16,32 @@ deployment:
 tools_count: 4
 tools:
 - name: start_convex_app
-  description: CALL THIS FIRST — before writing any files — whenever the user asks to build, scaffold,
+  description: 'CALL THIS FIRST — before writing any files — whenever the user asks to build, scaffold,
     create, or start a new app, prototype, or backend and Convex is in play (they mentioned Convex, invoked
-    the Convex tool/app, or want a reactive/full-sta
+    the Convex tool/app, or want a reactive/full-stack TS/JS backend). Returns the exact `npm create convex@latest`
+    scaffold command, a derived app slug, harness-specific notes, and the next step: call `get_runbook`.
+    Skipping this and hand-rolling a Convex app is the most common mistake — it leads to anonymous throwaway
+    backends, missing auth/JWT setup, and re-implemented components. This tool only returns guidance (it
+    does not run commands), so calling it is cheap and safe; always start here.'
 - name: add_convex_to_existing_project
   description: 'CALL THIS FIRST when adding Convex (or any backend: database, server functions, auth,
     realtime, file storage, scheduled jobs) to an EXISTING JavaScript or TypeScript project, before editing
-    files. Returns concrete install/init commands, fra'
+    files. Returns concrete install/init commands, framework-specific Convex React provider wiring, repo
+    checks, and auth/setup notes — the correct wiring that hand-rolling usually gets wrong. Guidance only
+    (it does not touch the repo), so call it first, then follow its steps.'
 - name: get_convex_scaling_guidance
   description: Return Convex scaling guidance for indexes, pagination, large tables, realtime queries,
     actions, workflows, storage, and multi-tenant apps. Use when the user asks how to scale a Convex app,
-    avoid performance pitfalls, or review a Convex arc
+    avoid performance pitfalls, or review a Convex architecture. The tool returns guidance only and does
+    not inspect live deployments or logs.
 - name: get_runbook
-  description: Fetch the full Convex quickstart runbook — the authoritative, end-to-end playbook for building
-    a Convex app (scaffold → install → start the backend → schema → functions → client wiring → run →
-    verify). `start_convex_app` tells you to call t
+  description: 'Fetch the full Convex quickstart runbook — the authoritative, end-to-end playbook for
+    building a Convex app (scaffold → install → start the backend → schema → functions → client wiring
+    → run → verify). `start_convex_app` tells you to call this; do it, and follow the runbook in order.
+    It carries load-bearing rules your training data may get wrong: how to start `npx convex dev` without
+    hanging, when to use a cloud vs. anonymous-local deployment (prefer cloud whenever the user is signed
+    in), Convex Auth/JWT setup, and which components to use instead of hand-rolling. Pass `section` to
+    fetch a single heading; omit it for the whole runbook.'
 tools_source: live tools/list via initialize handshake, 2026-09-11 (signals/audit_mcp_authorship.py --probe)
 authorship: provider
 descriptions_source: live tools/list (authorship probe or saved capture); filled by backfill-tools-from-authorship.py
