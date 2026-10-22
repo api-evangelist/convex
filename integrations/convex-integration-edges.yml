@@ -1,22 +1,5 @@
 generated: '2026-10-18'
 edges:
-- partner_name: Fivetran (fivetran-connectors)
-  partner: fivetran
-  partner_match: mirror
-  mirror_match: domain
-  type: marketplace
-  relationship: platform-app
-  direction: third-party
-  channel: partner-built
-  marketplace: fivetran-connectors
-  evidence: https://fivetran.com/docs/connectors/databases/convex
-  mirror_of: fivetran/integrations/fivetran-integration-edges.yml
-  apps:
-  - Convex
-  listing_count: 1
-  detected: '2026-10-18'
-  detected_by: mirror-platform-listings.py
-  category: data integration
 - partner_name: Airbyte
   partner: airbyte
   partner_match: aggregator
@@ -106,6 +89,60 @@ edges:
     sector: Enterprise;Infra
   detected_by: sweep-vc-portfolios.py
   first_seen: '2026-10-21'
+- partner_name: Fivetran (fivetran-connectors)
+  partner: fivetran
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: fivetran-connectors
+  evidence: https://fivetran.com/docs/connectors/databases/convex
+  mirror_of: fivetran/integrations/fivetran-integration-edges.yml
+  apps:
+  - Convex
+  listing_count: 1
+  detected: '2026-10-18'
+  detected_by: mirror-platform-listings.py
+  category: data integration
+- partner_name: Netlify (own)
+  partner: netlify
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://www.netlify.com/integrations/convex/
+  mirror_of: netlify/integrations/netlify-integration-edges.yml
+  apps:
+  - Convex
+  - Convex Setup Guide
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Search
+  partner_tier: listing
+- partner_name: Vercel (own)
+  partner: vercel
+  partner_match: mirror
+  mirror_match: domain
+  type: marketplace
+  relationship: platform-app
+  direction: third-party
+  channel: partner-built
+  marketplace: own
+  evidence: https://vercel.com/marketplace/convex
+  mirror_of: vercel/integrations/vercel-integration-edges.yml
+  apps:
+  - Convex
+  listing_count: 1
+  detected: '2026-10-22'
+  detected_by: mirror-platform-listings.py
+  category: Storage
+  partner_tier: native
 method: searched
 checked:
 - fivetran/integrations/fivetran-integration-edges.yml
@@ -118,6 +155,8 @@ checked:
 - https://www.indexventures.com/companies/
 - https://www.sequoiacap.com/our-companies/
 - https://www.sequoiacap.com/sitemap.xml
+- netlify/integrations/netlify-integration-edges.yml
+- vercel/integrations/vercel-integration-edges.yml
 source:
 - https://connectors.airbyte.com/files/registries/v0/cloud_registry.json
 - https://connectors.airbyte.com/files/registries/v0/oss_registry.json
