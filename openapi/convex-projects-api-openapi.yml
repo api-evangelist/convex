@@ -413,3 +413,9 @@ components:
       type: http
       scheme: bearer
       description: Created in the dashboard under team settings for any team you can manage.
+x-provenance:
+  method: harvested
+  publisher: Convex
+  source: https://api.convex.dev/v1/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
