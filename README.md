@@ -1,4 +1,4 @@
-# Convex (convex)
+# Convex
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,184 +66,226 @@
 
 Convex is a serverless backend platform that provides a real-time database, cloud functions, and infrastructure for building modern web and mobile applications. It offers a TypeScript-first developer experience with reactive queries, transactional mutations, and integrated file storage, all accessible through a suite of HTTP, management, and deployment APIs alongside JavaScript and server SDKs for full-stack application development. The platform is SOC 2 Type II, HIPAA, and GDPR compliant.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/convex/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/convex/refs/heads/main/apis.yml)
+**Areas:** Backend · Database · Functions · Real-Time · Reactive · Serverless · TypeScript
 
-## Tags
+## Convex on APIs.io
 
-- Backend
-- Database
-- Functions
-- Real-Time
-- Reactive
-- Serverless
-- TypeScript
+Everything profiled for Convex is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/convex/](https://apis.io/providers/convex/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (14)
 
-- **Created:** 2026-03-21
-- **Modified:** 2026-05-29
+- [Convex Sync Protocol](https://apis.io/apis/convex/sync-protocol/) — The Convex Sync Protocol is the bidirectional WebSocket protocol spoken between Convex client SDKs and the sync worker of a Convex deployment. Clients open…
+- [Convex JavaScript SDK](https://apis.io/apis/convex/javascript-sdk/) — The Convex JavaScript SDK is a collection of TypeScript/JavaScript packages for building applications on the Convex backend platform. It includes…
+- [Convex Server SDK](https://apis.io/apis/convex/server-sdk/) — The Convex Server SDK (convex/server) is the TypeScript library for defining backend logic deployed on Convex. It provides primitives for writing query…
+- [Convex Actions API](https://apis.io/apis/convex/convex-actions-api/) — Execute action functions for general-purpose server-side operations, including calling external services, performing non-transactional work, and…
+- [Convex DeployKeys API](https://apis.io/apis/convex/convex-deploykeys-api/) — Create and manage deploy keys for CLI operations and CI/CD pipelines. Deploy keys authenticate the Convex CLI when pushing function code to a deployment.
+- [Convex Deployments API](https://apis.io/apis/convex/convex-deployments-api/) — Create, list, retrieve, update, and delete Convex cloud and local deployments. Deployments are the runtime environments where Convex backend functions execute.
+- [Convex Functions API](https://apis.io/apis/convex/convex-functions-api/) — Execute any deployed function by its identifier using the unified run endpoint, which accepts the function type implicitly based on the deployed function…
+- [Convex Mutations API](https://apis.io/apis/convex/convex-mutations-api/) — Execute mutation functions that perform transactional writes to the Convex database. Mutations are strongly consistent and run with ACID guarantees.
+- [Convex Projects API](https://apis.io/apis/convex/convex-projects-api/) — Create, list, retrieve, and delete Convex projects within a team. Projects group deployments and serve as the top-level organizational unit for Convex…
+- [Convex Queries API](https://apis.io/apis/convex/convex-queries-api/) — Execute read-only query functions deployed on the Convex backend. Queries run in a transactional, reactive context and return data from the Convex database.
+- [Convex Teams API](https://apis.io/apis/convex/convex-teams-api/) — Manage Convex teams, team members, and team-level access tokens. Teams are the billing and administrative unit that owns projects.
+- [Convex Access Tokens API](https://apis.io/apis/convex/convex-access-tokens-api/) — Create and manage Team Access Tokens used for authenticating Management API requests on behalf of a team.
+- [Convex Custom Domains API](https://apis.io/apis/convex/convex-custom-domains-api/) — Configure custom domain names for Convex deployments. Supports both convexCloud (function API) and convexSite (HTTP actions) request destinations.
+- [Convex Environment Variables API](https://apis.io/apis/convex/convex-environment-variables-api/) — Manage environment variables for a Convex deployment. Environment variables are key-value pairs accessible to backend functions at runtime via process.env.…
 
-## APIs
+### Published properties
 
-### Convex HTTP API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-The Convex HTTP API is a REST interface for executing backend functions deployed on a Convex backend. It provides endpoints for invoking query, mutation, and action functions using POST requests to paths such as /api/query, /api/mutation, /api/action, and the unified /api/run/{functionIdentifier} endpoint. Each deployment has its own base URL found in the Convex dashboard settings, typically in the format https://{deployment-name}.convex.cloud.
+#### AsyncAPI (1)
 
-- **Human URL:** [https://docs.convex.dev/http-api/](https://docs.convex.dev/http-api/)
-- **Base URL:** `https://{deployment-name}.convex.cloud`
+Event-driven and webhook contracts.
 
-#### Tags
+- [Convex Sync Protocol](https://apis.io/asyncapis/convex/convex-asyncapi/)
 
-- Backend
-- Functions
-- Real-Time
-- Serverless
+#### Event channels (1)
 
-#### Properties
+Individual events and webhooks the provider emits.
 
-- [Documentation](https://docs.convex.dev/http-api/)
-- [OpenAPI](openapi/convex-http-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/convex-http-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-http-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [/api/{clientVersion}/sync](https://apis.io/channels/convex/api-clientversion-sync/)
 
-### Convex Management API
+#### MCP servers (2)
 
-The Convex Management API is a REST API for provisioning and managing Convex projects and deployments programmatically. It enables developers and platform integrations to create projects, list deployments, manage deploy keys, configure custom domains, and perform team-level operations without using the Convex dashboard. The API uses Bearer token authentication, supporting both Team Access Tokens and OAuth Application Tokens for third-party integrations.
+Model Context Protocol servers that expose the API to agents.
 
-- **Human URL:** [https://docs.convex.dev/management-api](https://docs.convex.dev/management-api)
-- **Base URL:** `https://api.convex.dev/v1`
+- [convex](https://apis.io/servers/convex/convex/)
+- [MCP Server](https://apis.io/servers/convex/mcp-server/)
 
-#### Tags
+#### Agentic access (1)
 
-- Administration
-- Deployments
-- Management
-- Projects
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Properties
+- [Convex Agentic Access](https://apis.io/agentic-access/convex/convex-agentic-access/)
 
-- [Documentation](https://docs.convex.dev/management-api)
-- [OpenAPI](https://api.convex.dev/v1/openapi.json) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [OpenAPI](openapi/convex-management-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/convex-management-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-management-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### JSON Schema (17)
 
-### Convex Deployment Platform API
+The data models the API reads and writes.
 
-The Convex Deployment Platform API is a deployment-scoped administrative API for configuring individual Convex deployments. It exposes private endpoints accessible only to deployment administrators, supporting operations such as managing environment variables and other deployment configuration settings. Each deployment has its own endpoint in the format https://{deployment-name}.convex.cloud/api/v1/.
+- [AccessToken](https://apis.io/schemas/convex/convex-accesstoken/)
+- [CreateAccessTokenRequest](https://apis.io/schemas/convex/convex-createaccesstokenrequest/)
+- [CreateCloudDeploymentRequest](https://apis.io/schemas/convex/convex-createclouddeploymentrequest/)
+- [CreateCustomDomainRequest](https://apis.io/schemas/convex/convex-createcustomdomainrequest/)
+- [CreateDeployKeyRequest](https://apis.io/schemas/convex/convex-createdeploykeyrequest/)
+- [CreateProjectRequest](https://apis.io/schemas/convex/convex-createprojectrequest/)
+- [CustomDomain](https://apis.io/schemas/convex/convex-customdomain/)
+- [DeployKey](https://apis.io/schemas/convex/convex-deploykey/)
+- [Convex Deployment](https://apis.io/schemas/convex/convex-deployment/)
+- [EnvironmentVariable](https://apis.io/schemas/convex/convex-environmentvariable/)
+- [Convex Function](https://apis.io/schemas/convex/convex-function/)
+- [FunctionErrorResponse](https://apis.io/schemas/convex/convex-functionerrorresponse/)
+- [FunctionRequest](https://apis.io/schemas/convex/convex-functionrequest/)
+- [FunctionSuccessResponse](https://apis.io/schemas/convex/convex-functionsuccessresponse/)
+- [Project](https://apis.io/schemas/convex/convex-project/)
+- [RunFunctionRequest](https://apis.io/schemas/convex/convex-runfunctionrequest/)
+- [TeamMember](https://apis.io/schemas/convex/convex-teammember/)
 
-- **Human URL:** [https://docs.convex.dev/deployment-platform-api](https://docs.convex.dev/deployment-platform-api)
-- **Base URL:** `https://{deployment-name}.convex.cloud/api/v1`
+#### JSON Structure (1)
 
-#### Tags
+Data models expressed in JSON Structure.
 
-- Administration
-- Configuration
-- Deployment
-- Environment Variables
+- [Convex Structure](https://apis.io/json-structure/convex/convex-structure/)
 
-#### Properties
+#### JSON-LD (1)
 
-- [Documentation](https://docs.convex.dev/deployment-platform-api)
-- [OpenAPI](openapi/convex-deployment-platform-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/convex-deployment-platform-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-deployment-platform-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Linked-data contexts for the provider's vocabulary.
 
-### Convex Sync Protocol
+- [Convex Context](https://apis.io/jsonld/convex/convex-context/)
 
-The Convex Sync Protocol is the bidirectional WebSocket protocol spoken between Convex client SDKs and the sync worker of a Convex deployment. Clients open a single WebSocket connection to wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync and exchange JSON envelopes (discriminated by a `type` field) to authenticate, subscribe to reactive query sets, invoke mutations and actions, and receive query transitions, function responses, auth errors, fatal errors, and pings. The protocol is implemented in the open source convex-js client (`src/browser/sync/protocol.ts`).
+#### Vocabulary (1)
 
-- **Human URL:** [https://docs.convex.dev/understanding/](https://docs.convex.dev/understanding/)
-- **Base URL:** `wss://{deployment-name}.convex.cloud/api/{clientVersion}/sync`
+The provider's domain terms, defined.
 
-#### Tags
+- [Convex Backend Platform Vocabulary](https://apis.io/vocabularies/convex/convex-vocabulary/)
 
-- Real-Time
-- Reactive
-- Sync
-- WebSocket
+#### Collections (25)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://docs.convex.dev/understanding/)
-- [Source Code](https://github.com/get-convex/convex-js/blob/main/src/browser/sync/protocol.ts)
-- [AsyncAPI](asyncapi/convex-asyncapi.yml) — [AsyncAPI Specification](https://www.asyncapi.com/docs/reference/specification/latest)
-- [Postman Collection](collections/convex-deployment-platform-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-deployment-platform-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/convex-http-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-http-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/convex-management-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-management-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Convex Deployment Platform AccessTokens API](https://apis.io/collections/convex/open-convex-accesstokens-api/)
+- [Convex Deployment Platform AccessTokens Actions API](https://apis.io/collections/convex/open-convex-actions-api/)
+- [Convex Deployment Platform AccessTokens CustomDomains API](https://apis.io/collections/convex/open-convex-customdomains-api/)
+- [Convex Deployment Platform AccessTokens DeployKeys API](https://apis.io/collections/convex/open-convex-deploykeys-api/)
+- [Convex Deployment Platform API](https://apis.io/collections/convex/open-convex-deployment-platform-api/)
+- [Convex Deployment Platform AccessTokens Deployments API](https://apis.io/collections/convex/open-convex-deployments-api/)
+- [Convex Deployment Platform AccessTokens EnvironmentVariables API](https://apis.io/collections/convex/open-convex-environmentvariables-api/)
+- [Convex Deployment Platform AccessTokens Functions API](https://apis.io/collections/convex/open-convex-functions-api/)
+- [Convex HTTP API](https://apis.io/collections/convex/open-convex-http-api/)
+- [Convex Management API](https://apis.io/collections/convex/open-convex-management-api/)
+- [Convex Deployment Platform AccessTokens Mutations API](https://apis.io/collections/convex/open-convex-mutations-api/)
+- [Convex Deployment Platform AccessTokens Projects API](https://apis.io/collections/convex/open-convex-projects-api/)
+- [Convex Deployment Platform AccessTokens Queries API](https://apis.io/collections/convex/open-convex-queries-api/)
+- [Convex Deployment Platform AccessTokens Teams API](https://apis.io/collections/convex/open-convex-teams-api/)
+- [Convex Deployment Platform AccessTokens API](https://apis.io/collections/convex/postman-convex-accesstokens-api/)
+- [Convex Deployment Platform AccessTokens Actions API](https://apis.io/collections/convex/postman-convex-actions-api/)
+- [Convex Deployment Platform AccessTokens CustomDomains API](https://apis.io/collections/convex/postman-convex-customdomains-api/)
+- [Convex Deployment Platform AccessTokens DeployKeys API](https://apis.io/collections/convex/postman-convex-deploykeys-api/)
+- [Convex Deployment Platform AccessTokens Deployments API](https://apis.io/collections/convex/postman-convex-deployments-api/)
+- [Convex Deployment Platform AccessTokens EnvironmentVariables API](https://apis.io/collections/convex/postman-convex-environmentvariables-api/)
+- [Convex Deployment Platform AccessTokens Functions API](https://apis.io/collections/convex/postman-convex-functions-api/)
+- [Convex Deployment Platform AccessTokens Mutations API](https://apis.io/collections/convex/postman-convex-mutations-api/)
+- [Convex Deployment Platform AccessTokens Projects API](https://apis.io/collections/convex/postman-convex-projects-api/)
+- [Convex Deployment Platform AccessTokens Queries API](https://apis.io/collections/convex/postman-convex-queries-api/)
+- [Convex Deployment Platform AccessTokens Teams API](https://apis.io/collections/convex/postman-convex-teams-api/)
 
-### Convex JavaScript SDK
+#### Governance rules (5)
 
-The Convex JavaScript SDK is a collection of TypeScript/JavaScript packages for building applications on the Convex backend platform. It includes convex/server for defining backend functions and database schemas, convex/react for React hooks and the ConvexReactClient, convex/browser for the ConvexHttpClient in non-React browser environments, convex/values for working with Convex-stored data types, and framework integrations for Next.js, React Native, and other environments.
+Spectral rulesets for the provider's contracts.
 
-- **Human URL:** [https://docs.convex.dev/api/](https://docs.convex.dev/api/)
+- [Convex — asyncapi rules](https://apis.io/rules/convex/convex-asyncapi-spectral-rules/)
+- [Convex — deployment platform api rules](https://apis.io/rules/convex/convex-deployment-platform-api-rules/)
+- [Convex — http api rules](https://apis.io/rules/convex/convex-http-api-rules/)
+- [Convex — jsonschema rules](https://apis.io/rules/convex/convex-jsonschema-spectral-rules/)
+- [Convex — management api rules](https://apis.io/rules/convex/convex-management-api-rules/)
 
-#### Tags
+#### Security (4)
 
-- Client Library
-- JavaScript
-- SDK
-- TypeScript
+Authentication, trust centre, and vulnerability disclosure.
 
-#### Properties
+- [Convex Authentication](https://apis.io/security/convex/convex-authentication/)
+- [Convex Domain Security](https://apis.io/security/convex/convex-domain-security/)
+- [Convex Trust Center](https://apis.io/security/convex/convex-trust-center/)
+- [Convex Vulnerability Disclosure](https://apis.io/security/convex/convex-vulnerability-disclosure/)
 
-- [Documentation](https://docs.convex.dev/api/)
-- [Package](https://www.npmjs.com/package/convex)
-- [Postman Collection](collections/convex-deployment-platform-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-deployment-platform-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/convex-http-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-http-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/convex-management-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-management-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+#### Plans and pricing (1)
 
-### Convex Server SDK
+Published plans, tiers and prices.
 
-The Convex Server SDK (convex/server) is the TypeScript library for defining backend logic deployed on Convex. It provides primitives for writing query functions for read-only database access, mutation functions for transactional writes, and action functions for general-purpose server-side operations including calling external services. The SDK supports schema definition, full-text search indexes, vector search indexes, file storage, scheduled functions, cron jobs, and HTTP routing via the HttpRouter class.
+- [Convex Plans Pricing](https://apis.io/plans/convex/convex-plans-pricing/)
 
-- **Human URL:** [https://docs.convex.dev/functions](https://docs.convex.dev/functions)
+#### Rate limits (1)
 
-#### Tags
+Published request limits.
 
-- Backend
-- Database
-- Serverless Functions
-- TypeScript
+- [Convex Rate Limits](https://apis.io/rate-limits/convex/convex-rate-limits/)
 
-#### Properties
+#### FinOps (1)
 
-- [Documentation](https://docs.convex.dev/functions)
-- [Documentation](https://docs.convex.dev/database/schemas)
-- [Postman Collection](collections/convex-deployment-platform-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-deployment-platform-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/convex-http-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-http-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
-- [Postman Collection](collections/convex-management-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/convex-management-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+What the API costs to run, by operation.
 
-## Common Properties
+- [Convex Finops](https://apis.io/finops/convex/convex-finops/)
 
-- [LinkedIn](https://www.linkedin.com/company/convex-dev)
-- [Portal](https://www.convex.dev/developers)
-- [Documentation](https://docs.convex.dev/)
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
 - [Website](https://www.convex.dev)
-- [Login](https://dashboard.convex.dev/)
+- [Documentation](https://docs.convex.dev/)
 - [Blog](https://stack.convex.dev/)
-- [Git Hub](https://github.com/get-convex)
-- [Discord](https://convex.dev/community)
-- [Terms of Service](https://www.convex.dev/legal/terms)
-- [Privacy Policy](https://www.convex.dev/legal/privacy)
-- [JSON Schema](json-schema/convex-function-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON Schema](json-schema/convex-deployment-schema.json) — [JSON Schema](https://json-schema.org/specification)
-- [JSON-LD](json-ld/convex-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Vocabulary](vocabulary/convex-vocabulary.yml)
-- [Integrations](https://www.convex.dev/partners)
-- [M C P Server](https://stack.convex.dev/convex-mcp-server)
-- [L L Ms Txt](https://docs.convex.dev/llms.txt)
+- [Terms of service](https://www.convex.dev/legal/terms)
+- [Privacy policy](https://www.convex.dev/legal/privacy)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** API Evangelist
-**Email:** info@apievangelist.com
+**Kin Score 44.8** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.7 |
+| Contract quality | 60.3 |
+| Contract governance | 27.3 |
+| Operational transparency | 23.7 |
+| Developer ergonomics | 39.3 |
+| Access clarity | 32.9 |
+
+**Agent readiness 33.6** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 31.4** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/convex/](https://apis.io/providers/convex/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Convex: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/convex/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
